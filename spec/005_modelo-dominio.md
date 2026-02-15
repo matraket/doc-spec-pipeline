@@ -13,13 +13,13 @@
 
 1. [Visión General del Dominio](#1-visión-general-del-dominio)
 2. [Identificación de Bounded Contexts](#2-identificación-de-bounded-contexts)
-3. [BC-Membresia: Gestión de Socios](#3-bc-membresia-gestión-de-socios)
-4. [BC-Tesoreria: Gestión Económica](#4-bc-tesoreria-gestión-económica)
-5. [BC-Eventos: Actividades y Participación](#5-bc-eventos-actividades-y-participación)
-6. [BC-Comunicacion: Notificaciones y Mensajería](#6-bc-comunicacion-notificaciones-y-mensajería)
-7. [BC-Documentos: Gestión Documental](#7-bc-documentos-gestión-documental)
+3. [BC-Membership: Gestión de Socios](#3-bc-membresia-gestión-de-socios)
+4. [BC-Treasury: Gestión Económica](#4-bc-tesoreria-gestión-económica)
+5. [BC-Events: Actividades y Participación](#5-bc-eventos-actividades-y-participación)
+6. [BC-Communication: Notificaciones y Mensajería](#6-bc-comunicacion-notificaciones-y-mensajería)
+7. [BC-Documents: Gestión Documental](#7-bc-documentos-gestión-documental)
 7 bis. [Extensión Transversal: Cumplimiento Normativo](#7-bis-extensión-transversal-cumplimiento-normativo)
-8. [BC-Identidad: Acceso y Autorización](#8-bc-identidad-acceso-y-autorización)
+8. [BC-Identity: Acceso y Autorización](#8-bc-identidad-acceso-y-autorización)
 9. [Context Map](#9-context-map)
 10. [Consideraciones Multi-Tenant](#10-consideraciones-multi-tenant)
 11. [Glosario del Dominio (Ubiquitous Language)](#11-glosario-del-dominio-ubiquitous-language)
@@ -36,22 +36,22 @@ Las colectividades españolas (asociaciones culturales, cofradías, clubes depor
 
 | Subdominio | Tipo | Descripción | Bounded Context |
 |------------|------|-------------|-----------------|
-| Gestión de Membresía | **Core** | Registro, estados, tipos de socio, antigüedad | BC-Membresia |
-| Gestión Económica | **Core** | Cuotas, cobros, remesas SEPA, contabilidad | BC-Tesoreria |
-| Gestión de Actividades | **Core** | Eventos, inscripciones, asistencia | BC-Eventos |
-| Comunicación | Supporting | Notificaciones, emails, tablón de anuncios | BC-Comunicacion |
-| Gestión Documental | Supporting | Repositorio, actas, documentos oficiales | BC-Documentos |
-| Identidad y Acceso | Generic | Autenticación, autorización, roles | BC-Identidad |
+| Gestión de Membresía | **Core** | Registro, estados, tipos de socio, antigüedad | BC-Membership |
+| Gestión Económica | **Core** | Cuotas, cobros, remesas SEPA, contabilidad | BC-Treasury |
+| Gestión de Actividades | **Core** | Eventos, inscripciones, asistencia | BC-Events |
+| Comunicación | Supporting | Notificaciones, emails, tablón de anuncios | BC-Communication |
+| Gestión Documental | Supporting | Repositorio, actas, documentos oficiales | BC-Documents |
+| Identidad y Acceso | Generic | Autenticación, autorización, roles | BC-Identity |
 
 ### 1.3 Alcance MVP
 
 Según KB-001, el MVP se centra en **2-3 bounded contexts core**:
-- ✅ **BC-Membresia** (completo)
-- ✅ **BC-Tesoreria** (completo)
-- ⚠️ **BC-Eventos** (simplificado: sin específicos de cofradías/clubes)
-- ⚠️ **BC-Comunicacion** (mínimo: notificaciones automáticas)
-- ⚠️ **BC-Documentos** (mínimo: repositorio básico)
-- ✅ **BC-Identidad** (completo: requerido para seguridad)
+- ✅ **BC-Membership** (completo)
+- ✅ **BC-Treasury** (completo)
+- ⚠️ **BC-Events** (simplificado: sin específicos de cofradías/clubes)
+- ⚠️ **BC-Communication** (mínimo: notificaciones automáticas)
+- ⚠️ **BC-Documents** (mínimo: repositorio básico)
+- ✅ **BC-Identity** (completo: requerido para seguridad)
 
 ---
 
@@ -61,12 +61,12 @@ Según KB-001, el MVP se centra en **2-3 bounded contexts core**:
 
 | Sección RF | Bounded Context | RFs Incluidos |
 |------------|-----------------|---------------|
-| N2: Arquitectura/Acceso | BC-Identidad | N2RF01-N2RF08 |
-| N3: Socios/Miembros | BC-Membresia | N3RF01-N3RF34 |
-| N4: Tesorería/Finanzas | BC-Tesoreria | N4RF01-N4RF38 |
-| N5: Eventos | BC-Eventos | N5RF01-N5RF30 |
-| N6: Comunicación | BC-Comunicacion | N6RF01-N6RF23 |
-| N7: Gestión Documental | BC-Documentos | N7RF01-N7RF12 |
+| N2: Arquitectura/Acceso | BC-Identity | N2RF01-N2RF08 |
+| N3: Socios/Miembros | BC-Membership | N3RF01-N3RF34 |
+| N4: Tesorería/Finanzas | BC-Treasury | N4RF01-N4RF38 |
+| N5: Eventos | BC-Events | N5RF01-N5RF30 |
+| N6: Comunicación | BC-Communication | N6RF01-N6RF23 |
+| N7: Gestión Documental | BC-Documents | N7RF01-N7RF12 |
 | N8: Import/Export | Transversal | N8RF01-N8RF13 |
 | N9: Reporting | Transversal | N9RF01-N9RF12 |
 | N10: Portal Socio | Transversal (UI) | N10RF01-N10RF15 |
@@ -83,7 +83,7 @@ Según KB-001, el MVP se centra en **2-3 bounded contexts core**:
 
 ---
 
-## 3. BC-Membresia: Gestión de Socios
+## 3. BC-Membership: Gestión de Socios
 
 ### 3.1 Descripción
 
@@ -91,30 +91,30 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 
 ### 3.2 Aggregates
 
-#### 3.2.1 Aggregate: Socio (Aggregate Root)
+#### 3.2.1 Aggregate: Member (Aggregate Root)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ SOCIO (Aggregate Root)                                      │
+│ MEMBER (Aggregate Root)                                     │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: SocioId                                           │
+│ Identity: MemberId                                          │
 │                                                             │
 │ Value Objects:                                              │
-│   - DatosPersonales (nombre, apellidos, fechaNacimiento)    │
-│   - DatosContacto (email, telefono, direccion)              │
-│   - DocumentoIdentidad (tipo, numero)                       │
-│   - DatosBancarios (iban) [cifrado]                         │
-│   - NumeroSocio                                             │
+│   - PersonalData (name, surnames, birthDate)                │
+│   - ContactData (email, phone, address)                     │
+│   - IdentityDocument (tipo, numero)                         │
+│   - BankDetails (iban) [cifrado]                            │
+│   - MemberNumber                                            │
 │                                                             │
 │ Entities:                                                   │
 │   - HistorialEstados[] (cambios de estado con fecha/motivo) │
 │   - CamposPersonalizados[] (clave-valor por tipo entidad)   │
 │                                                             │
 │ State:                                                      │
-│   - estadoActual: EstadoSocio                               │
-│   - tipoSocio: TipoSocioId                                  │
-│   - fechaAlta: Date                                         │
-│   - fechaBaja: Date?                                        │
+│   - currentStatus: MemberStatus                             │
+│   - memberType: MemberTypeId                                │
+│   - registrationDate: Date                                  │
+│   - leaveDate: Date?                                        │
 │                                                             │
 │ Invariants:                                                 │
 │   - DNI/NIE único dentro del tenant                         │
@@ -125,36 +125,36 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 ```
 
 **Comportamientos:**
-- `registrar(datos, tipo)` → valida, crea con estado Aspirante/Activo
-- `cambiarEstado(nuevoEstado, motivo)` → valida transición, registra historial
-- `cambiarTipo(nuevoTipo)` → valida elegibilidad, ajusta derechos
-- `actualizarDatos(datos)` → valida, actualiza, emite evento
-- `calcularAntiguedad()` → retorna años/meses considerando bajas
-- `verificarDerechoVoto()` → evalúa antigüedad y estado
-- `darDeBaja(tipo, motivo)` → transición a estado de baja
+- `register(data, type)` → valida, crea con estado Aspirante/Activo
+- `changeStatus(newStatus, reason)` → valida transición, registra historial
+- `changeType(newType)` → valida elegibilidad, ajusta derechos
+- `updateData(data)` → valida, actualiza, emite evento
+- `calculateSeniority()` → retorna años/meses considerando bajas
+- `verifyVotingRight()` → evalúa antigüedad y estado
+- `deactivate(type, reason)` → transición a estado de baja
 
-#### 3.2.2 Aggregate: TipoSocio
+#### 3.2.2 Aggregate: MemberType
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ TIPO_SOCIO (Aggregate Root)                                 │
+│ MEMBER_TYPE (Aggregate Root)                                │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: TipoSocioId                                       │
+│ Identity: MemberTypeId                                      │
 │                                                             │
 │ Value Objects:                                              │
-│   - RangoEdad (minima, maxima)                              │
-│   - ConfiguracionCuota (importe, periodicidad, formula?)    │
+│   - AgeRange (minima, maxima)                               │
+│   - FeeConfiguration (importe, periodicidad, formula?)      │
 │                                                             │
 │ Properties:                                                 │
-│   - codigo: string                                          │
-│   - nombre: string                                          │
-│   - descripcion: string                                     │
-│   - derechoVoto: boolean                                    │
-│   - elegibleCargos: boolean                                 │
-│   - antiguedadMinimaVoto: int (años)                        │
-│   - antiguedadMinimaCargos: int (años)                      │
-│   - transicionAutomatica: TipoSocioId? (al cumplir edad)    │
-│   - activo: boolean                                         │
+│   - code: string                                            │
+│   - name: string                                            │
+│   - description: string                                     │
+│   - votingRight: boolean                                    │
+│   - eligibleForOffice: boolean                              │
+│   - minimumSeniorityForVoting: int (años)                   │
+│   - minimumSeniorityForOffice: int (años)                   │
+│   - automaticTransition: MemberTypeId? (al cumplir edad)    │
+│   - active: boolean                                         │
 │                                                             │
 │ Invariants:                                                 │
 │   - Código único dentro del tenant                          │
@@ -162,26 +162,26 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 3.2.3 Aggregate: SolicitudAlta
+#### 3.2.3 Aggregate: RegistrationRequest
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ SOLICITUD_ALTA (Aggregate Root)                             │
+│ REGISTRATION_REQUEST (Aggregate Root)                       │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: SolicitudId                                       │
+│ Identity: RequestId                                         │
 │                                                             │
 │ Value Objects:                                              │
-│   - DatosSolicitante (datos personales del aspirante)       │
+│   - ApplicantData (datos personales del aspirante)          │
 │                                                             │
 │ Entities:                                                   │
 │   - DocumentoPendiente[] (tipo, entregado, fechaLimite)     │
-│   - Aval[] (avalista: SocioId, fecha) [para cofradías]      │
+│   - Aval[] (avalista: MemberId, fecha) [para cofradías]     │
 │                                                             │
 │ State:                                                      │
-│   - estado: EstadoSolicitud                                 │
-│   - fechaSolicitud: Date                                    │
-│   - tipoSocioSolicitado: TipoSocioId                        │
-│   - prioridad: int (para lista de espera)                   │
+│   - estado: RequestStatus                                   │
+│   - requestDate: Date                                       │
+│   - requestedMemberType: MemberTypeId                       │
+│   - priority: int (para lista de espera)                    │
 │                                                             │
 │ Invariants:                                                 │
 │   - Avales deben ser socios con antigüedad mínima           │
@@ -189,23 +189,23 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 3.2.4 Aggregate: Carnet
+#### 3.2.4 Aggregate: MemberCard
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ CARNET (Aggregate Root)                                     │
+│ MEMBER_CARD (Aggregate Root)                                │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: CarnetId                                          │
+│ Identity: MemberCardId                                      │
 │                                                             │
 │ Value Objects:                                              │
-│   - CodigoQR (valor único, hash del carnet)                 │
+│   - QRCode (valor único, hash del carnet)                   │
 │                                                             │
 │ Properties:                                                 │
-│   - socioId: SocioId                                        │
-│   - ejercicioId: EjercicioId                                │
-│   - fechaEmision: Date                                      │
-│   - fechaValidez: Date                                      │
-│   - estado: EstadoCarnet (activo, anulado)                  │
+│   - memberId: MemberId                                      │
+│   - fiscalYearId: FiscalYearId                              │
+│   - issueDate: Date                                         │
+│   - validUntil: Date                                        │
+│   - estado: MemberCardStatus (activo, anulado)              │
 │                                                             │
 │ Invariants:                                                 │
 │   - Un socio solo puede tener un carnet activo por ejercicio│
@@ -213,21 +213,21 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 3.2.5 Aggregate: Ejercicio
+#### 3.2.5 Aggregate: FiscalYear
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EJERCICIO (Aggregate Root)                                  │
+│ FISCAL_YEAR (Aggregate Root)                                │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: EjercicioId                                       │
+│ Identity: FiscalYearId                                      │
 │                                                             │
 │ Value Objects:                                              │
-│   - PeriodoEjercicio (fechaInicio, fechaFin)                │
+│   - FiscalYearPeriod (fechaInicio, fechaFin)                │
 │                                                             │
 │ Properties:                                                 │
-│   - nombre: string (ej: "2026", "Temporada 2025-26")        │
-│   - estado: EstadoEjercicio (preparacion, activo, cerrado)  │
-│   - ejercicioAnterior: EjercicioId?                         │
+│   - name: string (ej: "2026", "Temporada 2025-26")          │
+│   - estado: FiscalYearStatus (PREPARATION, activo, cerrado) │
+│   - previousFiscalYear: FiscalYearId?                       │
 │                                                             │
 │ Invariants:                                                 │
 │   - Solo un ejercicio activo a la vez                       │
@@ -235,140 +235,140 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 3.2.6 Aggregate: ListaEspera
+#### 3.2.6 Aggregate: WaitingList
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ LISTA_ESPERA (Aggregate Root)                               │
+│ WAITING_LIST (Aggregate Root)                               │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: ListaEsperaId                                     │
+│ Identity: WaitingListId                                     │
 │                                                             │
 │ Value Objects:                                              │
-│   - PosicionEspera (numero de orden cronológico)            │
-│   - FechaInscripcion (fecha y hora de entrada en lista)     │
+│   - WaitingPosition (numero de orden cronológico)           │
+│   - RegistrationDate (fecha y hora de entrada en lista)     │
 │                                                             │
 │ Properties:                                                 │
-│   - solicitudId: SolicitudId                                │
-│   - tipoSocioId: TipoSocioId                                │
-│   - posicion: int (calculado, orden cronológico)            │
-│   - fechaEntrada: DateTime                                  │
-│   - fechaSalida: DateTime? (al procesar)                    │
-│   - motivo: MotivoSalidaLista? (aprobado, rechazado, etc.)  │
-│   - estado: EstadoListaEspera (activo, procesado)           │
+│   - requestId: RequestId                                    │
+│   - memberTypeId: MemberTypeId                              │
+│   - position: int (calculado, orden cronológico)            │
+│   - entryDate: DateTime                                     │
+│   - exitDate: DateTime? (al procesar)                       │
+│   - reason: ListExitReason? (aprobado, rechazado, etc.)     │
+│   - estado: WaitingListStatus (activo, procesado)           │
 │                                                             │
 │ Invariants:                                                 │
 │   - Posición única en lista activa                          │
 │   - No puede haber solicitudes duplicadas (mismo DNI)       │
 │   - Solo socios en estado aspirante pueden estar en lista   │
-│   - Orden cronológico estricto por fechaEntrada             │
+│   - Orden cronológico estricto por entryDate                │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Comportamientos:**
-- `agregarALista(solicitud)` → añade al final, calcula posición
-- `procesarSiguiente()` → retorna siguiente en cola, marca procesado
-- `retirarDeLista(motivo)` → saca de la cola (voluntario, expiración)
-- `recalcularPosiciones()` → reordena tras bajas
+- `addToList(request)` → añade al final, calcula posición
+- `processNext()` → retorna siguiente en cola, marca procesado
+- `removeFromList(reason)` → saca de la cola (voluntario, expiración)
+- `recalculatePositions()` → reordena tras bajas
 
-#### 3.2.7 Aggregate: ExpedienteDisciplinario
+#### 3.2.7 Aggregate: DisciplinaryCase
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EXPEDIENTE_DISCIPLINARIO (Aggregate Root)                   │
+│ DISCIPLINARY_CASE (Aggregate Root)                          │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: ExpedienteId                                      │
+│ Identity: CaseId                                            │
 │                                                             │
 │ Value Objects:                                              │
-│   - TipoInfraccion (enum: leve, grave, muy grave)           │
-│   - TipoSancion (enum: amonestacion, suspension, expulsion) │
-│   - EstadoExpediente (enum: abierto, en_revision, cerrado)  │
+│   - InfractionType (enum: MINOR, SERIOUS, VERY_SERIOUS)     │
+│   - SanctionType (enum: WARNING, SUSPENSION, EXPULSION)     │
+│   - CaseStatus (enum: OPEN, UNDER_REVIEW, CLOSED)           │
 │                                                             │
 │ Entities:                                                   │
-│   - InfraccionRegistrada[] (detalle de cada infracción)     │
+│   - RecordedInfraction[] (detalle de cada infracción)       │
 │                                                             │
 │ Properties:                                                 │
-│   - socioId: SocioId                                        │
-│   - numeroExpediente: string (correlativo)                  │
-│   - fechaApertura: Date                                     │
-│   - fechaCierre: Date?                                      │
-│   - sancionAplicada: TipoSancion?                           │
-│   - diasSuspension: int? (si sancion es suspension)         │
-│   - motivoCierre: string?                                   │
-│   - resolvidoPor: UsuarioId?                                │
+│   - memberId: MemberId                                      │
+│   - caseNumber: string (correlativo)                        │
+│   - openDate: Date                                          │
+│   - closeDate: Date?                                        │
+│   - appliedSanction: SanctionType?                          │
+│   - suspensionDays: int? (si sancion es suspension)         │
+│   - closeReason: string?                                    │
+│   - resolvedBy: UserId?                                  │
 │                                                             │
 │ Invariants:                                                 │
 │   - Número de expediente único dentro del tenant            │
 │   - Fecha sanción <= fecha actual                           │
 │   - Expediente cerrado no puede modificarse                 │
-│   - Si diasSuspension definido, sancion debe ser suspension │
+│   - Si suspensionDays definido, sancion debe ser suspension │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Comportamientos:**
-- `abrirExpediente(socio, infraccion)` → crea con estado abierto
-- `añadirInfraccion(detalle)` → registra nueva infracción al expediente
-- `aplicarSancion(tipo, dias?)` → asigna sanción y cierra expediente
-- `archivar(motivo)` → cierra sin sanción (sobreseimiento)
+- `openCase(member, infraction)` → crea con estado abierto
+- `addInfraction(detail)` → registra nueva infracción al expediente
+- `applySanction(type, days?)` → asigna sanción y cierra expediente
+- `archive(reason)` → cierra sin sanción (sobreseimiento)
 
 ### 3.3 Value Objects
 
 | Value Object | Atributos | Validaciones |
 |--------------|-----------|--------------|
-| `SocioId` | uuid | UUID v4 válido |
-| `NumeroSocio` | valor: string | Formato configurable por tenant |
-| `DatosPersonales` | nombre, apellidos, fechaNacimiento | Nombre no vacío, fecha pasada |
-| `DatosContacto` | email, telefono, direccion | Email válido, teléfono formato ES |
-| `DocumentoIdentidad` | tipo (DNI/NIE/Pasaporte), numero | Algoritmo validación según tipo |
-| `DatosBancarios` | iban | IBAN válido (algoritmo mod 97) |
-| `EstadoSocio` | enum | Activo, PendientePago, Suspendido, BajaVoluntaria, BajaImpago, BajaDisciplinaria, Aspirante, Fallecido |
-| `RangoEdad` | minima, maxima | min >= 0, max > min (si definidos) |
-| `CodigoQR` | valor: string | Hash único, no predecible |
-| `PosicionEspera` | numero: int | Orden cronológico en lista espera |
-| `FechaInscripcion` | fecha: DateTime | Timestamp de entrada en lista |
-| `MotivoSalidaLista` | enum | Aprobado, Rechazado, Expirado, Voluntario |
-| `EstadoListaEspera` | enum | Activo, Procesado |
-| `TipoInfraccion` | enum | Leve, Grave, MuyGrave |
-| `TipoSancion` | enum | Amonestacion, Suspension, Expulsion |
-| `EstadoExpediente` | enum | Abierto, EnRevision, Cerrado |
+| `MemberId` | uuid | UUID v4 válido |
+| `MemberNumber` | valor: string | Formato configurable por tenant |
+| `PersonalData` | name, surnames, birthDate | Nombre no vacío, fecha pasada |
+| `ContactData` | email, phone, address | Email válido, teléfono formato ES |
+| `IdentityDocument` | tipo (DNI/NIE/Pasaporte), numero | Algoritmo validación según tipo |
+| `BankDetails` | iban | IBAN válido (algoritmo mod 97) |
+| `MemberStatus` | enum | ACTIVE, PENDING_PAYMENT, SUSPENDED, VOLUNTARY_LEAVE, NONPAYMENT_LEAVE, DISCIPLINARY_LEAVE, APPLICANT, DECEASED |
+| `AgeRange` | minima, maxima | min >= 0, max > min (si definidos) |
+| `QRCode` | valor: string | Hash único, no predecible |
+| `WaitingPosition` | numero: int | Orden cronológico en lista espera |
+| `RegistrationDate` | fecha: DateTime | Timestamp de entrada en lista |
+| `ListExitReason` | enum | APPROVED, REJECTED, EXPIRED, VOLUNTARY |
+| `WaitingListStatus` | enum | ACTIVE, Procesado |
+| `InfractionType` | enum | MINOR, SERIOUS, VERY_SERIOUS |
+| `SanctionType` | enum | WARNING, SUSPENSION, EXPULSION |
+| `CaseStatus` | enum | OPEN, UNDER_REVIEW, CLOSED |
 
 ### 3.4 Domain Events
 
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `SocioRegistrado` | Alta completada | socioId, tipoSocio, fecha | BC-Tesoreria (generar cuota), BC-Comunicacion (bienvenida) |
-| `SocioDadoDeBaja` | Baja cualquier tipo | socioId, tipoBaja, motivo, fecha | BC-Tesoreria (anular pendientes), BC-Comunicacion (notificar) |
-| `EstadoSocioCambiado` | Cambio de estado | socioId, estadoAnterior, estadoNuevo, motivo | BC-Tesoreria (suspender/reactivar cobros) |
-| `TipoSocioCambiado` | Cambio de categoría | socioId, tipoAnterior, tipoNuevo | BC-Tesoreria (ajustar cuota) |
-| `DatosSocioActualizados` | Modificación datos | socioId, camposModificados | BC-Tesoreria (si IBAN), BC-Comunicacion (si email) |
-| `CarnetValidado` | Escaneo QR exitoso | carnetId, socioId, timestamp, ubicacion? | BC-Eventos (check-in automático) |
-| `EjercicioAbierto` | Apertura ejercicio | ejercicioId, periodo | BC-Tesoreria (generar cuotas), BC-Membresia (arrastrar socios) |
-| `EjercicioCerrado` | Cierre ejercicio | ejercicioId, estadisticas | BC-Documentos (generar memoria) |
-| `SolicitudAltaIniciada` | Nueva solicitud | solicitudId, datos | BC-Comunicacion (notificar junta) |
-| `SolicitudAltaAprobada` | Aprobación | solicitudId, socioId | BC-Comunicacion (notificar aspirante) |
-| `TipoSocioCreado` | Creación de tipo de socio | tipoSocioId, nombre, descripcion, tenantId | BC-Tesoreria (vincular planes de cuota) |
-| `BajaPorImpago` | Baja automática por morosidad | socioId, deudaTotal, fechaBaja | BC-Comunicacion (notificar), BC-Tesoreria (cerrar cuenta) |
+| `MemberRegistered` | Alta completada | memberId, memberType, fecha | BC-Treasury (generar cuota), BC-Communication (bienvenida) |
+| `MemberDeactivated` | Baja cualquier tipo | memberId, tipoBaja, motivo, fecha | BC-Treasury (anular pendientes), BC-Communication (notificar) |
+| `MemberStatusChanged` | Cambio de estado | memberId, estadoAnterior, estadoNuevo, motivo | BC-Treasury (suspender/reactivar cobros) |
+| `MemberTypeChanged` | Cambio de categoría | memberId, tipoAnterior, tipoNuevo | BC-Treasury (ajustar cuota) |
+| `MemberDataUpdated` | Modificación datos | memberId, camposModificados | BC-Treasury (si IBAN), BC-Communication (si email) |
+| `MemberCardValidated` | Escaneo QR exitoso | memberCardId, memberId, timestamp, ubicacion? | BC-Events (check-in automático) |
+| `FiscalYearOpened` | Apertura ejercicio | fiscalYearId, periodo | BC-Treasury (generar cuotas), BC-Membership (arrastrar socios) |
+| `FiscalYearClosed` | Cierre ejercicio | fiscalYearId, estadisticas | BC-Documents (generar memoria) |
+| `RegistrationRequestStarted` | Nueva solicitud | requestId, datos | BC-Communication (notificar junta) |
+| `RegistrationRequestApproved` | Aprobación | requestId, memberId | BC-Communication (notificar aspirante) |
+| `MemberTypeCreated` | Creación de tipo de socio | memberTypeId, name, description, tenantId | BC-Treasury (vincular planes de cuota) |
+| `NonpaymentLeave` | Baja automática por morosidad | memberId, deudaTotal, leaveDate | BC-Communication (notificar), BC-Treasury (cerrar cuenta) |
 
 ### 3.5 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
-| N3RF01 | Socio (DatosPersonales, DatosContacto, DatosBancarios) |
-| N3RF02-05 | Socio.CamposPersonalizados (extensión por tipo colectividad) |
-| N3RF06 | EstadoSocio (Value Object enum) |
-| N3RF07-10 | TipoSocio (Aggregate) |
-| N3RF11 | TipoSocio.configuracion (reglas) |
-| N3RF12-13 | Socio.HistorialEstados, calcularAntiguedad() |
-| N3RF14 | Domain Service: EstadisticasSocios |
-| N3RF15-19 | Ejercicio (Aggregate) |
-| N3RF20-23 | SolicitudAlta (Aggregate 3.2.3), workflow estados, ListaEspera (Aggregate 3.2.6) |
-| N3RF24-27 | Socio.darDeBaja(), eventos de baja, ExpedienteDisciplinario (Aggregate 3.2.7) |
-| N3RF28-29 | SolicitudAlta con prioridad (lista espera), ListaEspera (Aggregate 3.2.6) |
-| N3RF30-32 | Carnet (Aggregate) |
-| N3RF33-34 | Carnet específico cofradías (PapeletaSitio - extensión) |
+| N3RF01 | Member (PersonalData, ContactData, BankDetails) |
+| N3RF02-05 | Member.CamposPersonalizados (extensión por tipo colectividad) |
+| N3RF06 | MemberStatus (Value Object enum) |
+| N3RF07-10 | MemberType (Aggregate) |
+| N3RF11 | MemberType.configuracion (reglas) |
+| N3RF12-13 | Member.HistorialEstados, calculateSeniority() |
+| N3RF14 | Domain Service: MemberStatistics |
+| N3RF15-19 | FiscalYear (Aggregate) |
+| N3RF20-23 | RegistrationRequest (Aggregate 3.2.3), workflow estados, WaitingList (Aggregate 3.2.6) |
+| N3RF24-27 | Member.deactivate(), eventos de baja, DisciplinaryCase (Aggregate 3.2.7) |
+| N3RF28-29 | RegistrationRequest con prioridad (lista espera), WaitingList (Aggregate 3.2.6) |
+| N3RF30-32 | MemberCard (Aggregate) |
+| N3RF33-34 | MemberCard específico cofradías (PapeletaSitio - extensión) |
 
 ---
 
-## 4. BC-Tesoreria: Gestión Económica
+## 4. BC-Treasury: Gestión Económica
 
 ### 4.1 Descripción
 
@@ -376,26 +376,26 @@ Responsable de toda la gestión económica: definición de cuotas, generación d
 
 ### 4.2 Aggregates
 
-#### 4.2.1 Aggregate: CuentaSocio
+#### 4.2.1 Aggregate: MemberAccount
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ CUENTA_SOCIO (Aggregate Root)                                   │
+│ MEMBER_ACCOUNT (Aggregate Root)                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│ Identity: CuentaSocioId                                         │
+│ Identity: MemberAccountId                                       │
 │                                                                 │
 │ References:                                                     │
-│   - socioId: SocioId (referencia a BC-Membresia)                │
+│   - memberId: MemberId (referencia a BC-Membership)               │
 │                                                                 │
 │ Entities:                                                       │
-│   - SuscripcionCuota[] (planes de cuota activos e histórico)    │  ← AÑADIR
-│   - Cargo[] (deudas pendientes o histórico)                     │
-│   - Pago[] (cobros realizados)                                  │
-│   - MandatoSepa? (autorización domiciliación)                   │
+│   - FeeSubscription[] (planes de cuota activos e histórico)     │  ← AÑADIR
+│   - Charge[] (deudas pendientes o histórico)                    │
+│   - Payment[] (cobros realizados)                               │
+│   - SepaMandate? (autorización domiciliación)                   │
 │                                                                 │
 │ Computed:                                                       │
-│   - saldoPendiente: Dinero                                      │
-│   - estadoMorosidad: EstadoMorosidad                            │
+│   - pendingBalance: Money                                       │
+│   - delinquencyStatus: DelinquencyStatus                        │
 │                                                                 │
 │ Invariants:                                                     │
 │   - Un socio tiene exactamente una cuenta                       │
@@ -404,131 +404,131 @@ Responsable de toda la gestión económica: definición de cuotas, generación d
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.2 Entity: Cargo (dentro de CuentaSocio)
+#### 4.2.2 Entity: Charge (dentro de MemberAccount)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ CARGO (Entity)                                                  │
+│ CHARGE (Entity)                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│ Identity: CargoId                                               │
+│ Identity: ChargeId                                              │
 │                                                                 │
 │ Value Objects:                                                  │
-│   - Dinero (importeBase - antes de prorrateo)                   │
-│   - Dinero (importeFinal - importe efectivo a cobrar)           │
-│   - ConceptoCargo (descripcion, ejercicio)                      │
+│   - Money (baseAmount - antes de prorrateo)                     │
+│   - Money (finalAmount - importe efectivo a cobrar)             │
+│   - ChargeDescription (description, ejercicio)                  │
 │                                                                 │
 │ Properties:                                                     │
-│   - suscripcionId: SuscripcionId? (NULL si cargo manual)        │
-│   - periodoMes: int? (1-12, NULL para cargos únicos/manuales)   │
-│   - fechaEmision: Date                                          │
-│   - fechaVencimiento: Date                                      │
-│   - estado: EstadoCargo                                         │
-│   - importePagado: Dinero (para pagos parciales)                │
-│   - esProrrateo: boolean                                        │
-│   - esManual: boolean (true si cargo directo sin suscripción)   │
+│   - subscriptionId: SubscriptionId? (NULL si cargo manual)      │
+│   - billingMonth: int? (1-12, NULL para cargos únicos/manuales) │
+│   - issueDate: Date                                             │
+│   - dueDate: Date                                               │
+│   - status: ChargeStatus                                        │
+│   - paidAmount: Money (para pagos parciales)                    │
+│   - isProrated: boolean                                         │
+│   - isManual: boolean (true si cargo directo sin suscripción)   │
 │                                                                 │
 │ Invariants:                                                     │
-│   - ImporteFinal > 0                                            │
-│   - FechaVencimiento >= FechaEmision                            │
-│   - ImportePagado <= ImporteFinal                               │
-│   - Si esManual=true, suscripcionId debe ser NULL               │
-│   - Si esManual=false, suscripcionId debe existir               │
+│   - finalAmount > 0                                             │
+│   - dueDate >= issueDate                                        │
+│   - paidAmount <= finalAmount                                   │
+│   - Si isManual=true, subscriptionId debe ser NULL              │
+│   - Si isManual=false, subscriptionId debe existir              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.3 Entity: Pago (dentro de CuentaSocio)
+#### 4.2.3 Entity: Payment (dentro de MemberAccount)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ PAGO (Entity)                                               │
+│ PAYMENT (Entity)                                            │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: PagoId                                            │
+│ Identity: PaymentId                                         │
 │                                                             │
 │ Value Objects:                                              │
-│   - Dinero (importe, moneda)                                │
-│   - MetodoPago (tipo, referencia)                           │
+│   - Money (amount, moneda)                                  │
+│   - PaymentMethod (type, referencia)                        │
 │                                                             │
 │ Properties:                                                 │
-│   - cargoId: CargoId (cargo que liquida)                    │
-│   - fechaPago: Date                                         │
-│   - fechaRegistro: Date                                     │
-│   - registradoPor: UsuarioId                                │
-│   - justificanteId: DocumentoId? (referencia BC-Documentos) │
-│   - estado: EstadoPago                                      │
+│   - chargeId: ChargeId (cargo que liquida)                  │
+│   - paymentDate: Date                                       │
+│   - recordDate: Date                                        │
+│   - recordedBy: UserId                                   │
+│   - receiptDocumentId: DocumentId? (referencia BC-Documents)│
+│   - status: PaymentStatus                                   │
 │                                                             │
 │ Invariants:                                                 │
-│   - Importe > 0                                             │
-│   - FechaPago <= FechaRegistro                              │
+│   - amount > 0                                              │
+│   - paymentDate <= recordDate                               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.4 Entity: MandatoSepa (dentro de CuentaSocio)
+#### 4.2.4 Entity: SepaMandate (dentro de MemberAccount)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ MANDATO_SEPA (Entity)                                       │
+│ SEPA_MANDATE (Entity)                                       │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: MandatoId                                         │
+│ Identity: MandateId                                         │
 │                                                             │
 │ Value Objects:                                              │
-│   - ReferenciaMandato (único por acreedor)                  │
+│   - MandateReference (único por acreedor)                   │
 │   - DatosBancarios (iban del deudor)                        │
 │                                                             │
 │ Properties:                                                 │
-│   - fechaFirma: Date                                        │
-│   - fechaUltimoAdeudo: Date?                                │
-│   - estado: EstadoMandato (activo, revocado, caducado)      │
-│   - documentoFirmado: DocumentoId?                          │
+│   - signatureDate: Date                                     │
+│   - lastDebitDate: Date?                                    │
+│   - status: MandateStatus (activo, revocado, caducado)      │
+│   - signedDocument: DocumentId?                            │
 │                                                             │
 │ Invariants:                                                 │
-│   - Caduca si fechaUltimoAdeudo > 36 meses                  │
+│   - Caduca si lastDebitDate > 36 meses                      │
 │   - Referencia única por acreedor                           │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.5 Aggregate: PlanCuota
+#### 4.2.5 Aggregate: FeePlan
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ PLAN_CUOTA (Aggregate Root)                                     │
+│ FEE_PLAN (Aggregate Root)                                       │
 ├─────────────────────────────────────────────────────────────────┤
-│ Identity: PlanCuotaId                                           │
+│ Identity: FeePlanId                                             │
 │                                                                 │
 │ Value Objects:                                                  │
-│   - Dinero (importe)                                            │
-│   - Periodicidad (enum orientativo: Mensual, Trimestral,        │
-│                   Semestral, Anual, Personalizada)              │
+│   - Money (amount)                                              │
+│   - Frequency (enum orientativo: MONTHLY, QUARTERLY,            │
+│                 BIANNUAL, ANNUAL, CUSTOM)                       │
 │                                                                 │
 │ Properties:                                                     │
-│   - codigo: string                                              │
-│   - nombre: string                                              │
-│   - descripcion: string?                                        │
-│   - tipo: TipoPlan (UNICA | PERIODICA)                          │
-│   - mesesCobro: int[] (ej: [1,4,7,10] para trimestral)          │
-│   - activo: boolean                                             │
+│   - code: string                                                │
+│   - name: string                                                │
+│   - description: string?                                        │
+│   - type: PlanType (ONE_TIME | RECURRING)                       │
+│   - billingMonths: int[] (ej: [1,4,7,10] para trimestral)       │
+│   - active: boolean                                             │
 │                                                                 │
 │ Invariants:                                                     │
 │   - Código único dentro del tenant                              │
-│   - Si tipo=PERIODICA, mesesCobro no puede estar vacío          │
-│   - Si tipo=UNICA, mesesCobro debe estar vacío                  │
-│   - Importe >= 0 (puede ser 0 para planes especiales)           │
+│   - Si type=RECURRING, billingMonths no puede estar vacío       │
+│   - Si type=ONE_TIME, billingMonths debe estar vacío            │
+│   - amount >= 0 (puede ser 0 para planes especiales)            │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.6 Entity: TipoSocioPlanCuota (Relación N:M)
+#### 4.2.6 Entity: MemberTypeFeePlan (Relación N:M)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ TIPO_SOCIO_PLAN_CUOTA (Entity - tabla intermedia)               │
+│ MEMBER_TYPE_FEE_PLAN (Entity - tabla intermedia)                │
 ├─────────────────────────────────────────────────────────────────┤
-│ Identity: Composite (tipoSocioId + planCuotaId)                 │
+│ Identity: Composite (memberTypeId + feePlanId)                  │
 │                                                                 │
 │ Properties:                                                     │
-│   - tipoSocioId: TipoSocioId (ref BC-Membresia)                 │
-│   - planCuotaId: PlanCuotaId                                    │
-│   - esDefault: boolean (plan por defecto para este tipo)        │
+│   - memberTypeId: MemberTypeId (ref BC-Membership)               │
+│   - feePlanId: FeePlanId                                        │
+│   - isDefault: boolean (plan por defecto para este tipo)        │
 │   - orden: int (orden de presentación en UI)                    │
-│   - activo: boolean                                             │
+│   - active: boolean                                             │
 │                                                                 │
 │ Invariants:                                                     │
 │   - Solo un plan puede ser default por tipo de socio            │
@@ -536,181 +536,181 @@ Responsable de toda la gestión económica: definición de cuotas, generación d
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.6 Aggregate: RemesaSepa
+#### 4.2.6 Aggregate: SepaRemittance
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ REMESA_SEPA (Aggregate Root)                                │
+│ SEPA_REMITTANCE (Aggregate Root)                            │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: RemesaId                                          │
+│ Identity: RemittanceId                                      │
 │                                                             │
 │ Value Objects:                                              │
-│   - IdentificadorAcreedor (CIF + sufijo Banco España)       │
-│   - Dinero (importeTotal)                                   │
+│   - CreditorIdentifier (CIF + sufijo Banco España)          │
+│   - Money (totalAmount)                                     │
 │                                                             │
 │ Entities:                                                   │
-│   - AdeudoSepa[] (cada cobro individual de la remesa)       │
+│   - SepaDebit[] (cada cobro individual de la remesa)        │
 │                                                             │
 │ Properties:                                                 │
-│   - fechaCreacion: Date                                     │
-│   - fechaCargo: Date (fecha valor en banco)                 │
-│   - estado: EstadoRemesa                                    │
-│   - ficheroXml: string? (path al fichero generado)          │
+│   - createdAt: Date                                         │
+│   - chargeDate: Date (fecha valor en banco)                 │
+│   - status: RemittanceStatus                                │
+│   - xmlFile: string? (path al fichero generado)             │
 │                                                             │
 │ Invariants:                                                 │
-│   - FechaCargo >= FechaCreacion + 3 días hábiles            │
-│   - ImporteTotal = suma(adeudos.importe)                    │
+│   - chargeDate >= createdAt + 3 días hábiles                │
+│   - totalAmount = suma(adeudos.amount)                      │
 │   - Todos los adeudos deben tener mandato válido            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.7 Entity: SuscripcionCuota (dentro de CuentaSocio)
+#### 4.2.7 Entity: FeeSubscription (dentro de MemberAccount)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ SUSCRIPCION_CUOTA (Entity)                                      │
+│ FEE_SUBSCRIPTION (Entity)                                       │
 ├─────────────────────────────────────────────────────────────────┤
-│ Identity: SuscripcionId                                         │
+│ Identity: SubscriptionId                                        │
 │                                                                 │
 │ Value Objects:                                                  │
-│   - Dinero (importeEfectivo - importe final tras descuentos)    │
+│   - Money (effectiveAmount - importe final tras descuentos)     │
 │                                                                 │
 │ Properties:                                                     │
-│   - planCuotaId: PlanCuotaId                                    │
-│   - fechaAlta: Date                                             │
-│   - fechaBaja: Date?                                            │
-│   - descuento: decimal? (porcentaje: 0.30 = 30%)                │
-│   - motivoBaja: MotivoBajaSuscripcion?                          │
+│   - feePlanId: FeePlanId                                        │
+│   - registrationDate: Date                                             │
+│   - leaveDate: Date?                                            │
+│   - discount: decimal? (porcentaje: 0.30 = 30%)                 │
+│   - cancelReason: SubscriptionCancelReason?                     │
 │                                                                 │
 │ Computed:                                                       │
-│   - importeEfectivo = planCuota.importe * (1 - descuento)       │
+│   - effectiveAmount = feePlan.amount * (1 - discount)           │
 │                                                                 │
 │ Invariants:                                                     │
-│   - fechaBaja >= fechaAlta (si existe)                          │
-│   - descuento entre 0 y 1 (si existe)                           │
-│   - Si planCuota.tipo=UNICA, fechaBaja se asigna automáticamente│
+│   - leaveDate >= registrationDate (si existe)                          │
+│   - discount entre 0 y 1 (si existe)                            │
+│   - Si feePlan.type=ONE_TIME, leaveDate se asigna automáticamente│
 │     al generar el cargo                                         │
 └─────────────────────────────────────────────────────────────────┘
 
-MotivoBajaSuscripcion (enum):
-  - CAMBIO_PLAN: Socio cambió a otra modalidad de pago
-  - BAJA_SOCIO: Socio dado de baja de la entidad
-  - EXENCION: Socio exento de pago
-  - FIN_CUOTA_UNICA: Cuota única completada (automático)
+SubscriptionCancelReason (enum):
+  - PLAN_CHANGE: Socio cambió a otra modalidad de pago
+  - MEMBER_LEAVE: Socio dado de baja de la entidad
+  - EXEMPTION: Socio exento de pago
+  - ONE_TIME_COMPLETED: Cuota única completada (automático)
 ```
 
-#### 4.2.8 Entity: AdeudoSepa (dentro de RemesaSepa)
+#### 4.2.8 Entity: SepaDebit (dentro de SepaRemittance)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ ADEUDO_SEPA (Entity)                                        │
+│ SEPA_DEBIT (Entity)                                         │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: AdeudoId                                          │
+│ Identity: DebitId                                           │
 │                                                             │
 │ Value Objects:                                              │
-│   - Dinero (importe)                                        │
-│   - SecuenciaSepa (FRST, RCUR, OOFF, FNAL)                  │
+│   - Money (amount)                                          │
+│   - SepaSequence (FRST, RCUR, OOFF, FNAL)                   │
 │                                                             │
 │ Properties:                                                 │
-│   - cargoId: CargoId                                        │
-│   - mandatoId: MandatoId                                    │
-│   - estado: EstadoAdeudo                                    │
-│   - motivoDevolucion: string?                               │
-│   - fechaDevolucion: Date?                                  │
+│   - chargeId: ChargeId                                      │
+│   - mandateId: MandateId                                    │
+│   - status: DebitStatus                                     │
+│   - returnReason: string?                                   │
+│   - returnDate: Date?                                       │
 │                                                             │
 │ Invariants:                                                 │
 │   - Secuencia correcta según historial del mandato          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.9 Aggregate: Movimiento (Contabilidad)
+#### 4.2.9 Aggregate: Transaction (Contabilidad)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ MOVIMIENTO (Aggregate Root)                                 │
+│ TRANSACTION (Aggregate Root)                                │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: MovimientoId                                      │
+│ Identity: TransactionId                                     │
 │                                                             │
 │ Value Objects:                                              │
-│   - Dinero (importe)                                        │
-│   - CategoriaContable (cuenta según plan ENL si aplica)     │
+│   - Money (amount)                                          │
+│   - AccountingCategory (cuenta según plan ENL si aplica)    │
 │                                                             │
 │ Properties:                                                 │
-│   - tipo: TipoMovimiento (ingreso, gasto)                   │
-│   - concepto: string                                        │
-│   - fecha: Date                                             │
-│   - ejercicioId: EjercicioId                                │
-│   - pagoId: PagoId? (si viene de un pago)                   │
-│   - justificanteId: DocumentoId?                            │
-│   - registradoPor: UsuarioId                                │
+│   - type: TipoMovimiento (ingreso, gasto)                   │
+│   - description: string                                     │
+│   - date: Date                                              │
+│   - fiscalYearId: FiscalYearId                               │
+│   - paymentId: PaymentId? (si viene de un pago)             │
+│   - receiptDocumentId: DocumentId?                         │
+│   - recordedBy: UserId                                   │
 │                                                             │
 │ Invariants:                                                 │
-│   - Importe > 0                                             │
-│   - Fecha dentro del ejercicio                              │
+│   - amount > 0                                              │
+│   - date dentro del ejercicio                               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 4.2.10 Aggregate: EnlacePago
+#### 4.2.10 Aggregate: PaymentLink
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ ENLACE_PAGO (Aggregate Root)                                │
+│ PAYMENT_LINK (Aggregate Root)                               │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: EnlacePagoId                                      │
+│ Identity: PaymentLinkId                                     │
 │                                                             │
 │ Value Objects:                                              │
-│   - URLFirmada (token único criptográfico)                  │
-│   - EstadoEnlace (enum: pendiente, pagado, expirado)        │
+│   - SignedURL (token único criptográfico)                   │
+│   - LinkStatus (enum: pendiente, pagado, expirado)          │
 │                                                             │
 │ Properties:                                                 │
-│   - cargoId: CargoId (cargo a liquidar)                     │
-│   - socioId: SocioId                                        │
-│   - urlPublica: string (URL completa con token)             │
+│   - chargeId: ChargeId (cargo a liquidar)                   │
+│   - memberId: MemberId                                       │
+│   - publicUrl: string (URL completa con token)              │
 │   - token: string (hash único no predecible)                │
-│   - fechaCreacion: DateTime                                 │
-│   - fechaExpiracion: DateTime (por defecto 48h)             │
-│   - fechaPago: DateTime? (cuando se completa)               │
-│   - pagoId: PagoId? (pago asociado al completar)            │
-│   - estado: EstadoEnlace                                    │
-│   - intentosAcceso: int (contador de seguridad)             │
+│   - createdAt: DateTime                                     │
+│   - expirationDate: DateTime (por defecto 48h)              │
+│   - paymentDate: DateTime? (cuando se completa)             │
+│   - paymentId: PaymentId? (pago asociado al completar)      │
+│   - status: LinkStatus                                      │
+│   - accessAttempts: int (contador de seguridad)             │
 │                                                             │
 │ Invariants:                                                 │
 │   - URL con token único en todo el sistema                  │
-│   - FechaExpiracion > FechaCreacion                         │
+│   - expirationDate > createdAt                              │
 │   - Un solo pago exitoso por enlace                         │
-│   - Estado pagado requiere pagoId definido                  │
+│   - Estado pagado requiere paymentId definido               │
 │   - Enlace expirado o pagado no puede reutilizarse          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Comportamientos:**
-- `generarEnlace(cargo, validezHoras)` → crea URL firmada
-- `validarAcceso(token)` → verifica vigencia y estado
-- `marcarComoPagado(pago)` → cierra enlace tras pago exitoso
-- `expirar()` → marca como expirado tras vencimiento
+- `generateLink(charge, validHours)` → crea URL firmada
+- `validateAccess(token)` → verifica vigencia y estado
+- `markAsPaid(payment)` → cierra enlace tras pago exitoso
+- `expire()` → marca como expirado tras vencimiento
 
-#### 4.2.11 Aggregate: TurnoCaja
+#### 4.2.11 Aggregate: CashRegisterShift
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ TURNO_CAJA (Aggregate Root)                                 │
+│ CASH_REGISTER_SHIFT (Aggregate Root)                        │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: TurnoCajaId                                       │
+│ Identity: CashRegisterShiftId                               │
 │                                                             │
 │ Value Objects:                                              │
-│   - Dinero (importeApertura, importeCierre)                 │
+│   - Money (importeApertura, importeCierre)                  │
 │                                                             │
 │ Entities:                                                   │
 │   - MovimientoCaja[] (operaciones del turno)                │
 │                                                             │
 │ Properties:                                                 │
-│   - encargado: SocioId (responsable del turno)              │
+│   - encargado: MemberId (responsable del turno)              │
 │   - fechaApertura: DateTime                                 │
 │   - fechaCierre: DateTime?                                  │
-│   - importeApertura: Dinero (efectivo inicial)              │
-│   - importeCierre: Dinero? (efectivo final)                 │
-│   - estado: EstadoTurno (abierto, cerrado, cuadrado)        │
-│   - diferenciaContable: Dinero? (descuadre si existe)       │
+│   - importeApertura: Money (efectivo inicial)               │
+│   - importeCierre: Money? (efectivo final)                  │
+│   - status: ShiftStatus (abierto, cerrado, cuadrado)        │
+│   - diferenciaContable: Money? (descuadre si existe)        │
 │   - observaciones: string?                                  │
 │                                                             │
 │ Computed:                                                   │
@@ -719,34 +719,34 @@ MotivoBajaSuscripcion (enum):
 │ Invariants:                                                 │
 │   - Solo un turno abierto por caja simultáneamente          │
 │   - FechaCierre >= FechaApertura (si definida)              │
-│   - ImporteCierre debe estar definido si estado=cerrado     │
+│   - ImporteCierre debe estar definido si status=cerrado     │
 │   - DiferenciaContable = importeEsperado - importeCierre    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Comportamientos:**
-- `abrirTurno(encargado, importeInicial)` → inicia turno
-- `registrarMovimiento(tipo, importe)` → añade operación
-- `cerrarTurno(importeFinal)` → calcula diferencia y cierra
-- `cuadrarTurno(ajuste, motivo)` → ajusta descuadres
+- `openShift(attendant, initialBalance)` → inicia turno
+- `recordTransaction(type, amount)` → añade operación
+- `closeShift(finalBalance)` → calcula diferencia y cierra
+- `reconcileShift(adjustment, reason)` → ajusta descuadres
 
-#### 4.2.12 Aggregate: CategoriaContable
+#### 4.2.12 Aggregate: AccountingCategory
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ CATEGORIA_CONTABLE (Aggregate Root)                         │
+│ ACCOUNTING_CATEGORY (Aggregate Root)                        │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: CategoriaContableId                               │
+│ Identity: AccountingCategoryId                              │
 │                                                             │
 │ Value Objects:                                              │
-│   - CodigoCuenta (según plan contable ENL o personalizado)  │
+│   - AccountCode (según plan contable ENL o personalizado)   │
 │                                                             │
 │ Properties:                                                 │
-│   - codigo: string (ej: "7.1", "4.2.3")                     │
-│   - nombre: string                                          │
-│   - descripcion: string?                                    │
-│   - tipo: TipoCategoria (ingreso, gasto, activo, pasivo)    │
-│   - categoriaPadre: CategoriaContableId? (jerarquía)        │
+│   - code: string (ej: "7.1", "4.2.3")                      │
+│   - name: string                                            │
+│   - description: string?                                    │
+│   - type: CategoryType (ingreso, gasto, activo, pasivo)     │
+│   - categoriaPadre: AccountingCategoryId? (jerarquía)       │
 │   - nivel: int (profundidad en árbol)                       │
 │   - esImputable: boolean (permite asignar movimientos)      │
 │   - esSistema: boolean (predefinida, no editable)           │
@@ -761,34 +761,34 @@ MotivoBajaSuscripcion (enum):
 ```
 
 **Comportamientos:**
-- `crearCategoria(codigo, nombre, padre?)` → valida jerarquía
-- `marcarComoImputable()` → permite asignar movimientos
-- `desactivar()` → impide nuevas asignaciones
+- `createCategory(code, name, parent?)` → valida jerarquía
+- `markAsBookable()` → permite asignar movimientos
+- `deactivate()` → impide nuevas asignaciones
 
-#### 4.2.13 Aggregate: EjercicioContable
+#### 4.2.13 Aggregate: AccountingYear
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EJERCICIO_CONTABLE (Aggregate Root)                         │
+│ ACCOUNTING_YEAR (Aggregate Root)                            │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: EjercicioContableId                               │
+│ Identity: AccountingYearId                                  │
 │                                                             │
 │ Value Objects:                                              │
-│   - PeriodoContable (fechaInicio, fechaFin)                 │
-│   - Dinero (saldoInicial, saldoFinal)                       │
+│   - AccountingPeriod (fechaInicio, fechaFin)                │
+│   - Money (saldoInicial, saldoFinal)                        │
 │                                                             │
 │ Properties:                                                 │
-│   - nombre: string (ej: "Ejercicio 2026")                   │
+│   - name: string (ej: "Ejercicio 2026")                     │
 │   - fechaInicio: Date                                       │
 │   - fechaFin: Date                                          │
-│   - estado: EstadoEjercicioContable (abierto, cerrado)      │
-│   - saldoInicial: Dinero                                    │
-│   - saldoFinal: Dinero? (calculado al cierre)               │
-│   - totalIngresos: Dinero (acumulado)                       │
-│   - totalGastos: Dinero (acumulado)                         │
-│   - ejercicioAnterior: EjercicioContableId?                 │
+│   - status: AccountingYearStatus (abierto, cerrado)         │
+│   - saldoInicial: Money                                     │
+│   - saldoFinal: Money? (calculado al cierre)                │
+│   - totalIngresos: Money (acumulado)                        │
+│   - totalGastos: Money (acumulado)                          │
+│   - ejercicioAnterior: AccountingYearId?                    │
 │   - fechaCierre: Date? (cuando se cierra)                   │
-│   - cerradoPor: UsuarioId?                                  │
+│   - cerradoPor: UserId?                                  │
 │                                                             │
 │ Computed:                                                   │
 │   - resultado = totalIngresos - totalGastos                 │
@@ -803,96 +803,96 @@ MotivoBajaSuscripcion (enum):
 ```
 
 **Comportamientos:**
-- `abrirEjercicio(periodo, saldoInicial)` → inicia ejercicio
-- `registrarMovimiento(tipo, importe)` → actualiza acumulados
-- `cerrarEjercicio()` → calcula saldo final, congela
-- `reaperturar(motivo)` → reabre por correcciones (auditoría)
+- `openFiscalYear(period, openingBalance)` → inicia ejercicio
+- `recordTransaction(type, amount)` → actualiza acumulados
+- `closeFiscalYear()` → calcula saldo final, congela
+- `reopen(reason)` → reabre por correcciones (auditoría)
 
 ### 4.3 Value Objects
 
 | Value Object | Atributos | Validaciones |
 |--------------|-----------|--------------|
-| `Dinero` | cantidad: decimal, moneda: string | cantidad >= 0, moneda ISO 4217 (default EUR) |
-| `MetodoPago` | tipo: enum, referencia: string | Tipos: Efectivo, Transferencia, Domiciliacion, Bizum, Tarjeta |
-| `EstadoCargo` | enum | Pendiente, Pagado, PagadoParcial, Anulado |
-| `EstadoPago` | enum | Confirmado, Devuelto, Anulado |
-| `EstadoMorosidad` | enum | AlCorriente, MorosidadLeve, MorosidadGrave, Suspendido |
-| `SecuenciaSepa` | enum | FRST, RCUR, OOFF, FNAL |
-| `EstadoRemesa` | enum | Borrador, Generada, Enviada, Procesada, ConDevoluciones |
-| `IdentificadorAcreedor` | valor: string | Formato ES + 2 dígitos + sufijo (14 chars) |
-| `Periodicidad` | enum | Mensual, Trimestral, Semestral, Anual, Personalizada (orientativo, la configuración real está en mesesCobro[]) |
-| `TipoPlan` | enum | UNICA, PERIODICA |
-| `MotivoBajaSuscripcion` | enum | CAMBIO_PLAN, BAJA_SOCIO, EXENCION, FIN_CUOTA_UNICA |
-| `MesesCobro` | int[] | Array de meses (1-12) en que se generan cargos. Vacío para planes UNICA. |
-| `URLFirmada` | token: string | Hash criptográfico único para enlaces de pago |
-| `EstadoEnlace` | enum | Pendiente, Pagado, Expirado |
-| `EstadoTurno` | enum | Abierto, Cerrado, Cuadrado |
-| `CodigoCuenta` | codigo: string | Según plan ENL o personalizado (ej: "7.1") |
-| `TipoCategoria` | enum | Ingreso, Gasto, Activo, Pasivo |
-| `EstadoEjercicioContable` | enum | Abierto, Cerrado |
-| `PeriodoContable` | fechaInicio: Date, fechaFin: Date | Periodo fiscal del ejercicio |
+| `Money` | cantidad: decimal, moneda: string | cantidad >= 0, moneda ISO 4217 (default EUR) |
+| `PaymentMethod` | type: enum, referencia: string | Tipos: CASH, TRANSFER, DIRECT_DEBIT, BIZUM, CARD |
+| `ChargeStatus` | enum | PENDING, PAID, PARTIALLY_PAID, CANCELLED |
+| `PaymentStatus` | enum | CONFIRMED, RETURNED, CANCELLED |
+| `DelinquencyStatus` | enum | UP_TO_DATE, MINOR_DELINQUENCY, MAJOR_DELINQUENCY, Suspendido |
+| `SepaSequence` | enum | FRST, RCUR, OOFF, FNAL |
+| `RemittanceStatus` | enum | DRAFT, GENERATED, SENT, PROCESSED, WITH_RETURNS |
+| `CreditorIdentifier` | valor: string | Formato ES + 2 dígitos + sufijo (14 chars) |
+| `Frequency` | enum | MONTHLY, QUARTERLY, BIANNUAL, ANNUAL, CUSTOM (orientativo, la configuración real está en billingMonths[]) |
+| `PlanType` | enum | ONE_TIME, RECURRING |
+| `SubscriptionCancelReason` | enum | PLAN_CHANGE, MEMBER_LEAVE, EXEMPTION, ONE_TIME_COMPLETED |
+| `BillingMonths` | int[] | Array de meses (1-12) en que se generan cargos. Vacío para planes ONE_TIME. |
+| `SignedURL` | token: string | Hash criptográfico único para enlaces de pago |
+| `LinkStatus` | enum | PENDING, PAID, Expirado |
+| `ShiftStatus` | enum | OPEN, Cerrado, Cuadrado |
+| `AccountCode` | code: string | Según plan ENL o personalizado (ej: "7.1") |
+| `CategoryType` | enum | INCOME, EXPENSE, ASSET, LIABILITY |
+| `AccountingYearStatus` | enum | OPEN, Cerrado |
+| `AccountingPeriod` | fechaInicio: Date, fechaFin: Date | Periodo fiscal del ejercicio |
 
 ### 4.4 Domain Events
 
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `CargoGenerado` | Creación de cargo | cargoId, socioId, importe, concepto | BC-Comunicacion (aviso) |
-| `PagoRegistrado` | Cobro confirmado | pagoId, cargoId, socioId, importe, metodo | BC-Membresia (actualizar estado si procede) |
-| `PagoDevuelto` | Devolución bancaria | pagoId, cargoId, motivo | BC-Comunicacion (notificar), BC-Membresia (marcar morosidad) |
-| `MorosidadDetectada` | Cargo vencido sin pago | socioId, cargoId, diasVencido | BC-Comunicacion (workflow avisos) |
-| `PlanCuotaCreado` | Creación de plan | planCuotaId, codigo, nombre, tipo, importe | BC-Membresia (invalidar caché) |
-| `PlanCuotaModificado` | Modificación plan | planCuotaId, camposModificados | BC-Membresia (invalidar caché) |
-| `PlanCuotaVinculadoATipoSocio` | Vinculación N:M | planCuotaId, tipoSocioId, esDefault | BC-Membresia (invalidar caché) |
-| `CargoPagado` | Pago de cargo | cargoId, socioId, importe, fechaPago, metodoPago | BC-Comunicacion (enviar recibo), BC-Membresia (actualizar morosidad) |
-| `CargoCobrado` | Cobro efectivo de cargo | cargoId, socioId, importe, fechaCobro, remesaId? | BC-Comunicacion (confirmar pago) |
-| `CargoMarcadoReintento` | Marcado para reintento de cobro | cargoId, socioId, intentoNumero, proximaFecha | BC-Comunicacion (avisar socio) |
-| `ReciboGenerado` | Generación de recibo PDF | reciboId, pagoId, numeroRecibo, fechaEmision | BC-Comunicacion (enviar por email), BC-Documentos (archivar) |
-| `MandatoSepaRegistrado` | Registro mandato SEPA | mandatoId, socioId, iban, fechaFirma, estado | BC-Tesoreria (habilitar domiciliación) |
-| `MandatoSepaRevocado` | Revocación mandato SEPA | mandatoId, socioId, motivoRevocacion, fechaRevocacion | BC-Tesoreria (deshabilitar domiciliación), BC-Comunicacion (notificar) |
-| `RemesaSepaGenerada` | Generación fichero SEPA XML | remesaId, fechaCobro, totalAdeudos, importeTotal, identificadorAcreedor | BC-Comunicacion (avisar socios 2 días antes) |
-| `EnlacePagoGenerado` | Generación enlace pago online | cargoId, socioId, url, fechaExpiracion | BC-Comunicacion (enviar email con enlace) |
-| `MorosidadRegularizada` | Regularización de morosidad | socioId, importePagado, fechaRegularizacion | BC-Membresia (restaurar estado), BC-Comunicacion (confirmar) |
-| `CertificadoDescubiertoGenerado` | Certificado de descubierto | certificadoId, socioId, deudaTotal, fechaEmision | BC-Documentos (archivar), BC-Comunicacion (notificar socio) |
-| `SuscripcionCreada` | Creación suscripción cuota | suscripcionId, socioId, planCuotaId, fechaInicio, estado | BC-Tesoreria (programar generación mensual) |
-| `SuscripcionModificada` | Modificación suscripción | suscripcionId, camposModificados[], fechaModificacion | BC-Tesoreria (recalcular próximos cargos) |
-| `SuscripcionCerrada` | Cierre de suscripción | suscripcionId, motivoCierre, fechaCierre | BC-Tesoreria (detener generación) |
-| `GeneracionMensualCompletada` | Generación mensual de cuotas | ejercicioId, mes, totalCargosGenerados, importeTotal | BC-Comunicacion (notificar tesorero), Sistema de auditoría |
-| `DescuadreDetectado` | Detección de descuadre | diferencia, cuentaId, fechaDeteccion | BC-Comunicacion (alertar tesorero) |
+| `ChargeGenerated` | Creación de cargo | chargeId, memberId, amount, description | BC-Communication (aviso) |
+| `PaymentRecorded` | Cobro confirmado | paymentId, chargeId, memberId, amount, metodo | BC-Membership (actualizar estado si procede) |
+| `PaymentReturned` | Devolución bancaria | paymentId, chargeId, motivo | BC-Communication (notificar), BC-Membership (marcar morosidad) |
+| `DelinquencyDetected` | Cargo vencido sin pago | memberId, chargeId, diasVencido | BC-Communication (workflow avisos) |
+| `FeePlanCreated` | Creación de plan | feePlanId, code, name, type, amount | BC-Membership (invalidar caché) |
+| `FeePlanModified` | Modificación plan | feePlanId, camposModificados | BC-Membership (invalidar caché) |
+| `FeePlanLinkedToMemberType` | Vinculación N:M | feePlanId, memberTypeId, isDefault | BC-Membership (invalidar caché) |
+| `ChargePaid` | Pago de cargo | chargeId, memberId, amount, paymentDate, paymentMethod | BC-Communication (enviar recibo), BC-Membership (actualizar morosidad) |
+| `ChargeCollected` | Cobro efectivo de cargo | chargeId, memberId, amount, fechaCobro, remittanceId? | BC-Communication (confirmar pago) |
+| `ChargeMarkedForRetry` | Marcado para reintento de cobro | chargeId, memberId, intentoNumero, proximaFecha | BC-Communication (avisar socio) |
+| `ReceiptGenerated` | Generación de recibo PDF | reciboId, paymentId, numeroRecibo, issueDate | BC-Communication (enviar por email), BC-Documents (archivar) |
+| `SepaMandateRegistered` | Registro mandato SEPA | mandateId, memberId, iban, signatureDate, status | BC-Treasury (habilitar domiciliación) |
+| `SepaMandateRevoked` | Revocación mandato SEPA | mandateId, memberId, motivoRevocacion, fechaRevocacion | BC-Treasury (deshabilitar domiciliación), BC-Communication (notificar) |
+| `SepaRemittanceGenerated` | Generación fichero SEPA XML | remittanceId, chargeDate, totalAdeudos, totalAmount, creditorIdentifier | BC-Communication (avisar socios 2 días antes) |
+| `PaymentLinkGenerated` | Generación enlace pago online | chargeId, memberId, url, expirationDate | BC-Communication (enviar email con enlace) |
+| `DelinquencyRegularized` | Regularización de morosidad | memberId, paidAmount, fechaRegularizacion | BC-Membership (restaurar estado), BC-Communication (confirmar) |
+| `OverdraftCertificateGenerated` | Certificado de descubierto | certificadoId, memberId, deudaTotal, issueDate | BC-Documents (archivar), BC-Communication (notificar socio) |
+| `SubscriptionCreated` | Creación suscripción cuota | subscriptionId, memberId, feePlanId, fechaInicio, status | BC-Treasury (programar generación mensual) |
+| `SubscriptionModified` | Modificación suscripción | subscriptionId, camposModificados[], fechaModificacion | BC-Treasury (recalcular próximos cargos) |
+| `SubscriptionClosed` | Cierre de suscripción | subscriptionId, motivoCierre, fechaCierre | BC-Treasury (detener generación) |
+| `MonthlyGenerationCompleted` | Generación mensual de cuotas | fiscalYearId, mes, totalCargosGenerados, totalAmount | BC-Communication (notificar tesorero), Sistema de auditoría |
+| `DiscrepancyDetected` | Detección de descuadre | diferencia, cuentaId, fechaDeteccion | BC-Communication (alertar tesorero) |
 
 ### 4.5 Domain Services
 
 | Servicio | Responsabilidad |
 |----------|-----------------|
-| `GeneradorCargos` | Genera cargos para suscripciones activas cuyo plan incluya el mes actual en mesesCobro. Proceso mensual automatizable. |
-| `GeneradorCargoManual` | Crea cargos puntuales sin suscripción asociada (derramas, penalizaciones, ajustes) |
-| `CalculadorProrrateo` | Calcula cuota proporcional para altas a mitad de ejercicio |
-| `GeneradorRemesaSepa` | Crea fichero XML ISO 20022 pain.008.001.08 |
-| `GestorMorosidad` | Evalúa y ejecuta workflow de morosidad |
-| `ConciliadorPagos` | Asocia pagos de pasarela con cargos pendientes |
-| `GestorSuscripciones` | Gestiona altas, bajas y cambios de modalidad de pago |
+| `ChargeGenerator` | Genera cargos para suscripciones activas cuyo plan incluya el mes actual en billingMonths. Proceso mensual automatizable. |
+| `ManualChargeGenerator` | Crea cargos puntuales sin suscripción asociada (derramas, penalizaciones, ajustes) |
+| `ProrataCalculator` | Calcula cuota proporcional para altas a mitad de ejercicio |
+| `SepaRemittanceGenerator` | Crea fichero XML ISO 20022 pain.008.001.08 |
+| `DelinquencyManager` | Evalúa y ejecuta workflow de morosidad |
+| `PaymentReconciler` | Asocia pagos de pasarela con cargos pendientes |
+| `SubscriptionManager` | Gestiona altas, bajas y cambios de modalidad de pago |
 
 ### 4.6 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
-| N4RF01 | PlanCuota (Aggregate), TipoSocioPlanCuota |
-| N4RF02 | Domain Service: GeneradorCargos (basado en suscripciones activas y mesesCobro) |
-| N4RF03 | Domain Service: CalculadorProrrateo |
-| N4RF04-05 | SuscripcionCuota.descuento, exenciones |
-| N4RF06 | SuscripcionCuota (selección modalidad al alta) |
-| N4RF07 | SuscripcionCuota.motivoBaja=CAMBIO_PLAN |
-| N4RF08 | Domain Service: GeneradorCargoManual, Cargo.esManual=true |
-| N4RF09-11 | Pago (Entity), MetodoPago, EstadoPago |
-| N4RF12-13 | Pago.justificanteId, generación recibo |
-| N4RF14-16 | Domain Service: GestorMorosidad, eventos morosidad |
-| N4RF17-23 | RemesaSepa, AdeudoSepa, MandatoSepa |
-| N4RF24-27 | Integración pasarela (Application Service), EnlacePago (Aggregate 4.2.10) |
-| N4RF28-33 | Movimiento (Aggregate 4.2.9), CategoriaContable (Aggregate 4.2.12), EjercicioContable (Aggregate 4.2.13) |
-| N4RF34-38 | Extensión: TurnoCaja (Aggregate 4.2.11, específico peñas) |
+| N4RF01 | FeePlan (Aggregate), MemberTypeFeePlan |
+| N4RF02 | Domain Service: ChargeGenerator (basado en suscripciones activas y billingMonths) |
+| N4RF03 | Domain Service: ProrataCalculator |
+| N4RF04-05 | FeeSubscription.discount, exenciones |
+| N4RF06 | FeeSubscription (selección modalidad al alta) |
+| N4RF07 | FeeSubscription.cancelReason=PLAN_CHANGE |
+| N4RF08 | Domain Service: ManualChargeGenerator, Charge.isManual=true |
+| N4RF09-11 | Payment (Entity), PaymentMethod, PaymentStatus |
+| N4RF12-13 | Payment.receiptDocumentId, generación recibo |
+| N4RF14-16 | Domain Service: DelinquencyManager, eventos morosidad |
+| N4RF17-23 | SepaRemittance, SepaDebit, SepaMandate |
+| N4RF24-27 | Integración pasarela (Application Service), PaymentLink (Aggregate 4.2.10) |
+| N4RF28-33 | Transaction (Aggregate 4.2.9), AccountingCategory (Aggregate 4.2.12), AccountingYear (Aggregate 4.2.13) |
+| N4RF34-38 | Extensión: CashRegisterShift (Aggregate 4.2.11, específico peñas) |
 
 ---
 
-## 5. BC-Eventos: Actividades y Participación
+## 5. BC-Events: Actividades y Participación
 
 ### 5.1 Descripción
 
@@ -900,31 +900,31 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 
 ### 5.2 Aggregates
 
-#### 5.2.1 Aggregate: Evento
+#### 5.2.1 Aggregate: Event
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EVENTO (Aggregate Root)                                     │
+│ EVENT (Aggregate Root)                                      │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: EventoId                                          │
+│ Identity: EventId                                           │
 │                                                             │
 │ Value Objects:                                              │
-│   - PeriodoEvento (fechaInicio, fechaFin)                   │
-│   - Ubicacion (direccion, coordenadas?, sala?)              │
-│   - ConfiguracionInscripcion (fechaApertura, fechaCierre,   │
-│                               requierePago, precio?)        │
+│   - EventPeriod (fechaInicio, fechaFin)                     │
+│   - Location (direccion, coordenadas?, sala?)               │
+│   - RegistrationConfig (openDate, closeDate,                │
+│                         requierePago, precio?)              │
 │                                                             │
 │ Entities:                                                   │
-│   - Inscripcion[] (participantes inscritos)                 │
+│   - Registration[] (participantes inscritos)                │
 │                                                             │
 │ Properties:                                                 │
 │   - tipoEvento: TipoEventoId                                │
 │   - nombre: string                                          │
 │   - descripcion: string                                     │
 │   - aforo: int? (null = ilimitado)                          │
-│   - estado: EstadoEvento                                    │
-│   - ejercicioId: EjercicioId                                │
-│   - organizadorId: UsuarioId                                │
+│   - estado: EventStatus                                     │
+│   - fiscalYearId: FiscalYearId                               │
+│   - organizadorId: UserId                                   │
 │                                                             │
 │ Computed:                                                   │
 │   - plazasDisponibles: int                                  │
@@ -937,27 +937,27 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 5.2.2 Entity: Inscripcion (dentro de Evento)
+#### 5.2.2 Entity: Registration (dentro de Event)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ INSCRIPCION (Entity)                                        │
+│ REGISTRATION (Entity)                                       │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: InscripcionId                                     │
+│ Identity: RegistrationId                                    │
 │                                                             │
 │ Value Objects:                                              │
 │   - DatosInscripcion (campos configurables por evento)      │
 │                                                             │
 │ Properties:                                                 │
-│   - socioId: SocioId? (null si externo)                     │
+│   - memberId: MemberId? (null si externo)                   │
 │   - datosExterno: DatosPersonales? (si no es socio)         │
 │   - fechaInscripcion: Date                                  │
-│   - estado: EstadoInscripcion                               │
+│   - estado: RegistrationStatus                              │
 │   - cargoId: CargoId? (si requiere pago)                    │
 │   - asistencia: Asistencia?                                 │
 │                                                             │
 │ Invariants:                                                 │
-│   - O socioId o datosExterno, no ambos                      │
+│   - O memberId o datosExterno, no ambos                     │
 │   - Si requierePago, cargoId debe existir                   │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -971,8 +971,8 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 │ Properties:                                                 │
 │   - confirmada: boolean                                     │
 │   - horaEntrada: DateTime?                                  │
-│   - metodoCheckin: MetodoCheckin (QR, Manual)               │
-│   - registradoPor: UsuarioId?                               │
+│   - metodoCheckin: CheckinMethod (QR, Manual)               │
+│   - registradoPor: UserId?                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -997,28 +997,28 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 5.2.5 Aggregate: EventoComida
+#### 5.2.5 Aggregate: SocialDinner
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ EVENTO_COMIDA (Aggregate Root)                              │
+│ SOCIAL_DINNER (Aggregate Root)                              │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: EventoComidaId                                    │
+│ Identity: SocialDinnerId                                    │
 │                                                             │
 │ Value Objects:                                              │
-│   - OpcionMenu (nombre, precio)                             │
-│   - DatosRestaurante (nombre, direccion, telefono)          │
+│   - MenuOption (nombre, precio)                             │
+│   - RestaurantData (nombre, direccion, telefono)            │
 │                                                             │
 │ Entities:                                                   │
 │   - ReservaComida[] (inscripciones con selección menú)      │
 │                                                             │
 │ Properties:                                                 │
-│   - eventoId: EventoId (referencia al evento base)          │
-│   - restaurante: DatosRestaurante                           │
-│   - opcionesMenu: OpcionMenu[] (diferentes menús)           │
+│   - eventoId: EventId (referencia al evento base)           │
+│   - restaurante: RestaurantData                             │
+│   - opcionesMenu: MenuOption[] (diferentes menús)           │
 │   - fechaLimiteReserva: Date                                │
 │   - numeroComensales: int (total confirmado)                │
-│   - precioBase: Dinero                                      │
+│   - basePrice: Money                                        │
 │   - requisitosAlimentarios: string[] (alergias, vegano...)  │
 │                                                             │
 │ Invariants:                                                 │
@@ -1029,21 +1029,21 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 ```
 
 **Comportamientos:**
-- `agregarOpcionMenu(nombre, precio)` → añade opción al listado
-- `realizarReserva(socio, opcionMenu)` → registra inscripción con menú
-- `modificarReserva(reserva, nuevaOpcion)` → cambia selección
-- `confirmarComensales()` → cierra reservas y genera factura
+- `addMenuOption(name, price)` → añade opción al listado
+- `makeReservation(member, menuOption)` → registra inscripción con menú
+- `updateReservation(reservation, newOption)` → cambia selección
+- `confirmDiners()` → cierra reservas y genera factura
 
-#### 5.2.6 Aggregate: Cuadrilla
+#### 5.2.6 Aggregate: Squad
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ CUADRILLA (Aggregate Root)                                  │
+│ SQUAD (Aggregate Root)                                      │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: CuadrillaId                                       │
+│ Identity: SquadId                                           │
 │                                                             │
 │ Value Objects:                                              │
-│   - ColorIdentificativo (hex o nombre)                      │
+│   - IdentifierColor (hex o nombre)                          │
 │                                                             │
 │ Entities:                                                   │
 │   - MiembroCuadrilla[] (socios asignados con rol)           │
@@ -1051,7 +1051,7 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 │ Properties:                                                 │
 │   - nombre: string (ej: "Tambores", "Trompetas")            │
 │   - descripcion: string?                                    │
-│   - responsable: SocioId (coordinador)                      │
+│   - responsable: MemberId (coordinador)                     │
 │   - colorIdentificativo: string                             │
 │   - capacidadMaxima: int?                                   │
 │   - tipoActividad: string (procesion, desfile, etc.)        │
@@ -1068,37 +1068,37 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 ```
 
 **Comportamientos:**
-- `crearCuadrilla(nombre, responsable)` → inicializa cuadrilla
-- `agregarMiembro(socio, rol)` → añade socio validando capacidad
-- `removerMiembro(socio, motivo)` → da de baja del grupo
-- `asignarAEvento(evento)` → asocia cuadrilla a actividad
+- `createSquad(name, leader)` → inicializa cuadrilla
+- `addMember(member, role)` → añade socio validando capacidad
+- `removeMember(member, reason)` → da de baja del grupo
+- `assignToEvent(event)` → asocia cuadrilla a actividad
 
-#### 5.2.7 Aggregate: Partido
+#### 5.2.7 Aggregate: Match
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ PARTIDO (Aggregate Root)                                    │
+│ MATCH (Aggregate Root)                                      │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: PartidoId                                         │
+│ Identity: MatchId                                           │
 │                                                             │
 │ Value Objects:                                              │
-│   - ResultadoPartido (golesLocal, golesVisitante)           │
-│   - DatosRival (nombre, escudo?)                            │
-│   - Ubicacion (campo, direccion)                            │
+│   - MatchResult (golesLocal, golesVisitante)                │
+│   - OpponentData (nombre, escudo?)                          │
+│   - Location (campo, direccion)                             │
 │                                                             │
 │ Entities:                                                   │
 │   - Convocatoria[] (jugadores convocados)                   │
 │   - EstadisticaJugador[] (goles, tarjetas, minutos)         │
 │                                                             │
 │ Properties:                                                 │
-│   - eventoId: EventoId (referencia al evento base)          │
-│   - equipoRival: DatosRival                                 │
+│   - eventoId: EventId (referencia al evento base)           │
+│   - equipoRival: OpponentData                               │
 │   - esLocal: boolean                                        │
-│   - campo: Ubicacion                                        │
+│   - campo: Location                                         │
 │   - categoria: string (senior, juvenil, infantil...)        │
 │   - competicion: string (liga, copa, amistoso)              │
-│   - resultado: ResultadoPartido?                            │
-│   - estado: EstadoPartido (convocado, jugado, suspendido)   │
+│   - resultado: MatchResult?                                 │
+│   - estado: MatchStatus (convocado, jugado, suspendido)     │
 │   - observaciones: string?                                  │
 │                                                             │
 │ Invariants:                                                 │
@@ -1108,58 +1108,58 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 ```
 
 **Comportamientos:**
-- `crearPartido(rival, fecha, campo)` → programa encuentro
-- `convocarJugadores(socios[])` → establece lista de convocados
-- `registrarResultado(golesLocal, golesVisitante)` → cierra partido
-- `registrarEstadistica(jugador, tipo, valor)` → añade dato individual
+- `createMatch(opponent, date, venue)` → programa encuentro
+- `callPlayers(members[])` → establece lista de convocados
+- `recordResult(homeGoals, awayGoals)` → cierra partido
+- `recordStat(player, type, value)` → añade dato individual
 
 ### 5.3 Value Objects
 
 | Value Object | Atributos | Validaciones |
 |--------------|-----------|--------------|
-| `PeriodoEvento` | fechaInicio: DateTime, fechaFin: DateTime | FechaFin >= FechaInicio |
-| `Ubicacion` | direccion: string, coordenadas?: LatLng, sala?: string | Dirección no vacía |
-| `ConfiguracionInscripcion` | fechaApertura: Date, fechaCierre: Date, requierePago: boolean, precio?: Dinero | FechaCierre <= fechaInicio evento |
-| `EstadoEvento` | enum | Borrador, Publicado, Inscripciones Abiertas, Inscripciones Cerradas, Realizado, Cancelado |
-| `EstadoInscripcion` | enum | Confirmada, ListaEspera, Cancelada, Asistencia Registrada |
-| `MetodoCheckin` | enum | QR, Manual, NFC |
-| `OpcionMenu` | nombre: string, precio: Dinero | Nombre no vacío |
-| `DatosRestaurante` | nombre: string, direccion: string, telefono: string | Todos obligatorios |
-| `ColorIdentificativo` | valor: string | Color hex o nombre CSS válido |
-| `ResultadoPartido` | golesLocal: int, golesVisitante: int | >= 0 ambos |
-| `DatosRival` | nombre: string, escudo?: URL | Nombre obligatorio |
-| `EstadoPartido` | enum | Convocado, Jugado, Suspendido, Aplazado |
+| `EventPeriod` | fechaInicio: DateTime, fechaFin: DateTime | FechaFin >= FechaInicio |
+| `Location` | direccion: string, coordenadas?: LatLng, sala?: string | Dirección no vacía |
+| `RegistrationConfig` | openDate: Date, closeDate: Date, requierePago: boolean, precio?: Money | FechaCierre <= fechaInicio evento |
+| `EventStatus` | enum | Borrador, Publicado, Inscripciones Abiertas, Inscripciones Cerradas, Realizado, Cancelado |
+| `RegistrationStatus` | enum | Confirmada, ListaEspera, Cancelada, Asistencia Registrada |
+| `CheckinMethod` | enum | QR, Manual, NFC |
+| `MenuOption` | nombre: string, precio: Money | Nombre no vacío |
+| `RestaurantData` | nombre: string, direccion: string, telefono: string | Todos obligatorios |
+| `IdentifierColor` | valor: string | Color hex o nombre CSS válido |
+| `MatchResult` | golesLocal: int, golesVisitante: int | >= 0 ambos |
+| `OpponentData` | nombre: string, escudo?: URL | Nombre obligatorio |
+| `MatchStatus` | enum | Convocado, Jugado, Suspendido, Aplazado |
 
 ### 5.4 Domain Events
 
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `EventoCreado` | Creación evento | eventoId, tipo, fecha | BC-Comunicacion (publicar) |
-| `EventoPublicado` | Apertura inscripciones | eventoId | BC-Comunicacion (notificar socios) |
-| `EventoCancelado` | Cancelación | eventoId, motivo | BC-Comunicacion (notificar inscritos), BC-Tesoreria (reembolsos) |
-| `InscripcionRealizada` | Nueva inscripción | inscripcionId, eventoId, socioId | BC-Tesoreria (generar cargo si precio), BC-Comunicacion (confirmación) |
-| `InscripcionCancelada` | Cancelación inscripción | inscripcionId, eventoId | BC-Tesoreria (anular cargo) |
-| `AforoCompletado` | Aforo lleno | eventoId | BC-Comunicacion (activar lista espera) |
-| `PlazaLiberada` | Baja de inscrito | eventoId, posicionListaEspera | BC-Comunicacion (notificar siguiente) |
-| `ValoracionesEventoSolicitadas` | Solicitud valoraciones post-evento | eventoId, sociosInscritos[], fechaSolicitud | BC-Comunicacion (enviar formulario) |
-| `ProblemaRecurrenteDetectado` | Detección patrón de problemas | eventoId, tipoProblema, frecuencia | BC-Comunicacion (alertar organizadores) |
+| `EventCreated` | Creación evento | eventId, tipo, fecha | BC-Communication (publicar) |
+| `EventPublished` | Apertura inscripciones | eventId | BC-Communication (notificar socios) |
+| `EventCancelled` | Cancelación | eventId, motivo | BC-Communication (notificar inscritos), BC-Treasury (reembolsos) |
+| `RegistrationCompleted` | Nueva inscripción | registrationId, eventId, memberId | BC-Treasury (generar cargo si precio), BC-Communication (confirmación) |
+| `RegistrationCancelled` | Cancelación inscripción | registrationId, eventId | BC-Treasury (anular cargo) |
+| `CapacityReached` | Aforo lleno | eventId | BC-Communication (activar lista espera) |
+| `SlotReleased` | Baja de inscrito | eventId, posicionListaEspera | BC-Communication (notificar siguiente) |
+| `EventFeedbackRequested` | Solicitud valoraciones post-evento | eventId, registeredMembers[], fechaSolicitud | BC-Communication (enviar formulario) |
+| `RecurringIssueDetected` | Detección patrón de problemas | eventId, tipoProblema, frecuencia | BC-Communication (alertar organizadores) |
 
 ### 5.5 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
-| N5RF01-02 | Evento (Aggregate), TipoEvento |
-| N5RF03-04 | Evento con calendario, exportación iCal |
-| N5RF05-09 | Inscripcion (Entity), control aforo, lista espera |
-| N5RF10-11 | ConfiguracionInscripcion, DatosInscripcion |
+| N5RF01-02 | Event (Aggregate), TipoEvento |
+| N5RF03-04 | Event con calendario, exportación iCal |
+| N5RF05-09 | Registration (Entity), control aforo, lista espera |
+| N5RF10-11 | RegistrationConfig, DatosInscripcion |
 | N5RF12-16 | Asistencia (VO), check-in QR/manual |
-| N5RF17-19 | Extensión: EventoComida (específico peñas), Aggregate 5.2.5 |
+| N5RF17-19 | Extensión: SocialDinner (específico peñas), Aggregate 5.2.5 |
 | N5RF20-26 | Extensión: Procesion, Costaleros (específico cofradías) |
-| N5RF27-30 | Extensión: Competicion (específico clubes), Aggregate 5.2.7 Partido, Aggregate 5.2.6 Cuadrilla |
+| N5RF27-30 | Extensión: Competicion (específico clubes), Aggregate 5.2.7 Match, Aggregate 5.2.6 Squad |
 
 ---
 
-## 6. BC-Comunicacion: Notificaciones y Mensajería
+## 6. BC-Communication: Notificaciones y Mensajería
 
 ### 6.1 Descripción
 
@@ -1167,13 +1167,13 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 
 ### 6.2 Aggregates
 
-#### 6.2.1 Aggregate: Comunicacion
+#### 6.2.1 Aggregate: Communication
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ COMUNICACION (Aggregate Root)                               │
+│ COMMUNICATION (Aggregate Root)                              │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: ComunicacionId                                    │
+│ Identity: CommunicationId                                   │
 │                                                             │
 │ Value Objects:                                              │
 │   - Contenido (asunto, cuerpo, formato)                     │
@@ -1185,10 +1185,10 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 │ Properties:                                                 │
 │   - canal: CanalComunicacion                                │
 │   - tipo: TipoComunicacion (manual, automatica)             │
-│   - plantillaId: PlantillaId?                               │
+│   - plantillaId: TemplateId?                                │
 │   - fechaProgramada: DateTime?                              │
 │   - estado: EstadoComunicacion                              │
-│   - creadoPor: UsuarioId                                    │
+│   - creadoPor: UserId                                       │
 │                                                             │
 │ Invariants:                                                 │
 │   - Al menos un destinatario                                │
@@ -1204,7 +1204,7 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 │ Identity: EnvioId                                           │
 │                                                             │
 │ Properties:                                                 │
-│   - socioId: SocioId                                        │
+│   - memberId: MemberId                                      │
 │   - destino: string (email, teléfono según canal)           │
 │   - estado: EstadoEnvio                                     │
 │   - fechaEnvio: DateTime?                                   │
@@ -1213,13 +1213,13 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 6.2.3 Aggregate: Plantilla
+#### 6.2.3 Aggregate: Template
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ PLANTILLA (Aggregate Root)                                  │
+│ TEMPLATE (Aggregate Root)                                   │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: PlantillaId                                       │
+│ Identity: TemplateId                                        │
 │                                                             │
 │ Properties:                                                 │
 │   - codigo: string                                          │
@@ -1251,7 +1251,7 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 │   - fechaPublicacion: Date                                  │
 │   - fechaExpiracion: Date?                                  │
 │   - destacado: boolean                                      │
-│   - publicadoPor: UsuarioId                                 │
+│   - publicadoPor: UserId                                    │
 │   - estado: EstadoAnuncio                                   │
 │                                                             │
 │ Invariants:                                                 │
@@ -1261,45 +1261,45 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 
 ### 6.3 Domain Events
 
-BC-Comunicacion emite eventos relacionados con el ciclo de vida de las comunicaciones:
+BC-Communication emite eventos relacionados con el ciclo de vida de las comunicaciones:
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `ComunicacionEnviada` | Envío completado | comunicacionId, totalDestinatarios, canal, fechaEnvio | - |
-| `EmailRebotado` | Email rebota (bounce) | envioId, socioId, email, tipoBounce (hard/soft), motivo | BC-Membresia (marcar email inválido si hard bounce) |
-| `NotificacionBienvenidaEnviada` | Email bienvenida enviado a nuevo socio | socioId, email, fechaEnvio, plantillaId | - |
-| `RecordatorioPagoEnviado` | Recordatorio de pago enviado | socioId, email, cargoId, importe, fechaLimite | - |
-| `AvisoMorosidadEnviado` | Aviso de morosidad enviado | socioId, email, deudaTotal, fechaEnvio | - |
-| `AvisoDomiciliacionEnviado` | Aviso pre-remesa enviado | socioId, email, remesaId, importe, fechaCargo | - |
-| `ConfirmacionInscripcionEnviada` | Confirmación de inscripción a evento | socioId, email, eventoId, inscripcionId | - |
+| `CommunicationSent` | Envío completado | communicationId, totalDestinatarios, canal, fechaEnvio | - |
+| `EmailBounced` | Email rebota (bounce) | envioId, memberId, email, tipoBounce (hard/soft), motivo | BC-Membership (marcar email inválido si hard bounce) |
+| `WelcomeNotificationSent` | Email bienvenida enviado a nuevo socio | memberId, email, fechaEnvio, templateId | - |
+| `PaymentReminderSent` | Recordatorio de pago enviado | memberId, email, cargoId, importe, fechaLimite | - |
+| `DelinquencyNoticeSent` | Aviso de morosidad enviado | memberId, email, deudaTotal, fechaEnvio | - |
+| `DirectDebitNoticeSent` | Aviso pre-remesa enviado | memberId, email, remesaId, importe, fechaCargo | - |
+| `RegistrationConfirmationSent` | Confirmación de inscripción a evento | memberId, email, eventId, registrationId | - |
 
 **Notas:**
-- `ComunicacionEnviada`: Marca la finalización del proceso de envío masivo
+- `CommunicationSent`: Marca la finalización del proceso de envío masivo
 - `EmailAbierto` y `EnlaceClicado`: Eventos de tracking para métricas internas (no requieren consumidores externos)
-- `EmailRebotado`: Permite a BC-Membresia actualizar la validez de emails de socios según tipo de bounce (hard/soft)
+- `EmailBounced`: Permite a BC-Membership actualizar la validez de emails de socios según tipo de bounce (hard/soft)
 
 Este BC **también es consumidor** de eventos de otros BCs:
 
-| Evento Origen | Acción en BC-Comunicacion |
+| Evento Origen | Acción en BC-Communication |
 |---------------|---------------------------|
-| `SocioRegistrado` | Enviar email bienvenida |
-| `CargoGenerado` | Enviar aviso de cuota próxima |
-| `MorosidadDetectada` | Iniciar workflow de avisos |
-| `EventoPublicado` | Notificar a socios según preferencias |
-| `InscripcionRealizada` | Enviar confirmación |
+| `MemberRegistered` | Enviar email bienvenida |
+| `ChargeGenerated` | Enviar aviso de cuota próxima |
+| `DelinquencyDetected` | Iniciar workflow de avisos |
+| `EventPublished` | Notificar a socios según preferencias |
+| `RegistrationCompleted` | Enviar confirmación |
 
 ### 6.4 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
-| N6RF01-04 | Comunicacion (Aggregate), canales |
-| N6RF05-07 | SegmentoDestinatarios, Plantilla |
+| N6RF01-04 | Communication (Aggregate), canales |
+| N6RF05-07 | SegmentoDestinatarios, Template |
 | N6RF08-09 | Envio (Entity), tracking |
 | N6RF10-16 | Plantillas sistema (notificaciones automáticas) |
-| N6RF17-23 | Extensión: Acta (específico - ver BC-Documentos) |
+| N6RF17-23 | Extensión: Acta (específico - ver BC-Documents) |
 
 ---
 
-## 7. BC-Documentos: Gestión Documental
+## 7. BC-Documents: Gestión Documental
 
 ### 7.1 Descripción
 
@@ -1307,13 +1307,13 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 
 ### 7.2 Aggregates
 
-#### 7.2.1 Aggregate: Documento
+#### 7.2.1 Aggregate: Document
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ DOCUMENTO (Aggregate Root)                                  │
+│ DOCUMENT (Aggregate Root)                                   │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: DocumentoId                                       │
+│ Identity: DocumentId                                        │
 │                                                             │
 │ Value Objects:                                              │
 │   - MetadatosDocumento (nombre, descripcion, etiquetas)     │
@@ -1323,9 +1323,9 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 │   - categoriaId: CategoriaId                                │
 │   - fechaDocumento: Date                                    │
 │   - fechaSubida: DateTime                                   │
-│   - subidoPor: UsuarioId                                    │
+│   - subidoPor: UserId                                       │
 │   - version: int                                            │
-│   - documentoAnterior: DocumentoId? (para versionado)       │
+│   - documentoAnterior: DocumentId? (para versionado)        │
 │   - estado: EstadoDocumento                                 │
 │                                                             │
 │ Invariants:                                                 │
@@ -1368,7 +1368,7 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 │   - NumeroActa (correlativo automático)                     │
 │                                                             │
 │ Entities:                                                   │
-│   - Asistente[] (socioId, firma?)                           │
+│   - Asistente[] (memberId, firma?)                          │
 │   - Acuerdo[] (descripcion, votacion?)                      │
 │                                                             │
 │ Properties:                                                 │
@@ -1379,9 +1379,9 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 │   - horaFin: Time                                           │
 │   - ordenDelDia: string[]                                   │
 │   - estado: EstadoActa                                      │
-│   - documentoId: DocumentoId? (PDF generado)                │
-│   - firmadaPor: UsuarioId? (secretario)                     │
-│   - vistobuenoPor: UsuarioId? (presidente)                  │
+│   - documentoId: DocumentId? (PDF generado)                 │
+│   - firmadaPor: UserId? (secretario)                        │
+│   - vistobuenoPor: UserId? (presidente)                     │
 │                                                             │
 │ Invariants:                                                 │
 │   - Número correlativo único                                │
@@ -1391,24 +1391,24 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 
 ### 7.3 Domain Events
 
-BC-Documentos emite eventos relacionados con la generación y gestión de documentos:
+BC-Documents emite eventos relacionados con la generación y gestión de documentos:
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `InformeAsambleaGenerado` | Informe de Asamblea General generado | informeId, ejercicioId, tipoInforme, fechaGeneracion, generadoPor | BC-Documentos (almacenar en repositorio) |
+| `AssemblyReportGenerated` | Informe de Asamblea General generado | informeId, fiscalYearId, tipoInforme, fechaGeneracion, generadoPor | BC-Documents (almacenar en repositorio) |
 
 **Notas:**
-- `InformeAsambleaGenerado`: Genera informe de Asamblea General con datos económicos y de membresía del ejercicio
+- `AssemblyReportGenerated`: Genera informe de Asamblea General con datos económicos y de membresía del ejercicio
 
 ### 7.4 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
-| N7RF01-03 | Documento (Aggregate), MetadatosDocumento |
+| N7RF01-03 | Document (Aggregate), MetadatosDocumento |
 | N7RF04-05 | ArchivoFisico, previsualización |
 | N7RF06-07 | Búsqueda por metadatos, Categoria.rolesAcceso |
 | N7RF08 | Límite almacenamiento (configuración tenant) |
 | N7RF09-12 | Versionado, OCR, búsqueda full-text (avanzado) |
-| N6RF17-23 | Acta (Aggregate) - movido desde BC-Comunicacion |
+| N6RF17-23 | Acta (Aggregate) - movido desde BC-Communication |
 
 ---
 
@@ -1420,9 +1420,9 @@ BC-Documentos emite eventos relacionados con la generación y gestión de docume
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ ALERTA_LEGAL (Aggregate Root)                               │
+│ ALERT_LEGAL (Aggregate Root)                                │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: AlertaLegalId                                     │
+│ Identity: AlertId                                           │
 │                                                             │
 │ Value Objects:                                              │
 │   - TipoNormativa (enum: RGPD, Ley_Asociaciones, Laboral)  │
@@ -1438,7 +1438,7 @@ BC-Documentos emite eventos relacionados con la generación y gestión de docume
 │   - fechaLimite: Date? (plazo legal si aplica)              │
 │   - estado: EstadoAlerta (pendiente, en_revision, resuelta) │
 │   - accionRequerida: string                                 │
-│   - responsable: UsuarioId? (asignado para resolución)      │
+│   - responsable: UserId? (asignado para resolución)         │
 │   - fechaResolucion: Date?                                  │
 │   - observaciones: string?                                  │
 │                                                             │
@@ -1450,21 +1450,21 @@ BC-Documentos emite eventos relacionados con la generación y gestión de docume
 ```
 
 **Comportamientos:**
-- `generarAlerta(tipo, descripcion, criticidad)` → crea alerta
-- `asignarResponsable(usuario)` → delega resolución
-- `marcarComoResuelta(observaciones)` → cierra alerta
-- `escalar()` → aumenta criticidad si plazo vencido
+- `generateAlert(tipo, descripcion, criticidad)` → crea alerta
+- `assignResponsible(usuario)` → delega resolución
+- `markAsResolved(observaciones)` → cierra alerta
+- `escalate()` → aumenta criticidad si plazo vencido
 
 **Trazabilidad RF:**
 | RF | Elemento de Dominio |
 |----|---------------------|
 | N11RF01-17 | AlertaLegal (Aggregate) - Extensión futura |
 
-**Ubicación propuesta:** BC-Identidad (como parte de auditoría) o módulo transversal dedicado.
+**Ubicación propuesta:** BC-Identity (como parte de auditoría) o módulo transversal dedicado.
 
 ---
 
-## 8. BC-Identidad: Acceso y Autorización
+## 8. BC-Identity: Acceso y Autorización
 
 ### 8.1 Descripción
 
@@ -1472,13 +1472,13 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 
 ### 8.2 Aggregates
 
-#### 8.2.1 Aggregate: Usuario
+#### 8.2.1 Aggregate: User
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ USUARIO (Aggregate Root)                                    │
+│ USER (Aggregate Root)                                       │
 ├─────────────────────────────────────────────────────────────┤
-│ Identity: UsuarioId                                         │
+│ Identity: UserId                                            │
 │                                                             │
 │ Value Objects:                                              │
 │   - Credenciales (email, passwordHash)                      │
@@ -1514,7 +1514,7 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 │   - slug: string (identificador URL-friendly)               │
 │   - plan: PlanSuscripcion                                   │
 │   - estado: EstadoTenant                                    │
-│   - fechaAlta: Date                                         │
+│   - registrationDate: Date                                         │
 │   - baseDatosId: string (conexión específica - RNF-004)     │
 │                                                             │
 │ Invariants:                                                 │
@@ -1523,21 +1523,21 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 └─────────────────────────────────────────────────────────────┘
 ```
 
-#### 8.2.3 Aggregate: Membresia (Usuario-Tenant)
+#### 8.2.3 Aggregate: TenantMembership (User-Tenant)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ MEMBRESIA_TENANT (Aggregate Root)                           │
+│ TENANT_MEMBERSHIP (Aggregate Root)                          │
 ├─────────────────────────────────────────────────────────────┤
 │ Identity: MembresiaId                                       │
 │                                                             │
 │ Properties:                                                 │
-│   - usuarioId: UsuarioId                                    │
+│   - usuarioId: UserId                                       │
 │   - tenantId: TenantId                                      │
 │   - rolId: RolId                                            │
-│   - socioId: SocioId? (vínculo con ficha de socio)          │
+│   - memberId: MemberId? (vínculo con ficha de socio)        │
 │   - fechaAsignacion: Date                                   │
-│   - asignadoPor: UsuarioId                                  │
+│   - asignadoPor: UserId                                     │
 │   - activo: boolean                                         │
 │                                                             │
 │ Invariants:                                                 │
@@ -1550,7 +1550,7 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ ROL (Aggregate Root)                                        │
+│ ROLE (Aggregate Root)                                       │
 ├─────────────────────────────────────────────────────────────┤
 │ Identity: RolId                                             │
 │                                                             │
@@ -1572,33 +1572,33 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 
 | Código | Nombre | Permisos Principales |
 |--------|--------|---------------------|
-| `PRESIDENTE` | Presidente/Hermano Mayor | Todo + aprobaciones críticas |
-| `SECRETARIO` | Secretario | Socios, actas, documentación |
-| `TESORERO` | Tesorero | Economía, cuotas, remesas |
-| `VOCAL` | Vocal | Según área asignada |
-| `SOCIO` | Socio | Solo lectura propia vía portal |
+| `PRESIDENT` | Presidente/Hermano Mayor | Todo + aprobaciones críticas |
+| `SECRETARY` | Secretario | Socios, actas, documentación |
+| `TREASURER` | Tesorero | Economía, cuotas, remesas |
+| `BOARD_MEMBER` | Vocal | Según área asignada |
+| `MEMBER` | Socio | Solo lectura propia vía portal |
 
 ### 8.4 Domain Events
 
 | Evento | Trigger | Payload |
 |--------|---------|---------|
-| `UsuarioCreado` | Registro | usuarioId, email |
-| `UsuarioAutenticado` | Login exitoso | usuarioId, tenantId, email, rol, ipAddress, userAgent, timestamp |
-| `AutenticacionFallida` | Login fallido | email, intentos, ip |
-| `TenantProvisionado` | Provisión completa de tenant | tenantId, nombreColectividad, tipoColectividad, adminUserId, adminEmail, cif |
+| `UserCreated` | Registro | userId, email |
+| `UserAuthenticated` | Login exitoso | userId, tenantId, email, rol, ipAddress, userAgent, timestamp |
+| `AuthenticationFailed` | Login fallido | email, intentos, ip |
+| `TenantProvisioned` | Provisión completa de tenant | tenantId, nombreColectividad, tipoColectividad, adminUserId, adminEmail, cif |
 
 ### 8.5 Trazabilidad RF
 
 | RF | Elemento de Dominio |
 |----|---------------------|
 | N2RF01 | Tenant (Aggregate), aislamiento por BD |
-| N2RF02 | Usuario con múltiples MembresiaTenant |
+| N2RF02 | User con múltiples TenantMembership |
 | N2RF03 | ConfiguracionTenant |
 | N2RF04 | Rol predefinidos (sistema) |
 | N2RF05 | Rol personalizados (tenantId != null) |
 | N2RF06 | Domain Events de auditoría |
 | N2RF07 | RolAsignado event, histórico |
-| N2RF08 | Validación edad en MembresiaTenant para cargos |
+| N2RF08 | Validación edad en TenantMembership para cargos |
 
 ---
 
@@ -1608,20 +1608,20 @@ Eventos emitidos por Application Services que operan sobre múltiples BCs (requi
 
 | Evento | Trigger | Payload | Consumidores |
 |--------|---------|---------|--------------|
-| `DashboardVisualized` | Usuario visualiza dashboard | usuarioId, tenantId, timestamp, seccionesVistas | - (analytics interno) |
-| `ExportacionSolicitada` | Usuario solicita exportación de datos | exportacionId, usuarioId, tipoEntidad, formato, filtros | Application Service Export |
-| `ExportacionFallida` | Exportación falla por error | exportacionId, tipoError, mensaje, timestamp | BC-Comunicacion (notificar usuario) |
+| `DashboardVisualized` | Usuario visualiza dashboard | userId, tenantId, timestamp, seccionesVistas | - (analytics interno) |
+| `ExportRequested` | Usuario solicita exportación de datos | exportacionId, userId, tipoEntidad, formato, filtros | Application Service Export |
+| `ExportFailed` | Exportación falla por error | exportacionId, tipoError, mensaje, timestamp | BC-Communication (notificar usuario) |
 | `CommunicationHistoryExported` | Histórico de comunicaciones exportado | exportacionId, fechaInicio, fechaFin, formato, totalRegistros | - |
-| `EconomicReportGenerated` | Informe económico generado | informeId, tipo, ejercicioId, fechaGeneracion, generadoPor | BC-Documentos (almacenar) |
-| `Modelo182Generated` | Modelo 182 (AEAT) generado | modeloId, ejercicioId, totalSocios, totalImporte, fechaGeneracion | BC-Documentos (almacenar) |
-| `PlanAmpliado` | Plan de suscripción ampliado | tenantId, planAnterior, planNuevo, limites, fechaCambio | BC-Identidad (actualizar tenant config) |
-| `TurnoCajaAbierto` | Turno de caja abierto (peñas festeras) | turnoId, usuarioId, fechaApertura, saldoInicial | BC-Tesoreria (registrar apertura) |
-| `TurnoCajaCerrado` | Turno de caja cerrado | turnoId, usuarioId, fechaCierre, saldoFinal, diferencia | BC-Tesoreria (conciliar caja) |
+| `EconomicReportGenerated` | Informe económico generado | informeId, tipo, fiscalYearId, fechaGeneracion, generadoPor | BC-Documents (almacenar) |
+| `Modelo182Generated` | Modelo 182 (AEAT) generado | modeloId, fiscalYearId, totalSocios, totalImporte, fechaGeneracion | BC-Documents (almacenar) |
+| `PlanUpgraded` | Plan de suscripción ampliado | tenantId, planAnterior, planNuevo, limites, fechaCambio | BC-Identity (actualizar tenant config) |
+| `CashRegisterOpened` | Turno de caja abierto (peñas festeras) | turnoId, userId, fechaApertura, saldoInicial | BC-Treasury (registrar apertura) |
+| `CashRegisterClosed` | Turno de caja cerrado | turnoId, userId, fechaCierre, saldoFinal, diferencia | BC-Treasury (conciliar caja) |
 
 **Notas:**
 - Estos eventos son emitidos por Application Services que implementan requisitos transversales (N8: Import/Export, N9: Reporting, N10: Portal Socio, N11: Cumplimiento)
 - No pertenecen a un BC específico pero pueden ser consumidos por múltiples BCs
-- `TurnoCajaAbierto` y `TurnoCajaCerrado` son features específicas de peñas festeras (N12RF06-10) pero se documentan aquí por su naturaleza transversal
+- `CashRegisterOpened` y `CashRegisterClosed` son features específicas de peñas festeras (N12RF06-10) pero se documentan aquí por su naturaleza transversal
 
 ---
 
@@ -1636,7 +1636,7 @@ Eventos emitidos por Application Services que operan sobre múltiples BCs (requi
 │                                                                            │
 │    ┌──────────────┐         ┌──────────────┐         ┌──────────────┐      │
 │    │              │         │              │         │              │      │
-│    │ BC-Identidad │◄───ACL──┤ BC-Membresia │───PUB───► BC-Tesoreria │      │
+│    │ BC-Identity │◄───ACL──┤ BC-Membership │───PUB───► BC-Treasury │      │
 │    │   (Generic)  │         │    (Core)    │         │    (Core)    │      │
 │    │              │         │              │         │              │      │
 │    └──────┬───────┘         └──────┬───────┘         └──────┬───────┘      │
@@ -1645,7 +1645,7 @@ Eventos emitidos por Application Services que operan sobre múltiples BCs (requi
 │           │                        ▼                        ▼              │
 │           │                 ┌──────────────┐         ┌──────────────┐      │
 │           │                 │              │         │              │      │
-│           └────ACL─────────►│  BC-Eventos  │◄──SUB───┤BC-Comunicac. │      │
+│           └────ACL─────────►│  BC-Events  │◄──SUB───┤BC-Comunicac. │      │
 │                             │    (Core)    │         │ (Supporting) │      │
 │                             │              │         │              │      │
 │                             └──────┬───────┘         └──────┬───────┘      │
@@ -1654,7 +1654,7 @@ Eventos emitidos por Application Services que operan sobre múltiples BCs (requi
 │                                    ▼                        │              │
 │                             ┌──────────────┐                │              │
 │                             │              │◄───────────────┘              │
-│                             │BC-Documentos │                               │
+│                             │BC-Documents │                               │
 │                             │ (Supporting) │                               │
 │                             │              │                               │
 │                             └──────────────┘                               │
@@ -1671,16 +1671,16 @@ Eventos emitidos por Application Services que operan sobre múltiples BCs (requi
 
 | Upstream | Downstream | Tipo | Descripción |
 |----------|------------|------|-------------|
-| BC-Identidad | BC-Membresia | ACL | Membresia traduce Usuario a contexto de socio |
-| BC-Identidad | BC-Eventos | ACL | Eventos usa UsuarioId pero no conoce detalles |
-| BC-Membresia | BC-Tesoreria | Pub/Sub | Eventos de socio disparan generación de cargos |
-| BC-Membresia | BC-Comunicacion | Pub/Sub | Eventos de socio disparan notificaciones |
-| BC-Tesoreria | BC-Comunicacion | Pub/Sub | Eventos de pago/morosidad disparan avisos |
-| BC-Tesoreria | BC-Membresia | Pub/Sub | Morosidad grave cambia estado del socio |
-| BC-Eventos | BC-Tesoreria | Pub/Sub | Inscripción con precio genera cargo |
-| BC-Eventos | BC-Comunicacion | Pub/Sub | Eventos de actividad disparan notificaciones |
-| BC-Eventos | BC-Documentos | Pub/Sub | Check-in puede adjuntar justificantes |
-| BC-Comunicacion | BC-Documentos | Customer/Supplier | Comunicación solicita adjuntar documentos |
+| BC-Identity | BC-Membership | ACL | TenantMembership traduce User a contexto de socio |
+| BC-Identity | BC-Events | ACL | Eventos usa UserId pero no conoce detalles |
+| BC-Membership | BC-Treasury | Pub/Sub | Eventos de socio disparan generación de cargos |
+| BC-Membership | BC-Communication | Pub/Sub | Eventos de socio disparan notificaciones |
+| BC-Treasury | BC-Communication | Pub/Sub | Eventos de pago/morosidad disparan avisos |
+| BC-Treasury | BC-Membership | Pub/Sub | Morosidad grave cambia estado del socio |
+| BC-Events | BC-Treasury | Pub/Sub | Inscripción con precio genera cargo |
+| BC-Events | BC-Communication | Pub/Sub | Eventos de actividad disparan notificaciones |
+| BC-Events | BC-Documents | Pub/Sub | Check-in puede adjuntar justificantes |
+| BC-Communication | BC-Documents | Customer/Supplier | Comunicación solicita adjuntar documentos |
 
 ### 9.3 Shared Kernel
 
@@ -1689,11 +1689,11 @@ Los siguientes elementos son compartidos entre BCs (librería común):
 ```
 shared-kernel/
 ├── value-objects/
-│   ├── SocioId
+│   ├── MemberId
 │   ├── TenantId
-│   ├── UsuarioId
-│   ├── EjercicioId
-│   ├── Dinero
+│   ├── UserId
+│   ├── FiscalYearId
+│   ├── Money
 │   └── Email
 ├── events/
 │   └── DomainEvent (base)
@@ -1745,18 +1745,18 @@ Según RNF-004, el aislamiento multi-tenant se implementa por **base de datos se
 
 | BC | Base de Datos | Justificación |
 |----|---------------|---------------|
-| BC-Identidad | DB-Main | Cross-tenant: usuarios, tenants, membresías |
-| BC-Membresia | DB-TenantX | Datos aislados por entidad |
-| BC-Tesoreria | DB-TenantX | Datos aislados por entidad |
-| BC-Eventos | DB-TenantX | Datos aislados por entidad |
-| BC-Comunicacion | DB-TenantX | Datos aislados por entidad |
-| BC-Documentos | DB-TenantX | Datos aislados + almacenamiento ficheros |
+| BC-Identity | DB-Main | Cross-tenant: usuarios, tenants, membresías |
+| BC-Membership | DB-TenantX | Datos aislados por entidad |
+| BC-Treasury | DB-TenantX | Datos aislados por entidad |
+| BC-Events | DB-TenantX | Datos aislados por entidad |
+| BC-Communication | DB-TenantX | Datos aislados por entidad |
+| BC-Documents | DB-TenantX | Datos aislados + almacenamiento ficheros |
 
 ### 10.3 Referencias Cross-Tenant
 
 Las únicas referencias cross-tenant permitidas son:
 
-1. **UsuarioId** → referenciado desde membresías en DB-TenantX
+1. **UserId** → referenciado desde membresías en DB-TenantX
 2. **TenantId** → almacenado en contexto de ejecución, no en datos
 
 Nunca se almacenan datos de un tenant en la BD de otro.
@@ -1813,12 +1813,12 @@ Nunca se almacenan datos de un tenant en la BD de otro.
 
 | BC | Secciones RF | Total RFs |
 |----|--------------|-----------|
-| BC-Identidad | N2 | 8 |
-| BC-Membresia | N3 | 34 |
-| BC-Tesoreria | N4 | 35 |
-| BC-Eventos | N5 | 30 |
-| BC-Comunicacion | N6 | 23 |
-| BC-Documentos | N7 | 12 |
+| BC-Identity | N2 | 8 |
+| BC-Membership | N3 | 34 |
+| BC-Treasury | N4 | 35 |
+| BC-Events | N5 | 30 |
+| BC-Communication | N6 | 23 |
+| BC-Documents | N7 | 12 |
 | Transversal | N8, N9, N10, N11 | 57 |
 | Extensiones | N12, N13 | 19 |
 | **Total** | | **218** |
@@ -1827,12 +1827,12 @@ Nunca se almacenan datos de un tenant en la BD de otro.
 
 | BC | RNFs Clave |
 |----|------------|
-| BC-Identidad | RNF-001 a RNF-003 (autenticación), RNF-004 (multi-tenant), RNF-013 (mínimo privilegio) |
-| BC-Membresia | RNF-006 (cifrado datos), RNF-025-030 (RGPD), RNF-035 (datos religiosos) |
-| BC-Tesoreria | RNF-006 (cifrado IBAN), RNF-018 (rendimiento masivas), RNF-042 (gestión errores) |
-| BC-Eventos | RNF-006 (aforo), RNF-015-016 (tiempos respuesta) |
-| BC-Comunicacion | RNF-010 (rate limiting), RNF-034 (privacidad diseño) |
-| BC-Documentos | RNF-009 (ficheros seguros), RNF-022 (carga ficheros), RNF-032 (retención) |
+| BC-Identity | RNF-001 a RNF-003 (autenticación), RNF-004 (multi-tenant), RNF-013 (mínimo privilegio) |
+| BC-Membership | RNF-006 (cifrado datos), RNF-025-030 (RGPD), RNF-035 (datos religiosos) |
+| BC-Treasury | RNF-006 (cifrado IBAN), RNF-018 (rendimiento masivas), RNF-042 (gestión errores) |
+| BC-Events | RNF-006 (aforo), RNF-015-016 (tiempos respuesta) |
+| BC-Communication | RNF-010 (rate limiting), RNF-034 (privacidad diseño) |
+| BC-Documents | RNF-009 (ficheros seguros), RNF-022 (carga ficheros), RNF-032 (retención) |
 
 ---
 
@@ -1848,17 +1848,17 @@ Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Ev
 - Publicados para consumo por otros Bounded Contexts
 - Representan **operaciones de negocio completadas** con contexto completo
 - Documentados en las tablas de eventos de los UCs (sección "Eventos Publicados")
-- Nomenclatura: `<Entidad><AcciónCompletaConContexto>` (ej. `RemesaSepaGenerada`, `TenantProvisionado`)
+- Nomenclatura: `<Entidad><AcciónCompletaConContexto>` (ej. `SepaRemittanceGenerated`, `TenantProvisioned`)
 
 **Propósito:**
 - Integración y orquestación cross-BC
 - Trigger de workflows en otros contextos
-- Notificaciones visibles al usuario (vía BC-Comunicacion)
+- Notificaciones visibles al usuario (vía BC-Communication)
 
-**Ejemplo:** `TenantProvisionado`
+**Ejemplo:** `TenantProvisioned`
 - Trigger: Tras completar el provisionamiento completo del tenant (UC-001 paso 6)
 - Payload: Información completa (tenantId, nombreColectividad, tipoColectividad, adminUserId, cif)
-- Consumidores: BC-Comunicacion (email bienvenida), Sistema de Monitorización
+- Consumidores: BC-Communication (email bienvenida), Sistema de Monitorización
 
 ### Eventos Internos (Internal Events) - Ciclo de Vida de Aggregates
 
@@ -1866,7 +1866,7 @@ Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Ev
 - Emitidos durante cambios de estado internos del Aggregate
 - Representan **operaciones técnicas de grano fino**
 - NO documentados en tablas de eventos de UCs (solo en KB-005)
-- Nomenclatura: `<Entidad><AcciónSimple>` (ej. `RemesaGenerada`, `TenantCreado`)
+- Nomenclatura: `<Entidad><AcciónSimple>` (ej. `SepaRemittanceGenerated`, `TenantCreado`)
 
 **Propósito:**
 - Auditoría y trazabilidad interna
@@ -1877,18 +1877,18 @@ Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Ev
 - Trigger: Cuando se crea por primera vez el Aggregate Tenant (UC-001 paso 2)
 - Payload: Información técnica (tenantId, datos básicos)
 - Consumidores: Ninguno (solo uso interno)
-- Evento de Negocio: `TenantProvisionado` se emite posteriormente cuando el provisionamiento se completa
+- Evento de Negocio: `TenantProvisioned` se emite posteriormente cuando el provisionamiento se completa
 
 ### Mapeo: Eventos Internos → Eventos de Negocio
 
 | Evento Interno (KB-005) | Evento de Negocio (UCs) | Contexto |
 |-------------------------|-------------------------|----------|
-| `TenantCreado` | `TenantProvisionado` | UC-001: Provisionamiento de tenant |
-| `RemesaGenerada` | `RemesaSepaGenerada` | UC-023: Generación de remesa SEPA |
-| `RemesaProcesada` | `RemesaSepaEnviada` | UC-023: Procesamiento de remesa SEPA |
-| `MandatoCreado` | `MandatoSepaRegistrado` | UC-023: Registro de mandato SEPA |
-| `MandatoCaducado` | (Implícito en UC-023 FA-3) | UC-023: Caducidad de mandato tras 36 meses |
-| `SocioSuspendidoPorImpago` | `EstadoSocioCambiado` | UC-007/UC-022: Evento genérico de cambio de estado |
+| `TenantCreado` | `TenantProvisioned` | UC-001: Provisionamiento de tenant |
+| `SepaRemittanceGenerated` | `SepaRemittanceGenerated` | UC-023: Generación de remesa SEPA |
+| `SepaRemittanceSent` | `SepaRemittanceSent` | UC-023: Procesamiento de remesa SEPA |
+| `SepaMandateRegistered` | `SepaMandateRegistered` | UC-023: Registro de mandato SEPA |
+| `SepaMandateExpired` | (Implícito en UC-023 FA-3) | UC-023: Caducidad de mandato tras 36 meses |
+| `MemberSuspendedForNonpayment` | `MemberStatusChanged` | UC-007/UC-022: Evento genérico de cambio de estado |
 
 ### Guías de Implementación
 
@@ -1913,33 +1913,33 @@ Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Ev
     - Tabla de mapeo: eventos internos → eventos de negocio
     - Guías de implementación para UCs y Event-Driven Architecture
   - **Marcados 6 eventos internos** en tablas de Domain Events:
-    - **BC-Identidad (1):** `TenantCreado` [Interno] → evento negocio: `TenantProvisionado`
-    - **BC-Tesoreria (5):** 
-      - `SocioSuspendidoPorImpago` [Interno] → evento negocio: `EstadoSocioCambiado`
-      - `RemesaGenerada` [Interno] → evento negocio: `RemesaSepaGenerada`
-      - `RemesaProcesada` [Interno] → evento negocio: `RemesaSepaEnviada`
-      - `MandatoCreado` [Interno] → evento negocio: `MandatoSepaRegistrado`
-      - `MandatoCaducado` [Interno] → evento negocio: implícito en UC-023 FA-3
+    - **BC-Identity (1):** `TenantCreado` [Interno] → evento negocio: `TenantProvisioned`
+    - **BC-Treasury (5):**
+      - `MemberSuspendedForNonpayment` [Interno] → evento negocio: `MemberStatusChanged`
+      - `SepaRemittanceGenerated` [Interno] → evento negocio: `SepaRemittanceGenerated`
+      - `SepaRemittanceSent` [Interno] → evento negocio: `SepaRemittanceSent`
+      - `SepaMandateRegistered` [Interno] → evento negocio: `SepaMandateRegistered`
+      - `SepaMandateExpired` [Interno] → evento negocio: implícito en UC-023 FA-3
   - **Propósito:** Clarificar qué eventos deben documentarse en tablas de UCs (solo eventos de negocio)
   - **Total eventos:** 87 (81 eventos de negocio + 6 eventos internos)
   - **Script actualizado:** `inventario_eventos.py` v2.1 detecta marcador `[Interno]`
 
 - v1.4 (Feb 2026): Corrección de nomenclatura de eventos para alineación con UCs
-  - **BC-Membresia:** Corregidos 2 nombres de eventos para consistencia con UC-012 y UC-015
-    - `CarnetEmitido` → `CarnetGenerado` (alineado con UC-015, línea 2805)
-    - `SolicitudAltaCreada` → `SolicitudAltaIniciada` (alineado con UC-012, línea 2121)
+  - **BC-Membership:** Corregidos 2 nombres de eventos para consistencia con UC-012 y UC-015
+    - `MemberCardIssued` → `MemberCardGenerated` (alineado con UC-015, línea 2805)
+    - `RegistrationRequestCreated` → `RegistrationRequestStarted` (alineado con UC-012, línea 2121)
   - Justificación: Nomenclatura de UCs es más descriptiva del proceso
-  - `CarnetGenerado` refleja mejor el proceso técnico (generación de QR/PDF)
-  - `SolicitudAltaIniciada` describe mejor el workflow de cofradías (inicio de proceso de 7 fases)
+  - `MemberCardGenerated` refleja mejor el proceso técnico (generación de QR/PDF)
+  - `RegistrationRequestStarted` describe mejor el workflow de cofradías (inicio de proceso de 7 fases)
   - Total eventos: 85 (sin cambios en cantidad, solo nomenclatura)
 
 - v1.3 (Feb 2026): Limpieza de eventos duplicados
   - **Eliminados 8 eventos duplicados** (manteniendo cobertura 100%)
-  - **BC-Tesoreria:** Consolidadas tablas de eventos (eliminados 7 duplicados)
+  - **BC-Treasury:** Consolidadas tablas de eventos (eliminados 7 duplicados)
     - Se mantuvo tabla original, eliminada segunda tabla redundante con eventos repetidos
-    - Duplicados eliminados: `CargoGenerado`, `PagoRegistrado`, `PagoDevuelto`, `MorosidadDetectada`, `PlanCuotaCreado`, `PlanCuotaModificado`, `PlanCuotaVinculadoATipoSocio`
-  - **BC-Eventos:** Eliminado `InscripcionRealizada` duplicado (mantenida definición completa)
-  - **BC-Comunicacion:** Conservada tabla "Eventos Consumidos" (NO es duplicación)
+    - Duplicados eliminados: `ChargeGenerated`, `PaymentRecorded`, `PaymentReturned`, `DelinquencyDetected`, `FeePlanCreated`, `FeePlanModified`, `FeePlanLinkedToMemberType`
+  - **BC-Events:** Eliminado `RegistrationCompleted` duplicado (mantenida definición completa)
+  - **BC-Communication:** Conservada tabla "Eventos Consumidos" (NO es duplicación)
     - Tabla documenta acciones al CONSUMIR eventos de otros BCs (diferente propósito)
   - Total Domain Events únicos: **85 eventos** (antes 93 con duplicados)
   - Scripts de análisis: `detectar_duplicados_kb005.py`, `eliminar_duplicados_kb005.py`
@@ -1947,39 +1947,39 @@ Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Ev
 
 - v1.2 (Feb 2026): Sincronización completa de Domain Events con Casos de Uso
   - **Añadidos 46 eventos faltantes** (100% cobertura respecto a UC v2.5)
-  - **BC-Membresia:** 3 eventos añadidos
-    - `SolicitudAltaAprobada`, `CarnetGenerado`, `SocioInscritoEnCuadrilla`
-  - **BC-Tesoreria:** 25 eventos añadidos
-    - Incluyendo `PagoOnlineRealizado`, `EnlacePagoGenerado`, `TurnoCajaAbierto`, `DeudaSaldada`, etc.
-  - **BC-Eventos:** 4 eventos añadidos
-    - `InscripcionRealizada`, `InscripcionCancelada`, `PlazasAgotadas`, `AsistenciaRegistrada`
-  - **BC-Identidad:** 8 eventos añadidos/actualizados
+  - **BC-Membership:** 3 eventos añadidos
+    - `RegistrationRequestApproved`, `MemberCardGenerated`, `MemberAssignedToSquad`
+  - **BC-Treasury:** 25 eventos añadidos
+    - Incluyendo `OnlinePaymentCompleted`, `PaymentLinkGenerated`, `CashRegisterOpened`, `DebtSettled`, etc.
+  - **BC-Events:** 4 eventos añadidos
+    - `RegistrationCompleted`, `RegistrationCancelled`, `CapacityReached`, `AttendanceRecorded`
+  - **BC-Identity:** 8 eventos añadidos/actualizados
     - Incluye eventos de autenticación, roles y permisos
-  - **BC-Comunicacion:** 6 eventos añadidos
-    - `NotificacionBienvenidaEnviada`, `RecordatorioPagoEnviado`, `AvisoMorosidadEnviado`, etc.
-  - **BC-Documentos:** Nueva sección 7.3 Domain Events
-    - `InformeAsambleaGenerado`
+  - **BC-Communication:** 6 eventos añadidos
+    - `WelcomeNotificationSent`, `PaymentReminderSent`, `DelinquencyNoticeSent`, etc.
+  - **BC-Documents:** Nueva sección 7.3 Domain Events
+    - `AssemblyReportGenerated`
   - **Nueva sección 8.5:** Domain Events Transversales (9 eventos)
     - Eventos de Application Services cross-BC: exports, reporting, analytics, caja
   - Total Domain Events documentados: 146 (de 100 a 146)
   - Verificado con `inventario_eventos.py`: **Cobertura 100%**
 
 - v1.1 (Feb 2026): Actualización con Aggregates críticos
-  - **BC-Membresia:** Añadidos 2 Aggregates
+  - **BC-Membership:** Añadidos 2 Aggregates
     - ListaEspera (3.2.6): Gestión de cola de aspirantes
     - ExpedienteDisciplinario (3.2.7): Registro de infracciones y sanciones
-  - **BC-Tesoreria:** Añadidos 4 Aggregates
-    - EnlacePago (4.2.10): Enlaces temporales para pagos online
+  - **BC-Treasury:** Añadidos 4 Aggregates
+    - PaymentLink (4.2.10): Enlaces temporales para pagos online
     - TurnoCaja (4.2.11): Gestión de turnos de caja (específico peñas)
     - CategoriaContable (4.2.12): Clasificación de movimientos contables
     - EjercicioContable (4.2.13): Periodos fiscales y cierre contable
-  - **BC-Eventos:** Añadidos 3 Aggregates
-    - EventoComida (5.2.5): Gestión de comidas y menús (específico peñas)
-    - Cuadrilla (5.2.6): Agrupaciones de socios para actividades
-    - Partido (5.2.7): Encuentros deportivos (específico clubes)
+  - **BC-Events:** Añadidos 3 Aggregates
+    - SocialDinner (5.2.5): Gestión de comidas y menús (específico peñas)
+    - Squad (5.2.6): Agrupaciones de socios para actividades
+    - Match (5.2.7): Encuentros deportivos (específico clubes)
   - **Extensión Transversal:** Añadida sección 7 bis
     - AlertaLegal: Gestión de alertas de cumplimiento normativo (extensión futura)
-  - Actualizadas tablas de Value Objects en BC-Membresia, BC-Tesoreria y BC-Eventos
+  - Actualizadas tablas de Value Objects en BC-Membership, BC-Treasury y BC-Events
   - Actualizadas referencias de trazabilidad RF para los nuevos Aggregates
   - Total Aggregates documentados: 29 (de 19 iniciales a 29)
 

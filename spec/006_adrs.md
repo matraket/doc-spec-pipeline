@@ -117,11 +117,11 @@ El equipo de desarrollo es de 1 persona. El público objetivo son asociaciones p
 │                      ASSOCIATED APP                         │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│  │ Identidad│ │Membresia │ │Tesoreria │ │ Eventos  │        │
+│  │ Identity │ │Membership│ │ Treasury │ │  Events  │        │
 │  │  Module  │ │  Module  │ │  Module  │ │  Module  │        │
 │  └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
 │  ┌──────────┐ ┌──────────┐                                  │
-│  │Comunicac.│ │Documentos│                                  │
+│  │Communic. │ │Documents │                                  │
 │  │  Module  │ │  Module  │                                  │
 │  └──────────┘ └──────────┘                                  │
 ├─────────────────────────────────────────────────────────────┤
@@ -191,7 +191,7 @@ Associated es una aplicación SaaS donde múltiples colectividades (tenants) com
 │                                                             │
 │   ┌─────────────┐                                           │
 │   │   DB-Main   │  ← Usuarios, Tenants, Membresías          │
-│   │ (Identidad) │    Acceso: user_main (solo esta BD)       │
+│   │ (Identity)  │    Acceso: user_main (solo esta BD)       │
 │   └─────────────┘                                           │
 │                                                             │
 │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
@@ -209,12 +209,12 @@ Associated es una aplicación SaaS donde múltiples colectividades (tenants) com
 
 | BC | Base de Datos | Justificación |
 |----|---------------|---------------|
-| BC-Identidad | DB-Main | Cross-tenant: usuarios, tenants, membresías |
-| BC-Membresia | DB-TenantX | Datos aislados por entidad |
-| BC-Tesoreria | DB-TenantX | Datos aislados por entidad |
-| BC-Eventos | DB-TenantX | Datos aislados por entidad |
-| BC-Comunicacion | DB-TenantX | Datos aislados por entidad |
-| BC-Documentos | DB-TenantX | Datos aislados + storage ficheros |
+| BC-Identity | DB-Main | Cross-tenant: usuarios, tenants, membresías |
+| BC-Membership | DB-TenantX | Datos aislados por entidad |
+| BC-Treasury | DB-TenantX | Datos aislados por entidad |
+| BC-Events | DB-TenantX | Datos aislados por entidad |
+| BC-Communication | DB-TenantX | Datos aislados por entidad |
+| BC-Documents | DB-TenantX | Datos aislados + storage ficheros |
 
 ### Consecuencias
 
@@ -266,38 +266,38 @@ Con 6 Bounded Contexts identificados (KB-005), necesitamos una estructura de có
 src/
 ├── Shared/                          # Shared Kernel
 │   ├── Domain/
-│   │   ├── ValueObjects/            # SocioId, TenantId, Dinero...
+│   │   ├── ValueObjects/            # MemberId, TenantId, Money...
 │   │   ├── Events/                  # DomainEvent base
 │   │   └── Interfaces/              # AggregateRoot, Repository...
 │   └── Infrastructure/
 │       └── Persistence/             # Base classes
 │
-├── Identidad/                       # BC-Identidad (Generic)
+├── identity/                        # BC-Identity (Generic)
 │   ├── Application/
 │   ├── Domain/
 │   └── Infrastructure/
 │
-├── Membresia/                       # BC-Membresia (Core)
+├── membership/                      # BC-Membership (Core)
 │   ├── Application/
 │   ├── Domain/
 │   └── Infrastructure/
 │
-├── Tesoreria/                       # BC-Tesoreria (Core)
+├── treasury/                        # BC-Treasury (Core)
 │   ├── Application/
 │   ├── Domain/
 │   └── Infrastructure/
 │
-├── Eventos/                         # BC-Eventos (Core)
+├── events/                          # BC-Events (Core)
 │   ├── Application/
 │   ├── Domain/
 │   └── Infrastructure/
 │
-├── Comunicacion/                    # BC-Comunicacion (Supporting)
+├── communication/                   # BC-Communication (Supporting)
 │   ├── Application/
 │   ├── Domain/
 │   └── Infrastructure/
 │
-└── Documentos/                      # BC-Documentos (Supporting)
+└── documents/                       # BC-Documents (Supporting)
     ├── Application/
     ├── Domain/
     └── Infrastructure/
@@ -340,7 +340,7 @@ src/
 
 ### Contexto
 
-Según el Context Map (KB-005 §9), los BCs necesitan comunicarse para mantener consistencia eventual. Por ejemplo, cuando se registra un socio (BC-Membresia), BC-Tesoreria debe generar su cuota inicial y BC-Comunicacion debe enviar email de bienvenida.
+Según el Context Map (KB-005 §9), los BCs necesitan comunicarse para mantener consistencia eventual. Por ejemplo, cuando se registra un socio (BC-Membership), BC-Treasury debe generar su cuota inicial y BC-Communication debe enviar email de bienvenida.
 
 **Alternativas consideradas:**
 1. **Llamadas síncronas directas**: Simple pero acopla módulos
@@ -356,13 +356,13 @@ Según el Context Map (KB-005 §9), los BCs necesitan comunicarse para mantener 
 │                    FLUJO DE EVENTOS                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  BC-Membresia          Event Dispatcher        Handlers     │
+│  BC-Membership         Event Dispatcher        Handlers     │
 │  ┌──────────┐         ┌──────────────┐      ┌──────────┐    │
-│  │  Socio   │─emit───►│  In-Memory   │─────►│Tesoreria │    │
-│  │Registrado│         │  Dispatcher  │      │ Handler  │    │
+│  │ Member   │─emit───►│  In-Memory   │─────►│Treasury  │    │
+│  │Registered│         │  Dispatcher  │      │ Handler  │    │
 │  └──────────┘         └──────────────┘      └──────────┘    │
 │                              │              ┌──────────┐    │
-│                              └─────────────►│Comunicac.│    │
+│                              └─────────────►│Communic. │    │
 │                                             │ Handler  │    │
 │                                             └──────────┘    │
 │                                                             │
@@ -373,13 +373,13 @@ Según el Context Map (KB-005 §9), los BCs necesitan comunicarse para mantener 
 
 | Evento | Productor | Consumidores |
 |--------|-----------|--------------|
-| `SocioRegistrado` | BC-Membresia | BC-Tesoreria, BC-Comunicacion |
-| `SocioDadoDeBaja` | BC-Membresia | BC-Tesoreria, BC-Comunicacion |
-| `PagoRegistrado` | BC-Tesoreria | BC-Membresia |
-| `PagoDevuelto` | BC-Tesoreria | BC-Membresia, BC-Comunicacion |
-| `MorosidadDetectada` | BC-Tesoreria | BC-Comunicacion |
-| `InscripcionRealizada` | BC-Eventos | BC-Tesoreria, BC-Comunicacion |
-| `EventoPublicado` | BC-Eventos | BC-Comunicacion |
+| `MemberRegistered` | BC-Membership | BC-Treasury, BC-Communication |
+| `MemberDeactivated` | BC-Membership | BC-Treasury, BC-Communication |
+| `PaymentRecorded` | BC-Treasury | BC-Membership |
+| `PaymentReturned` | BC-Treasury | BC-Membership, BC-Communication |
+| `DelinquencyDetected` | BC-Treasury | BC-Communication |
+| `RegistrationCompleted` | BC-Events | BC-Treasury, BC-Communication |
+| `EventPublished` | BC-Events | BC-Communication |
 
 ### Consecuencias
 
@@ -416,9 +416,9 @@ Según el Context Map (KB-005 §9), los BCs necesitan comunicarse para mantener 
 ### Contexto
 
 El dominio de Associated tiene:
-- Entidades con relaciones complejas (Socio → Cargos → Pagos)
+- Entidades con relaciones complejas (Member → Charges → Payments)
 - Necesidad de consultas ad-hoc (reporting, filtrados)
-- Requisitos ACID para operaciones financieras (BC-Tesoreria)
+- Requisitos ACID para operaciones financieras (BC-Treasury)
 - Volumen de datos moderado (cientos/miles de registros por tenant)
 
 **Alternativas consideradas:**
@@ -568,7 +568,7 @@ Cada tenant tiene roles diferenciados (Presidente, Secretario, Tesorero, Vocal, 
 │                    MODELO RBAC                              │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  Usuario ──(1:N)──► MembresiaTenant ──(N:1)──► Rol          │
+│  User ──(1:N)──► TenantMembership ──(N:1)──► Role           │
 │                           │                      │          │
 │                           │                      ▼          │
 │                      ┌────┴────┐           ┌─────────┐      │
@@ -583,24 +583,24 @@ Cada tenant tiene roles diferenciados (Presidente, Secretario, Tesorero, Vocal, 
 
 | Rol | Scope | Permisos Típicos |
 |-----|-------|------------------|
-| PRESIDENTE | Global tenant | Todo + aprobaciones críticas |
-| SECRETARIO | Socios, Documentos | CRUD socios, actas, comunicaciones |
-| TESORERO | Economía | Cuotas, cobros, remesas, contabilidad |
-| VOCAL | Configurable | Según área asignada |
-| SOCIO | Solo lectura propia | Ver sus datos, eventos, pagos |
+| PRESIDENT | Global tenant | Todo + aprobaciones críticas |
+| SECRETARY | Members, Documents | CRUD members, actas, comunicaciones |
+| TREASURER | Economía | Cuotas, cobros, remesas, contabilidad |
+| BOARD_MEMBER | Configurable | Según área asignada |
+| MEMBER | Solo lectura propia | Ver sus datos, eventos, pagos |
 
 **Nomenclatura de permisos:**
 ```
-{BC}.{Aggregate}.{Operación}
+{module}:{resource}:{action}
 
 Ejemplos:
-- membresia.socio.create
-- membresia.socio.read
-- membresia.socio.update
-- membresia.socio.delete
-- tesoreria.remesa.generate
-- tesoreria.pago.register
-- eventos.evento.publish
+- membership:members:create
+- membership:members:read
+- membership:members:update
+- membership:members:delete
+- treasury:remittances:generate
+- treasury:payments:register
+- events:events:publish
 ```
 
 ### Consecuencias
@@ -623,7 +623,7 @@ Ejemplos:
 | RNF-003 | RBAC con granularidad a nivel de operación |
 | RNF-013 | Principio de mínimo privilegio |
 | N2RF04-05 | Roles predefinidos y personalizables |
-| KB-005 §8 | BC-Identidad con agregado Rol |
+| KB-005 §8 | BC-Identity con agregado Rol |
 
 ---
 
@@ -645,12 +645,12 @@ Los Domain Events (KB-005) son el mecanismo principal de comunicación entre BCs
 │                    OUTBOX PATTERN                           │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  1. Operación de dominio (ej: registrar socio)              │
+│  1. Operación de dominio (ej: registrar member)             │
 │     ┌─────────────────────────────────────────────────┐     │
 │     │              TRANSACCIÓN BD                     │     │
 │     │  ┌──────────────┐    ┌──────────────────────┐   │     │
-│     │  │ INSERT socio │    │ INSERT outbox_events │   │     │
-│     │  └──────────────┘    │  (SocioRegistrado)   │   │     │
+│     │  │INSERT member │    │ INSERT outbox_events │   │     │
+│     │  └──────────────┘    │ (MemberRegistered)   │   │     │
 │     │                      └──────────────────────┘   │     │
 │     └─────────────────────────────────────────────────┘     │
 │                                                             │
@@ -797,7 +797,7 @@ La aplicación necesita exponer funcionalidad a clientes web (SPA) y móvil (PWA
 **Adoptamos API REST** con OpenAPI spec como interfaz principal.
 
 **Convenciones:**
-- Recursos en plural: `/api/v1/socios`, `/api/v1/eventos`
+- Recursos en plural: `/api/v1/members`, `/api/v1/events`
 - Versionado en URL: `/api/v1/...`
 - Tenant en header: `X-Tenant-Id: {uuid}`
 - Auth en header: `Authorization: Bearer {jwt}`
@@ -852,7 +852,7 @@ La aplicación necesita exponer funcionalidad a clientes web (SPA) y móvil (PWA
 
 ### Contexto
 
-BC-Documentos requiere almacenar ficheros (estatutos, actas, justificantes). Los ficheros deben estar aislados por tenant y ser accesibles de forma segura.
+BC-Documents requiere almacenar ficheros (estatutos, actas, justificantes). Los ficheros deben estar aislados por tenant y ser accesibles de forma segura.
 
 **Alternativas consideradas:**
 1. **Base de datos (BLOB)**: Simple pero no escalable
@@ -910,7 +910,7 @@ BC-Documentos requiere almacenar ficheros (estatutos, actas, justificantes). Los
 | RNF-009 | Ficheros seguros, validación de tipos |
 | RNF-022 | Subida de ficheros con límites |
 | N7RF01-12 | Gestión documental |
-| KB-005 §7 | BC-Documentos |
+| KB-005 §7 | BC-Documents |
 
 ---
 
@@ -1017,16 +1017,16 @@ RNF-058/059/060 definen una pirámide de testing con umbrales específicos. Nece
 | ADR | BCs Afectados |
 |-----|---------------|
 | ADR-001 | Todos |
-| ADR-002 | BC-Identidad (DB-Main), resto (DB-Tenant) |
+| ADR-002 | BC-Identity (DB-Main), resto (DB-Tenant) |
 | ADR-003 | Todos |
 | ADR-004 | Todos (productores y consumidores) |
 | ADR-005 | Todos |
-| ADR-006 | BC-Identidad |
-| ADR-007 | BC-Identidad, todos (verificación) |
+| ADR-006 | BC-Identity |
+| ADR-007 | BC-Identity, todos (verificación) |
 | ADR-008 | Todos (emisión y recepción) |
 | ADR-009 | Todos |
 | ADR-010 | Todos (exposición API) |
-| ADR-011 | BC-Documentos |
+| ADR-011 | BC-Documents |
 | ADR-012 | Todos |
 
 ---

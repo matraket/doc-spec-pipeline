@@ -11,12 +11,12 @@
 
 - [Resumen Ejecutivo](#resumen-ejecutivo)
 - [Notación y Convenciones](#1-notación-y-convenciones)
-- [BC-Identidad (UC-001 a UC-005)](#bc-identidad)
-- [BC-Membresia (UC-006 a UC-016)](#bc-membresia)
-- [BC-Tesoreria (UC-017 a UC-027)](#bc-tesoreria)
-- [BC-Eventos (UC-028 a UC-038)](#bc-eventos)
-- [BC-Comunicacion (UC-039 a UC-047)](#bc-comunicacion)
-- [BC-Documentos (UC-048 a UC-055)](#bc-documentos)
+- [BC-Identity (UC-001 a UC-005)](#bc-identidad)
+- [BC-Membership (UC-006 a UC-016)](#bc-membresia)
+- [BC-Treasury (UC-017 a UC-027)](#bc-tesoreria)
+- [BC-Events (UC-028 a UC-038)](#bc-eventos)
+- [BC-Communication (UC-039 a UC-047)](#bc-comunicacion)
+- [BC-Documents (UC-048 a UC-055)](#bc-documentos)
 - [Transversal: Import/Export (UC-056 a UC-063)](#transversal-importexport)
 - [Transversal: Reporting (UC-064 a UC-067)](#transversal-reporting)
 - [Transversal: Portal Socio (UC-068 a UC-071)](#transversal-portal-socio)
@@ -55,12 +55,12 @@ Este documento define los **76 Casos de Uso** del sistema Associated, derivados 
 
 | BC | Casos de Uso | User Stories Agrupadas | Tipo |
 |----|--------------|------------------------|------|
-| **BC-Identidad** | 5 | 8 | Generic |
-| **BC-Membresia** | 10 | 34 | Core |
-| **BC-Tesoreria** | 11 | 38 | Core |
-| **BC-Eventos** | 11 | 29 | Core |
-| **BC-Comunicacion** | 9 | 23 | Supporting |
-| **BC-Documentos** | 8 | 12 | Supporting |
+| **BC-Identity** | 5 | 8 | Generic |
+| **BC-Membership** | 10 | 34 | Core |
+| **BC-Treasury** | 11 | 38 | Core |
+| **BC-Events** | 11 | 29 | Core |
+| **BC-Communication** | 9 | 23 | Supporting |
+| **BC-Documents** | 8 | 12 | Supporting |
 | **Transversal N8 (Import/Export)** | 8 | 13 | Cross-cutting |
 | **Transversal N9 (Reporting)** | 4 | 12 | Cross-cutting |
 | **Transversal N10 (Portal Socio)** | 4 | 15 | Cross-cutting |
@@ -85,11 +85,11 @@ Las User Stories se han agrupado en Casos de Uso siguiendo estos criterios:
 | Elemento | Formato | Ejemplo | Descripción |
 |----------|---------|---------|-------------|
 | **Caso de Uso** | UC-XXX | UC-001 | Identificador único secuencial |
-| **Application Service** | `NombreService` | `SocioService` | Clase de aplicación responsable |
-| **Domain Event** | `EventoNombre` | `SocioRegistrado` | Evento de dominio emitido |
-| **Aggregate** | **NombreAggregate** | **Socio** | Aggregate Root involucrado |
-| **Entity** | *NombreEntity* | *Cargo* | Entidad dentro de un Aggregate |
-| **Domain Service** | `NombreDomainService` | `CalculadorProrrateo` | Servicio de dominio |
+| **Application Service** | `NameService` | `MemberService` | Clase de aplicación responsable |
+| **Domain Event** | `EventName` | `MemberRegistered` | Evento de dominio emitido |
+| **Aggregate** | **NombreAggregate** | **Member** | Aggregate Root involucrado |
+| **Entity** | *NombreEntity* | *Charge* | Entidad dentro de un Aggregate |
+| **Domain Service** | `NameDomainService` | `ProrataCalculator` | Servicio de dominio |
 
 ### Estructura de Caso de Uso
 
@@ -101,7 +101,7 @@ Cada caso de uso documenta:
 #### Metadatos
 - **User Stories:** US-XXX, US-YYY, US-ZZZ
 - **Bounded Context:** BC-Nombre | Transversal (BC-Primario + BC-Secundario)
-- **Application Service:** `NombreService.metodo()` | `ServicioA`, `ServicioB`
+- **Application Service:** `NameService.method()` | `ServiceA`, `ServiceB`
 - **Aggregates:** 
   - **AggregateRoot1**, *Entity1* (si hay entities)
   - BC-Externo: **AggregateRoot2** (si es transversal)
@@ -132,8 +132,8 @@ FE-1: [Condición de error y manejo]
 FE-2: [Otra excepción]
 
 #### Eventos de Dominio
-- EventoNombre1 → [Consumidores: BC-X, BC-Y]
-- EventoNombre2 → [Consumidores: BC-Z]
+- EventName1 → [Consumidores: BC-X, BC-Y]
+- EventName2 → [Consumidores: BC-Z]
 
 #### Interacciones entre BCs
 - BC-Origen → BC-Destino: [Descripción]
@@ -186,19 +186,19 @@ Usuario → Controller → AppService → Aggregate → Repository
 
 ---
 
-## BC-Identidad
+## BC-Identity
 
 ### Provisión, autenticación y autorización multi-tenant
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-001 | Provisión de nuevo tenant | US-001 | BC-Identidad | TenantProvisioningService | Must | Alta |
-| UC-002 | Autenticación multi-tenant | US-002 | BC-Identidad | AuthenticationService | Must | Alta |
-| UC-003 | Configuración de tenant | US-003 | BC-Identidad | TenantConfigService | Must | Media |
-| UC-004 | Gestión de roles y permisos | US-004, US-005 | BC-Identidad | RoleManagementService | Must | Alta |
-| UC-005 | Traspaso de cargos directivos | US-006, US-007, US-008 | BC-Identidad | DirectivaTransferService | Should | Media |
+| UC-001 | Provisión de nuevo tenant | US-001 | BC-Identity | TenantProvisioningService | Must | Alta |
+| UC-002 | Autenticación multi-tenant | US-002 | BC-Identity | AuthenticationService | Must | Alta |
+| UC-003 | Configuración de tenant | US-003 | BC-Identity | TenantConfigService | Must | Media |
+| UC-004 | Gestión de roles y permisos | US-004, US-005 | BC-Identity | RoleManagementService | Must | Alta |
+| UC-005 | Traspaso de cargos directivos | US-006, US-007, US-008 | BC-Identity | HandoverService | Should | Media |
 
-**Total BC-Identidad:** 5 UCs cubriendo 8 User Stories (US-001 a US-008)
+**Total BC-Identity:** 5 UCs cubriendo 8 User Stories (US-001 a US-008)
 
 ---
 
@@ -206,7 +206,7 @@ Usuario → Controller → AppService → Aggregate → Repository
 
 #### Metadatos
 - **User Stories:** US-001
-- **Bounded Context:** BC-Identidad
+- **Bounded Context:** BC-Identity
 - **Application Service:** `TenantProvisioningService`
 - **Aggregates:** **Tenant**
 - **Prioridad:** Must
@@ -242,7 +242,7 @@ Creación de una nueva colectividad en el sistema con base de datos completament
    - Configura parámetros por defecto según tipo de colectividad
 5. `TenantProvisioningService.registerTenant(tenant)`
    - Registra el tenant en la BD de gestión central (`tenants_registry`)
-6. Sistema emite evento `TenantProvisionado`
+6. Sistema emite evento `TenantProvisioned`
 7. Sistema envía email al administrador inicial con:
    - URL de acceso: `https://app.associated.es?tenant={tenant_id}`
    - Credenciales temporales
@@ -283,8 +283,8 @@ Creación de una nueva colectividad en el sistema con base de datos completament
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `TenantProvisionado` | `{ tenantId: UUID, nombreColectividad: string, tipoColectividad: string, adminUserId: UUID, adminEmail: string, cif: string }` | Tras completar provisión exitosa (paso 6) | BC-Comunicacion (UC-047: email bienvenida), Sistema de Monitoreo |
-| `UsuarioCreado` | userId, email, rol, tenantId, fechaCreacion | Paso 4: tras crear usuario administrador inicial | Sistema de Auditoría, BC-Comunicacion (email bienvenida admin) |
+| `TenantProvisioned` | `{ tenantId: UUID, organizationName: string, organizationType: string, adminUserId: UUID, adminEmail: string, cif: string }` | Tras completar provisión exitosa (paso 6) | BC-Communication (UC-047: email bienvenida), Sistema de Monitoreo |
+| `UserCreated` | userId, email, rol, tenantId, createdAt | Paso 4: tras crear usuario administrador inicial | Sistema de Auditoría, BC-Communication (email bienvenida admin) |
 
 *Este UC no consume eventos de otros BCs*
 
@@ -304,16 +304,16 @@ Creación de una nueva colectividad en el sistema con base de datos completament
 
 #### Metadatos
 - **User Stories:** US-002
-- **Bounded Context:** BC-Identidad
+- **Bounded Context:** BC-Identity
 - **Application Service:** `AuthenticationService`
-- **Aggregates:** **Usuario**, **MembresiaTenant**, **Tenant**
+- **Aggregates:** **User**, **TenantMembership**, **Tenant**
 - **Prioridad:** Must
 
 **Descripción:**  
 Autenticación de usuario con acceso a múltiples tenants, selección de contexto y emisión de JWT con tenant_id.
 
 #### Actores
-- **Usuario** (puede pertenecer a varios tenants)
+- **User** (puede pertenecer a varios tenants)
 
 #### Precondiciones
 - Usuario registrado en al menos un tenant
@@ -329,7 +329,7 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
 4. `AuthenticationService.authenticate(email, password)`
    - Consulta `tenants_registry.usuarios` (BD central) para buscar el usuario por email
    - Valida password con Argon2 hash
-   - Recupera lista de `MembresiaTenant` del usuario
+   - Recupera lista de `TenantMembership` del usuario
 5. Si el usuario pertenece a múltiples tenants:
    - Sistema muestra selector de colectividad:
      ```
@@ -345,7 +345,7 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
        "sub": "user_uuid",
        "tenant_id": "tenant_uuid",
        "rol": "Tesorero",
-       "permissions": ["cuotas:read", "cuotas:write", ...]
+       "permissions": ["treasury:fees:read", "treasury:fees:write", ...]
      }
      ```
    - Genera Refresh Token (30 días) almacenado en BD
@@ -361,7 +361,7 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
 
 **FA-2: Cambio de contexto sin re-login**
 - Usuario autenticado pulsa "Cambiar colectividad" en navbar:
-  - `AuthenticationService.switchTenant(user_id, nuevo_tenant_id)`
+  - `AuthenticationService.switchTenant(user_id, new_tenant_id)`
   - Valida que el usuario pertenece al nuevo tenant
   - Emite nuevo Access Token con el nuevo `tenant_id` y rol correspondiente
   - Redirige a dashboard del nuevo tenant
@@ -395,15 +395,15 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `UsuarioAutenticado` | `{ userId: UUID, tenantId: UUID, email: string, rol: string, ipAddress: string, userAgent: string, timestamp: Date }` | Tras emitir tokens exitosamente (paso 7) | Sistema de Auditoría, BC-Comunicacion (registro de acceso), Analytics |
-| `AutenticacionFallida` | userId, email, ipAddress, timestamp | FE-1: tras credenciales inválidas (registrar intento fallido) | Sistema de Auditoría, BC-Comunicacion (alertas de seguridad si múltiples intentos) |
-| `UsuarioBloqueado` | userId, motivoBloqueo, tiempoBloqueo, timestamp | FE-2: tras 5 intentos fallidos consecutivos (bloqueo temporal) | Sistema de Auditoría, BC-Comunicacion (notificar usuario) |
+| `UserAuthenticated` | `{ userId: UUID, tenantId: UUID, email: string, rol: string, ipAddress: string, userAgent: string, timestamp: Date }` | Tras emitir tokens exitosamente (paso 7) | Sistema de Auditoría, BC-Communication (registro de acceso), Analytics |
+| `AuthenticationFailed` | userId, email, ipAddress, timestamp | FE-1: tras credenciales inválidas (registrar intento fallido) | Sistema de Auditoría, BC-Communication (alertas de seguridad si múltiples intentos) |
+| `UserBlocked` | userId, blockReason, blockDuration, timestamp | FE-2: tras 5 intentos fallidos consecutivos (bloqueo temporal) | Sistema de Auditoría, BC-Communication (notificar usuario) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Identidad:** Genera JWT con claims de usuario (userId, tenantId, rol, permissions)
+- **BC-Identity:** Genera JWT con claims de usuario (userId, tenantId, rol, permissions)
 
 #### Postcondiciones
 
@@ -411,7 +411,7 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
 - Sesión de usuario creada con JWT válido (Access Token + Refresh Token)
 - JWT contiene claims críticos: `sub` (user_id), `tenant_id`, `rol`, `permissions`
 - Usuario puede acceder a recursos del tenant seleccionado
-- Evento de dominio `UsuarioAutenticado` emitido
+- Evento de dominio `UserAuthenticated` emitido
 - Registro de acceso creado en auditoría (IP, user agent, timestamp)
 - Refresh Token almacenado con expiración de 30 días
 
@@ -434,7 +434,7 @@ Autenticación de usuario con acceso a múltiples tenants, selección de context
 
 #### Metadatos
 - **User Stories:** US-003
-- **Bounded Context:** BC-Identidad
+- **Bounded Context:** BC-Identity
 - **Application Service:** `TenantConfigService`
 - **Aggregates:** **Tenant**
 - **Prioridad:** Must
@@ -501,7 +501,7 @@ Personalización de la configuración de un tenant: branding, campos personaliza
 
 #### Notas de Implementación
 - Los cambios de branding deben invalidar caché CDN
-- Los campos personalizados se almacenan en JSON (`Socio.custom_fields`)
+- Los campos personalizados se almacenan en JSON (`Member.custom_fields`)
 
 ---
 
@@ -509,9 +509,9 @@ Personalización de la configuración de un tenant: branding, campos personaliza
 
 #### Metadatos
 - **User Stories:** US-004, US-005
-- **Bounded Context:** BC-Identidad
+- **Bounded Context:** BC-Identity
 - **Application Service:** `RoleManagementService`
-- **Aggregates:** **Rol**, **Usuario**, **MembresiaTenant**
+- **Aggregates:** **Role**, **User**, **TenantMembership**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -519,7 +519,7 @@ Creación de roles personalizados, configuración de permisos granulares y asign
 
 #### Actores
 - **Presidente** (gestión de roles)
-- **Usuario** (asignación de roles)
+- **User** (asignación de roles)
 
 #### Precondiciones
 - Roles predefinidos ya existentes en el tenant (Presidente, Secretario, Tesorero, Vocal, Socio)
@@ -550,8 +550,8 @@ Creación de roles personalizados, configuración de permisos granulares y asign
    └──────────────────────────────────────────────────┘
    ```
 3. Presidente selecciona usuario y asigna rol "Tesorero"
-4. `RoleManagementService.assignRole(user_id, tenant_id, rol_id)`
-   - Actualiza `MembresiaTenant.rol_id`
+4. `RoleManagementService.assignRole(user_id, tenant_id, role_id)`
+   - Actualiza `TenantMembership.role_id`
    - Invalida cachés de permisos del usuario
 5. Usuario recibe notificación de asignación de rol
 6. Sistema muestra confirmación: "Rol 'Tesorero' asignado correctamente a Juan García"
@@ -621,7 +621,7 @@ Creación de roles personalizados, configuración de permisos granulares y asign
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Identidad gestiona roles de forma autónoma
+- BC-Identity gestiona roles de forma autónoma
 - Permisos se verifican en cada request mediante Guards de NestJS
 
 #### Poscondiciones
@@ -630,7 +630,7 @@ Creación de roles personalizados, configuración de permisos granulares y asign
 - Cambios reflejados en próximo acceso (tras regenerar JWT)
 
 #### Notas de Implementación
-- Permisos codificados en formato `recurso:accion` (ej: `cuotas:write`)
+- Permisos codificados en formato `recurso:accion` (ej: `treasury:fees:write`)
 - NestJS Guards consultan permisos desde JWT claims
 - Cachear permisos en Redis para evitar consultas en cada request
 - Al cambiar rol, invalidar Refresh Token para forzar nuevo JWT
@@ -641,9 +641,9 @@ Creación de roles personalizados, configuración de permisos granulares y asign
 
 #### Metadatos
 - **User Stories:** US-007, US-008
-- **Bounded Context:** BC-Identidad
-- **Application Service:** `TraspasoCargoService`
-- **Aggregates:** **MembresiaTenant**, **Usuario**, **Socio** (BC-Membresia)
+- **Bounded Context:** BC-Identity
+- **Application Service:** `HandoverService`
+- **Aggregates:** **TenantMembership**, **User**, **Member** (BC-Membership)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -674,13 +674,13 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 3. **Paso 1:** Selección de sucesor
    - Sistema filtra socios elegibles:
    - Presidente saliente selecciona de la lista
-4. `TraspasoCargoService.iniciarTraspaso(saliente_id, entrante_id, cargo)`
+4. `HandoverService.initiateHandover(outgoing_id, incoming_id, office)`
    - Valida elegibilidad del entrante (US-008):
      - Mayor de edad ✓
      - Al corriente de pago ✓
      - Sin cargo directivo activo ✓
-   - Crea registro en `traspasos_cargo` con estado "PENDIENTE_ACEPTACION"
-   - Emite evento `TraspasoIniciado`
+   - Crea registro en `handovers` con estado "PENDING_ACCEPTANCE"
+   - Emite evento `HandoverStarted`
 5. **Paso 2:** Notificación al entrante
    - Sistema envía email + notificación in-app:
      ```
@@ -700,22 +700,22 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
      ```
 6. Usuario entrante pulsa "Aceptar Cargo"
 7. **Paso 3:** Ejecución del traspaso
-   - `TraspasoCargoService.ejecutarTraspaso(traspaso_id)`
-     - Actualiza `MembresiaTenant` del saliente:
-       - `rol_id` → "Socio" (o rol configurado en estatutos)
-       - `fecha_fin_cargo` → NOW()
-     - Actualiza `MembresiaTenant` del entrante:
-       - `rol_id` → "Presidente"
-       - `fecha_inicio_cargo` → NOW()
-     - Crea registro en `historial_cargos`:
+   - `HandoverService.executeHandover(handover_id)`
+     - Actualiza `TenantMembership` del saliente:
+       - `role_id` → "Socio" (o rol configurado en estatutos)
+       - `office_end_date` → NOW()
+     - Actualiza `TenantMembership` del entrante:
+       - `role_id` → "Presidente"
+       - `office_start_date` → NOW()
+     - Crea registro en `office_history`:
        ```
-       | socio_id | cargo      | fecha_inicio | fecha_fin  |
+       | member_id | cargo      | start_date | end_date  |
        |----------|------------|--------------|------------|
        | 42       | Presidente | 2022-01-15   | 2026-02-04 | (saliente)
        | 87       | Presidente | 2026-02-04   | NULL       | (entrante)
        ```
       - Invalida Refresh Tokens del saliente (fuerza re-login con nuevo rol)
-      - Emite evento `TraspasoCompletado`
+      - Emite evento `HandoverCompleted`
 8. Registro en auditoría con timestamp y justificación
 9. Sistema muestra confirmación: "Traspaso de cargo completado. Juan García es ahora Presidente"
 
@@ -723,7 +723,7 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 
 **FA-1: Rechazo por el entrante**
 - En paso 6, si el entrante rechaza:
-  - Sistema actualiza `traspasos_cargo.estado` → "RECHAZADO"
+  - Sistema actualiza `traspasos_charge.status` → "RECHAZADO"
   - Notifica al saliente: "Juan García ha rechazado el cargo. Seleccione otro candidato"
   - Permite reiniciar el proceso con otro candidato
 
@@ -741,7 +741,7 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 
 **FE-1: Usuario entrante no elegible (menor de edad)**
 - En paso 4, si el seleccionado es menor de 18 años:
-  - `TraspasoCargoService.validarElegibilidad()` falla
+  - `HandoverService.validateEligibility()` falla
   - Sistema muestra: "Este socio es menor de edad. Según la Ley Orgánica 1/2002, los cargos directivos requieren mayoría de edad"
   - Bloquea la selección
 
@@ -765,15 +765,15 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `TraspasoIniciado` | `{ traspasoId: UUID, cargoId: UUID, salienteId: UUID, entranteId: UUID, fechaInicio: Date }` | Al completar la operación principal | BC-Comunicacion (notificar entrante) |
-| `TraspasoCompletado` | `{ traspasoId: UUID, cargoId: UUID, salienteId: UUID, entranteId: UUID, fechaTraspaso: Date }` | Al completar la operación principal | BC-Comunicacion (notificar ambos), BC-Documentos (acta de traspaso) |
+| `HandoverStarted` | `{ handoverId: UUID, chargeId: UUID, outgoingId: UUID, incomingId: UUID, startDate: Date }` | Al completar la operación principal | BC-Communication (notificar entrante) |
+| `HandoverCompleted` | `{ handoverId: UUID, chargeId: UUID, outgoingId: UUID, incomingId: UUID, handoverDate: Date }` | Al completar la operación principal | BC-Communication (notificar ambos), BC-Documents (acta de traspaso) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Identidad → BC-Membresia: Consulta elegibilidad (edad, estado, antigüedad)
-- BC-Identidad → BC-Tesoreria: Verifica estado de pago
-- BC-Identidad → BC-Documentos: Genera acta de traspaso
+- BC-Identity → BC-Membership: Consulta elegibilidad (edad, estado, antigüedad)
+- BC-Identity → BC-Treasury: Verifica estado de pago
+- BC-Identity → BC-Documents: Genera acta de traspaso
 
 #### Poscondiciones
 - Cargo transferido formalmente
@@ -789,25 +789,25 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 
 ---
 
-## BC-Membresia
+## BC-Membership
 
 ### Gestión de socios, estados, altas, bajas y carnets
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-006 | Gestión de ficha de socio | US-009, US-010, US-011, US-012, US-013 | BC-Membresia | SocioManagementService | Must | Media |
-| UC-007 | Gestión de estados del socio | US-014, US-015, US-016, US-017, US-018, US-019 | BC-Membresia | SocioStateService | Must | Media |
-| UC-008 | Configuración de tipos de socio | US-020, US-021, US-022, US-023 | BC-Membresia | TipoSocioService | Should | Baja |
-| UC-009 | Gestión de antigüedad e historial | US-024, US-025, US-026 | BC-Membresia | AntiguedadService | Should | Media |
-| UC-010 | Gestión de ejercicios | US-027, US-028, US-029, US-030, US-031 | BC-Membresia | EjercicioService | Must | Media |
-| UC-011 | Alta simple de socio | US-032, US-033 | BC-Membresia | AltaSocioService | Must | Media |
-| UC-012 | Alta compleja con workflow (cofradías) | US-034, US-035, US-036 | BC-Membresia | AltaWorkflowService | Should | Alta |
-| UC-013 | Baja de socio | US-037, US-038, US-039, US-040 | BC-Membresia | BajaSocioService | Must | Media |
-| UC-014 | Gestión de lista de espera | US-041, US-042 | BC-Membresia | ListaEsperaService | Should | Baja |
-| UC-015 | Generación y validación de carnets | US-043, US-044, US-045, US-046 | BC-Membresia | CarnetService | Must | Alta |
-| UC-016 | [FUSIONADO CON UC-015] | - | BC-Membresia | - | - | - |
+| UC-006 | Gestión de ficha de socio | US-009, US-010, US-011, US-012, US-013 | BC-Membership | MemberManagementService | Must | Media |
+| UC-007 | Gestión de estados del socio | US-014, US-015, US-016, US-017, US-018, US-019 | BC-Membership | MemberStateService | Must | Media |
+| UC-008 | Configuración de tipos de socio | US-020, US-021, US-022, US-023 | BC-Membership | TipoMemberService | Should | Baja |
+| UC-009 | Gestión de antigüedad e historial | US-024, US-025, US-026 | BC-Membership | SeniorityService | Should | Media |
+| UC-010 | Gestión de ejercicios | US-027, US-028, US-029, US-030, US-031 | BC-Membership | FiscalYearService | Must | Media |
+| UC-011 | Alta simple de socio | US-032, US-033 | BC-Membership | AltaMemberService | Must | Media |
+| UC-012 | Alta compleja con workflow (cofradías) | US-034, US-035, US-036 | BC-Membership | RegistrationWorkflowService | Should | Alta |
+| UC-013 | Baja de socio | US-037, US-038, US-039, US-040 | BC-Membership | BajaMemberService | Must | Media |
+| UC-014 | Gestión de lista de espera | US-041, US-042 | BC-Membership | WaitingListService | Should | Baja |
+| UC-015 | Generación y validación de carnets | US-043, US-044, US-045, US-046 | BC-Membership | MemberCardService | Must | Alta |
+| UC-016 | [FUSIONADO CON UC-015] | - | BC-Membership | - | - | - |
 
-**Total BC-Membresia:** 10 UCs activos (UC-016 fusionado) cubriendo 34 User Stories (US-009 a US-046)
+**Total BC-Membership:** 10 UCs activos (UC-016 fusionado) cubriendo 34 User Stories (US-009 a US-046)
 
 **Nota sobre UC-016:** Originalmente planificado como "Generación de carnets en lote", se fusionó con UC-015 tras análisis de cohesión funcional. UC-015 ahora incluye tanto generación individual como masiva.
 
@@ -817,9 +817,9 @@ Proceso formal de traspaso de cargo directivo (especialmente Presidente) con wor
 
 #### Metadatos
 - **User Stories:** US-009, US-010, US-011, US-012, US-013
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `SocioService`
-- **Aggregates:** **Socio**, **TipoSocio**
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberService`
+- **Aggregates:** **Member**, **MemberType**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -827,10 +827,10 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
 
 #### Actores
 - **Secretario** (gestión de fichas)
-- **Socio** (consulta propia)
+- **Member** (consulta propia)
 
 #### Precondiciones
-- Usuario autenticado con permisos `socios:write` (secretario)
+- Usuario autenticado con permisos `membership:members:write` (secretario)
 - TipoSocio configurado en el tenant
 
 #### Flujo Normal
@@ -853,7 +853,7 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
      • IBAN * (si domiciliación)
    ```
 3. Secretario completa el formulario
-4. `SocioService.validateDatosPersonales(data)`
+4. `MemberService.validatePersonalData(data)`
    - Valida formato DNI/NIE con algoritmo de letra
    - Valida formato email (RFC 5322)
    - Valida IBAN con mod 97
@@ -905,16 +905,16 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
    ```
 
 6. Secretario completa campos específicos (opcionales)
-7. `SocioService.crearSocio(data, tipo_socio_id)`
-   - Crea Aggregate **Socio** con:
-     - `socio_id`: UUID generado
-     - `numero_socio`: Auto-incremental del tenant
-     - `estado_actual`: "Activo" (si alta directa) o "Aspirante" (si proceso complejo)
-     - `fecha_alta`: NOW()
-     - `datos_personales`: Value Object encriptado (IBAN especialmente)
+7. `MemberService.createMember(data, member_type_id)`
+   - Crea Aggregate **Member** con:
+     - `member_id`: UUID generado
+     - `member_number`: Auto-incremental del tenant
+     - `current_status`: "Activo" (si alta directa) o "Aspirante" (si proceso complejo)
+     - `registration_date`: NOW()
+     - `personal_data`: Value Object encriptado (IBAN especialmente)
      - `custom_fields`: JSON con campos específicos
-   - Crea entrada en `HistorialEstados` con estado inicial
-   - Emite evento `SocioRegistrado`
+   - Crea entrada en `StatusHistory` con estado inicial
+   - Emite evento `MemberRegistered`
 8. Sistema redirige a la ficha completa del socio
 9. Sistema muestra confirmación: "Socio creado correctamente. Número de socio: 00342"
 
@@ -923,9 +923,9 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
 **FA-1: Actualización de ficha existente**
 - Secretario accede a "Socios > Buscar" y selecciona socio
 - Modifica campos permitidos (no puede cambiar DNI ni número de socio)
-- `SocioService.actualizarDatos(socio_id, datos_modificados)`
-- Sistema emite evento `DatosSocioActualizados` con campos modificados
-- Si cambia email o IBAN: notifica a BC-Comunicacion y BC-Tesoreria
+- `MemberService.updateData(memberId, modified_data)`
+- Sistema emite evento `MemberDataUpdated` con campos modificados
+- Si cambia email o IBAN: notifica a BC-Communication y BC-Treasury
 
 **FA-2: Consulta de ficha por socio**
 - Socio accede a "Mi Perfil" en Portal del Socio
@@ -972,19 +972,19 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `SocioRegistrado` | `{ socioId: UUID, numeroSocio: string, nombre: string, apellidos: string, email: string, tipoSocioId: UUID, fechaAlta: Date, iban?: string }` | Tras completar alta y asignar número de socio (paso 12) | BC-Tesoreria (UC-020: crear CuentaSocio + MandatoSepa), BC-Comunicacion (UC-047: email bienvenida) |
-| `DatosSocioActualizados` | `{ socioId: UUID, camposModificados: string[], nuevoEmail?: string, nuevoIban?: string, fechaActualizacion: Date }` | Al guardar cambios en ficha del socio (paso 8) | BC-Tesoreria (UC-020: actualizar IBAN si cambió), BC-Comunicacion (UC-047: actualizar email si cambió) |
+| `MemberRegistered` | `{ memberId: UUID, memberNumber: string, name: string, surnames: string, email: string, memberTypeId: UUID, registrationDate: Date, iban?: string }` | Tras completar alta y asignar número de socio (paso 12) | BC-Treasury (UC-020: crear MemberAccount + MandatoSepa), BC-Communication (UC-047: email bienvenida) |
+| `MemberDataUpdated` | `{ memberId: UUID, modifiedFields: string[], newEmail?: string, newIban?: string, updateDate: Date }` | Al guardar cambios en ficha del socio (paso 8) | BC-Treasury (UC-020: actualizar IBAN si cambió), BC-Communication (UC-047: actualizar email si cambió) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Membresia → BC-Tesoreria: Creación de CuentaSocio al registrar socio
-- BC-Membresia → BC-Comunicacion: Email de bienvenida al socio
+- BC-Membership → BC-Treasury: Creación de MemberAccount al registrar socio
+- BC-Membership → BC-Communication: Email de bienvenida al socio
 
 #### Poscondiciones
 - Socio creado con ficha completa
 - Número de socio asignado único
-- CuentaSocio creada en BC-Tesoreria
+- MemberAccount creada en BC-Treasury
 - Email de bienvenida enviado
 
 #### Notas de Implementación
@@ -999,9 +999,9 @@ Creación, actualización y consulta de la ficha centralizada del socio con dato
 
 #### Metadatos
 - **User Stories:** US-014
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `SocioService`
-- **Aggregates:** **Socio**
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberService`
+- **Aggregates:** **Member**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -1030,13 +1030,13 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
      → BajaVoluntaria (proceso de baja)
      ```
 2. Secretario selecciona nuevo estado y proporciona motivo
-3. `SocioService.cambiarEstado(socio_id, nuevo_estado, motivo, usuario_id)`
+3. `MemberService.changeStatus(memberId, new_status, motivo, user_id)`
    - Valida que la transición esté permitida según **Tabla 1: Matriz de Transiciones de Estado:**
    
    | Estado Origen | Estados Destino Permitidos |
    |---------------|----------------------------|
    | **ACTIVO** | PendientePago, Suspendido, BajaVoluntaria |
-   | **PENDIENTE_PAGO** | Activo, Suspendido, BajaImpago |
+   | **PENDING_PAGO** | Activo, Suspendido, BajaImpago |
    | **SUSPENDIDO** | Activo, BajaDisciplinaria |
    | **ASPIRANTE** | Activo, BajaVoluntaria |
    | **BAJA_VOLUNTARIA** | *(Terminal - requiere proceso de Rehabilitación, ver UC-013)* |
@@ -1044,23 +1044,23 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
    | **BAJA_DISCIPLINARIA** | *(Terminal - inmutable)* |
    | **FALLECIDO** | *(Terminal - inmutable)* |
    
-   - Actualiza `Socio.estado_actual`
-   - Crea entrada en `HistorialEstados`:
+   - Actualiza `Member.current_status`
+   - Crea entrada en `StatusHistory`:
      ```
-     | fecha_cambio | estado_anterior | estado_nuevo   | motivo       | usuario_id |
+     | fecha_cambio | estado_anterior | estado_nuevo   | motivo       | user_id |
      |--------------|-----------------|----------------|--------------|------------|
       | 2026-02-04   | Activo          | PendientePago  | Impago 90d   | 15         |
       ```
-   - Emite evento `EstadoSocioCambiado`
+   - Emite evento `MemberStatusChanged`
 4. Sistema muestra confirmación: "Estado del socio cambiado a PendientePago"
 
 **Transición Automática:**
 
-5. Sistema ejecuta proceso nocturno `GestionMorosidad`
+5. Sistema ejecuta proceso nocturno `DelinquencyManager`
 6. Detecta socio con cuota vencida hace 90 días
-7. `SocioService.cambiarEstado(socio_id, 'PendientePago', 'Impago > 90 días', system_user_id)`
-8. Evento `EstadoSocioCambiado` → BC-Tesoreria suspende generación de nuevos cargos
-9. Evento `EstadoSocioCambiado` → BC-Comunicacion envía notificación al socio
+7. `MemberService.changeStatus(memberId, 'PENDING_PAYMENT', 'Impago > 90 días', system_user_id)`
+8. Evento `MemberStatusChanged` → BC-Treasury suspende generación de nuevos cargos
+9. Evento `MemberStatusChanged` → BC-Communication envía notificación al socio
 
 #### Flujos Alternativos
 
@@ -1086,9 +1086,9 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
 
 **FA-2: Regularización desde PendientePago**
 - Socio paga todas las cuotas pendientes
-- BC-Tesoreria emite evento `DeudaSaldada`
-- `SocioService` escucha evento y ejecuta:
-  - `cambiarEstado(socio_id, 'Activo', 'Deuda regularizada', system_user_id)`
+- BC-Treasury emite evento `DebtSettled`
+- `MemberService` escucha evento y ejecuta:
+  - `changeStatus(memberId, 'ACTIVE', 'Deuda regularizada', system_user_id)`
 - Estado vuelve a ACTIVO automáticamente
 
 #### Flujos de Excepción
@@ -1113,7 +1113,7 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EstadoSocioCambiado` | `{ socioId: UUID, estadoAnterior: EstadoSocio, estadoNuevo: EstadoSocio, motivo?: string, fechaCambio: Date }` | Al completar la operación principal | - BC-Tesoreria: Suspender/reactivar cobros |
+| `MemberStatusChanged` | `{ memberId: UUID, previousStatus: MemberStatus, newStatus: MemberStatus, reason?: string, changeDate: Date }` | Al completar la operación principal | - BC-Treasury: Suspender/reactivar cobros |
 
 *Este UC no consume eventos de otros BCs*
 
@@ -1126,8 +1126,8 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
 #### Notas de Implementación
 - Los estados FALLECIDO y BAJA_DISCIPLINARIA son terminales (no permiten transiciones)
 - El historial de estados es inmutable (INSERT-only, nunca UPDATE/DELETE)
-- Las transiciones automáticas por morosidad se configuran en BC-Tesoreria pero se ejecutan mediante eventos
-- Validar reglas de transición en Domain Service `ValidadorTransicionEstado`
+- Las transiciones automáticas por morosidad se configuran en BC-Treasury pero se ejecutan mediante eventos
+- Validar reglas de transición en Domain Service `StatusTransitionValidator`
 
 ---
 
@@ -1135,9 +1135,9 @@ Gestión del ciclo de vida del estado del socio con transiciones controladas, re
 
 #### Metadatos
 - **User Stories:** US-015, US-016, US-017, US-018, US-019
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `TipoSocioService`
-- **Aggregates:** **TipoSocio**
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberTypeService`
+- **Aggregates:** **MemberType**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -1251,11 +1251,11 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
 ```
 
 5. Presidente completa configuración y pulsa "Guardar"
-6. `TipoSocioService.crearTipo(tenant_id, config_tipo)`
+6. `MemberTypeService.createType(tenant_id, type_config)`
    - Valida unicidad de código
    - Valida lógica de rangos de edad: `edad_min < edad_max`
    - Valida que antigüedad_voto <= antigüedad_cargos
-   - Crea Aggregate **TipoSocio**
+   - Crea Aggregate **MemberType**
 7. Sistema muestra confirmación: "Tipo de socio 'Hermano de Luz' creado"
 8. El nuevo tipo queda disponible para:
    - Asignación en altas de socios
@@ -1270,7 +1270,7 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
    - **Cálculo de derechos:** Al consultar si socio puede votar:
    - **Transiciones automáticas:** En apertura de ejercicio (UC-010):
      - Socio Juvenil cumple 35 años → Sistema cambia tipo a "Adulto"
-     - Emite evento `TipoSocioCambiado`
+     - Emite evento `MemberTypeChanged`
 
 #### Flujos Alternativos
 
@@ -1285,7 +1285,7 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
 **FA-2: Modificación de tipo existente**
 - Secretario edita tipo "Juvenil"
 - Cambia edad máxima de 30 a 34 años
-- `TipoSocioService.actualizarTipo(tipo_id, cambios)`
+- `MemberTypeService.updateType(type_id, changes)`
 - Sistema recalcula socios afectados y alerta si hay transiciones pendientes
 
 **FA-3: Inactivación de tipo (no eliminación)**
@@ -1320,12 +1320,12 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `TipoSocioCreado` | `{ tipoSocioId: UUID, nombre: string, descripcion: string, tenantId: UUID }` | Al completar la operación principal | BC-Tesoreria (para vincular planes de cuota) |
+| `MemberTypeCreated` | `{ memberTypeId: UUID, name: string, descripcion: string, tenantId: UUID }` | Al completar la operación principal | BC-Treasury (para vincular planes de cuota) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Membresia → BC-Tesoreria: Notificar nuevo tipo para vincular planes de cuota
+- BC-Membership → BC-Treasury: Notificar nuevo tipo para vincular planes de cuota
 
 #### Poscondiciones
 - Tipos de socio configurados según necesidades del tenant
@@ -1337,8 +1337,8 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
   - Alta de socio (validar requisitos)
   - Apertura de ejercicio (transiciones automáticas)
   - Consulta de derechos (voto, elegibilidad)
-- Almacenar reglas como JSON en columna `tipo_socio.reglas_config`
-- Implementar Domain Service `EvaluadorReglasTipoSocio` para lógica de negocio
+- Almacenar reglas como JSON en columna `member_type.rules_config`
+- Implementar Domain Service `MemberTypeRulesEvaluator` para lógica de negocio
 
 ---
 
@@ -1346,9 +1346,9 @@ Configuración de categorías de socios con reglas específicas (edad, derechos,
 
 #### Metadatos
 - **User Stories:** US-020, US-021, US-022
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `SocioService`, `EstadisticasService`
-- **Aggregates:** **Socio** (con Entity TimelineEvento)
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberService`, `StatisticsService`
+- **Aggregates:** **Member** (con Entity TimelineEvent)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -1360,7 +1360,7 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 - **Sistema** (registra eventos automáticamente, calcula antigüedad, emite alertas)
 
 #### Precondiciones
-- Usuario autenticado con permisos `ver_socios` o `ver_estadisticas`
+- Usuario autenticado con permisos `membership:members:read` o `membership:statistics:read`
 - Socio existe en el sistema
 - Para estadísticas: al menos 1 ejercicio con datos históricos
 
@@ -1369,7 +1369,7 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 **Timeline histórico (US-020):**
 
 1. Secretario accede a la ficha de un socio con varios años de historia
-2. Sistema consulta `socio.timeline` (array de Entity `TimelineEvento`)
+2. Sistema consulta `member.timeline` (array de Entity `TimelineEvent`)
 3. Sistema muestra timeline ordenado cronológicamente descendente:
 4. Vista muestra ejemplo de timeline:
    - `2020-01-15`: Alta como socio juvenil
@@ -1387,45 +1387,45 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 **Cálculo de antigüedad (US-021):**
 
 8. Secretario consulta antigüedad de socio con fecha alta `15/03/2020` en fecha actual `15/03/2025`
-9. `SocioService.calcularAntiguedad(socio_id)` ejecuta **Algoritmo de Cálculo de Antigüedad Efectiva:**
+9. `MemberService.calculateSeniority(memberId)` ejecuta **Algoritmo de Cálculo de Antigüedad Efectiva:**
    
    **Paso 1:** Calcular días transcurridos desde fecha de alta hasta hoy:
-   - `diasTotales = diferencia_dias(hoy, fecha_alta)`
+   - `totalDays = day_difference(hoy, registration_date)`
    
-   **Paso 2:** Si configuración `descontarPeriodosBaja = true`:
+   **Paso 2:** Si configuración `deductLeavePeriods = true`:
    - a. Extraer del timeline todos los eventos de tipo `BAJA`
    - b. Extraer del timeline todos los eventos de tipo `REACTIVACION`
    - c. Emparejar cada BAJA con su REACTIVACION correspondiente (orden cronológico)
    - d. Por cada par (baja, reactivación):
-     - Calcular `diasBaja = diferencia_dias(fecha_reactivacion, fecha_baja)`
-     - Acumular: `totalDiasBaja += diasBaja`
+     - Calcular `leaveDays = day_difference(reactivation_date, leave_date)`
+     - Acumular: `totalLeaveDays += leaveDays`
    - e. Si existe BAJA sin REACTIVACION (baja vigente):
-     - Calcular `diasBaja = diferencia_dias(hoy, fecha_baja)`
-     - Acumular: `totalDiasBaja += diasBaja`
+     - Calcular `leaveDays = day_difference(hoy, leave_date)`
+     - Acumular: `totalLeaveDays += leaveDays`
    
    **Paso 3:** Calcular antigüedad efectiva:
-   - `diasEfectivos = diasTotales - totalDiasBaja`
+   - `effectiveDays = totalDays - totalLeaveDays`
    
-   **Paso 4:** Convertir `diasEfectivos` a formato `{años, meses, días}`
+   **Paso 4:** Convertir `effectiveDays` a formato `{años, meses, días}`
    
    **Ejemplo con descuento de bajas:**
    - Alta: 15/03/2020
    - Baja: 01/06/2022 → Reactivación: 01/09/2022 (92 días de baja)
    - Consulta: 15/03/2025
-   - `diasTotales = 1826 días` (5 años exactos)
-   - `diasEfectivos = 1826 - 92 = 1734 días`
+   - `totalDays = 1826 días` (5 años exactos)
+   - `effectiveDays = 1826 - 92 = 1734 días`
    - **Resultado:** 4 años, 9 meses, 2 días
 
 10. Sistema muestra: "5 años, 0 meses, 0 días" (si no hay bajas) o antigüedad efectiva calculada
 11. Al alcanzar umbral significativo (ej: 2 años para derecho a voto):
-    - Sistema detecta el evento mediante listener de `SocioActualizado`
-    - Emite Domain Event `AntiguedadAlcanzada`
-    - BC-Comunicacion consume el evento y envía notificación al secretario
+    - Sistema detecta el evento mediante listener de `MemberUpdated`
+    - Emite Domain Event `SeniorityThresholdReached`
+    - BC-Communication consume el evento y envía notificación al secretario
 
 **Estadísticas de socios (US-022):**
 
 12. Presidente accede a **Dashboard de Estadísticas**
-13. `EstadisticasService.generarDashboard(tenant_id)`:
+13. `StatisticsService.generateDashboard(tenant_id)`:
 14. Sistema muestra indicadores:
     - Total socios activos: **342**
     - Tasa retención: **94.2%**
@@ -1444,7 +1444,7 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 #### Flujos Alternativos
 
 **FA-1: Antigüedad con periodos de baja descontados**
-- Configuración: `descontarPeriodosBaja = true`
+- Configuración: `deductLeavePeriods = true`
 - Socio con baja del `2022-01-01` al `2023-06-30` (18 meses)
 - Sistema descuenta 18 meses del cálculo total
 - Antigüedad efectiva refleja solo periodos activos
@@ -1477,14 +1477,14 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `AntiguedadAlcanzada` | socioId, umbralAlcanzado (ej: "2_AÑOS_VOTO"), antiguedadActual | Al ejecutar la operación | BC-Comunicacion (notificar derecho adquirido) |
-| `EventoTimelineRegistrado` | socioId, tipoEvento, fecha | Al crear el registro | Auditoría, BC-Documentos (memoria) |
+| `SeniorityThresholdReached` | memberId, thresholdReached (ej: "2_YEARS_VOTING"), currentSeniority | Al ejecutar la operación | BC-Communication (notificar derecho adquirido) |
+| `TimelineEventRecorded` | memberId, eventType, fecha | Al crear el registro | Auditoría, BC-Documents (memoria) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia → BC-Comunicacion:** Notificación de antigüedad alcanzada
-- **BC-Membresia → BC-Documentos:** Datos para generación de memoria anual
+- **BC-Membership → BC-Communication:** Notificación de antigüedad alcanzada
+- **BC-Membership → BC-Documents:** Datos para generación de memoria anual
 
 #### Poscondiciones
 - **Éxito:** Timeline consultable, antigüedad calculada correctamente, estadísticas actualizadas
@@ -1493,13 +1493,13 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 #### Notas de Implementación
 
 1. **Event Sourcing parcial (RNFT-025):**
-   - Timeline almacenado como tabla `timeline_eventos` con FK a `socios`
+   - Timeline almacenado como tabla `timeline_events` con FK a `members`
    - Columna `inmutable = true` + trigger DB que bloquea UPDATE/DELETE
-   - Índice en `(socio_id, fecha DESC)` para consultas rápidas
+   - Índice en `(member_id, fecha DESC)` para consultas rápidas
 
 2. **Cálculo de antigüedad (RNFT-015):**
    - Usar `date-fns` para precisión (evitar bugs de meses con diferente número de días)
-   - Cachear antigüedad calculada en columna `socio.antiguedad_cache` (actualizada diariamente por CRON)
+   - Cachear antigüedad calculada en columna `member.seniority_cache` (actualizada diariamente por CRON)
    - Consultas p95 < 100ms gracias a cache
 
 3. **Estadísticas agregadas (RNFT-019):**
@@ -1508,11 +1508,11 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 
 4. **Alertas de antigüedad (RNFT-042):**
    - Proceso batch nocturno que calcula antigüedades
-   - Si detecta cruce de umbral, emite `AntiguedadAlcanzada`
-   - Usar tabla `umbrales_antiguedad` configurable por tenant
+   - Si detecta cruce de umbral, emite `SeniorityThresholdReached`
+   - Usar tabla `seniority_thresholds` configurable por tenant
 
 5. **Pirámide de edades:**
-   - Query SQL con `DATE_PART('year', AGE(fecha_nacimiento))`
+   - Query SQL con `DATE_PART('year', AGE(birth_date))`
    - Agrupación en rangos: 0-17, 18-34, 35-49, 50-64, 65+
    - Generación de gráfico con Chart.js en frontend
 
@@ -1522,8 +1522,8 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
    - Iconos diferenciados por tipo de evento
 
 7. **Auditoría de eventos (RNFT-025):**
-   - Cada evento del timeline incluye `usuario_id` (quién lo ejecutó)
-   - Eventos del sistema tienen `usuario_id = NULL`
+   - Cada evento del timeline incluye `user_id` (quién lo ejecutó)
+   - Eventos del sistema tienen `user_id = NULL`
    - Trigger automático al ejecutar acciones críticas (cambio tipo, baja, etc.)
 
 ---
@@ -1532,9 +1532,9 @@ Proporciona un sistema de timeline cronológico inmutable que registra todos los
 
 #### Metadatos
 - **User Stories:** US-023, US-024, US-025, US-026, US-027
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `EjercicioService`
-- **Aggregates:** **Ejercicio** (nuevo Aggregate Root)
+- **Bounded Context:** BC-Membership
+- **Application Service:** `FiscalYearService`
+- **Aggregates:** **FiscalYear** (nuevo Aggregate Root)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -1593,12 +1593,12 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
 ```
 
 7. Tesorero confirma apertura
-8. `EjercicioService.abrirEjercicio(config)`:
+8. `FiscalYearService.openFiscalYear(config)`:
 9. Sistema finaliza apertura:
    - **340 socios activos arrastrados** (12 socios de baja NO arrastrados)
    - **8 transiciones aplicadas** (juveniles → adultos por cumplir 35 años)
-   - Emite evento `EjercicioAbierto`
-   - BC-Tesoreria lo consume y activa generación mensual de cargos
+   - Emite evento `FiscalYearOpened`
+   - BC-Treasury lo consume y activa generación mensual de cargos
 10. Sistema registra transiciones en timeline de cada socio afectado
 
 **Cierre de ejercicio (US-025):**
@@ -1619,19 +1619,19 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
     - ✓ Remesas bancarias cerradas
     - ✗ **Pendiente:** Falta aprobar acta de diciembre
 14. Presidente confirma cierre (fuerza cierre pese a advertencia)
-15. `EjercicioService.cerrarEjercicio(ejercicio_id)`:
+15. `FiscalYearService.closeFiscalYear(fiscalYearId)`:
     - Genera **memoria de ejercicio** automáticamente (ver US-025)
     - Incluye: resumen socios (altas, bajas), resumen económico, actividades, composición junta
-     - Almacena documento en BC-Documentos
+     - Almacena documento en BC-Documents
      - Marca ejercicio como `CERRADO`
-     - Emite evento `EjercicioCerrado`
+     - Emite evento `FiscalYearClosed`
 16. Sistema bloquea modificaciones posteriores al ejercicio cerrado
 17. Sistema muestra confirmación: "Ejercicio 2025 cerrado correctamente. Memoria generada"
 
 **Comparativas entre ejercicios (US-026):**
 
 18. Presidente accede a **Comparativas > Ejercicios**
-19. `EjercicioService.compararEjercicios([2023, 2024, 2025])`:
+19. `FiscalYearService.compareFiscalYears([2023, 2024, 2025])`:
 20. Sistema muestra tabla comparativa:
 
 | Indicador      | 2023 | 2024 | 2025 | Tendencia |
@@ -1672,16 +1672,16 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EjercicioAbierto` | ejercicioId, sociosArrastrados[], transicionesAplicadas[] | Al iniciar/abrir | BC-Tesoreria (activar generación mensual), BC-Documentos (crear estructura) |
-| `EjercicioCerrado` | ejercicioId, memoriaId | Al completar/cerrar | BC-Documentos (archivar memoria), BC-Comunicacion (notificar Junta) |
-| `TipoSocioCambiado` | socioId, tipoAnterior, tipoNuevo, motivo="transicion_automatica" | Al ejecutar la operación | BC-Tesoreria (revisar plan cuota), BC-Comunicacion (notificar socio) |
+| `FiscalYearOpened` | fiscalYearId, carriedOverMembers[], appliedTransitions[] | Al iniciar/abrir | BC-Treasury (activar generación mensual), BC-Documents (crear estructura) |
+| `FiscalYearClosed` | fiscalYearId, reportId | Al completar/cerrar | BC-Documents (archivar memoria), BC-Communication (notificar Junta) |
+| `MemberTypeChanged` | memberId, previousType, newType, motivo="automatic_transition" | Al ejecutar la operación | BC-Treasury (revisar plan cuota), BC-Communication (notificar socio) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia → BC-Tesoreria:** Notificar apertura para activar cargos mensuales
-- **BC-Membresia → BC-Documentos:** Solicitar generación de memoria de cierre
-- **BC-Membresia → BC-Comunicacion:** Notificar cierre a Junta Directiva
+- **BC-Membership → BC-Treasury:** Notificar apertura para activar cargos mensuales
+- **BC-Membership → BC-Documents:** Solicitar generación de memoria de cierre
+- **BC-Membership → BC-Communication:** Notificar cierre a Junta Directiva
 
 #### Poscondiciones
 - **Éxito:** Ejercicio abierto/cerrado, socios arrastrados, transiciones aplicadas, memoria generada
@@ -1690,7 +1690,7 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
 #### Notas de Implementación
 
 1. **Aggregate Ejercicio (ADR-009):**
-   - Tabla `ejercicios` con columnas: `ejercicio_id`, `tenant_id`, `nombre`, `tipo`, `fecha_inicio`, `fecha_fin`, `estado`, `socios_al_inicio`, `socios_al_fin`, `memoria_id`, `ejercicio_anterior_id`
+   - Tabla `fiscal_years` con columnas: `fiscal_year_id`, `tenant_id`, `nombre`, `tipo`, `start_date`, `end_date`, `estado`, `members_at_start`, `members_at_end`, `report_id`, `previous_fiscal_year_id`
    - Constraint UNIQUE: `(tenant_id, nombre)`
    - Constraint CHECK: `estado IN ('PREPARACION', 'ABIERTO', 'CERRADO')`
 
@@ -1707,13 +1707,13 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
 
 4. **Generación de memoria (RNFT-022):**
    - PDF generado con pdfmake
-   - Datos agregados de: socios (BC-Membresia), económicos (BC-Tesoreria), eventos (BC-Eventos), actas (BC-Documentos)
+   - Datos agregados de: socios (BC-Membership), económicos (BC-Treasury), eventos (BC-Events), actas (BC-Documents)
    - Proceso asíncrono (puede tardar 30s con 500 socios)
    - Job queue con Bull para procesar en background
 
 5. **Cálculo de fechas cofrades:**
    - Usar librería `date-easter` para calcular Domingo de Resurrección
-   - Fecha inicio ejercicio cofrade: `addDays(domingoResurreccion, 1)`
+   - Fecha inicio ejercicio cofrade: `addDays(easterSunday, 1)`
 
 6. **Comparativas y tendencias:**
    - Query SQL con JOIN entre ejercicios y stats agregadas
@@ -1721,7 +1721,7 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
    - Generación de gráficos con Chart.js
 
 7. **Eventos de dominio (ADR-004, ADR-008):**
-   - `EjercicioAbierto` consumido por BC-Tesoreria para iniciar proceso mensual de cargos
+   - `FiscalYearOpened` consumido por BC-Treasury para iniciar proceso mensual de cargos
    - Outbox Pattern: eventos guardados en tabla `outbox_events` y procesados de forma asíncrona
 
 ---
@@ -1730,13 +1730,13 @@ Gestiona el concepto de ejercicio/temporada como periodo de tiempo configurable 
 
 #### Metadatos
 - **User Stories:** US-028
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `AltaSocioService`
-- **Aggregates:** **Socio**, TipoSocio, Ejercicio
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberRegistrationService`
+- **Aggregates:** **Member**, TipoSocio, Ejercicio
 - **Prioridad:** Must
 
 **Descripción:**  
-Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de socio, inscripción) diseñado para peñas y asociaciones culturales. Al completar el registro, crea automáticamente una suscripción de inscripción (cuota UNICA), genera el cargo asociado, cierra la suscripción inmediatamente (motivoBaja=FIN_CUOTA_UNICA), y activa al socio emitiendo el evento SocioRegistrado.
+Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de socio, inscripción) diseñado para peñas y asociaciones culturales. Al completar el registro, crea automáticamente una suscripción de inscripción (cuota UNICA), genera el cargo asociado, cierra la suscripción inmediatamente (cancelReason=FIN_CUOTA_UNICA), y activa al socio emitiendo el evento MemberRegistered.
 
 #### Actores
 - **Secretario** (ejecuta proceso de alta)
@@ -1744,10 +1744,10 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 - **Sistema** (valida, crea registros, emite eventos)
 
 #### Precondiciones
-- Usuario autenticado con permiso `crear_socios`
+- Usuario autenticado con permiso `membership:members:create`
 - Ejercicio activo abierto
 - Al menos 1 TipoSocio configurado
-- PlanCuota de tipo UNICA para inscripción configurado
+- FeePlan de tipo UNICA para inscripción configurado
 
 #### Flujo Normal
 
@@ -1846,17 +1846,17 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 ```
 
 10. Secretario confirma alta
-11. `AltaSocioService.altaSimple(request)`:
+11. `MemberRegistrationService.simpleRegistration(request)`:
 12. Sistema completa alta:
     - Socio creado en estado **"Activo"**
     - Número de socio asignado: **#00343**
     - Cargo de inscripción generado: **50€** (pendiente de pago)
-    - Suscripción de inscripción cerrada automáticamente (motivoBaja=FIN_CUOTA_UNICA)
+    - Suscripción de inscripción cerrada automáticamente (cancelReason=FIN_CUOTA_UNICA)
 
-13. Evento `SocioRegistrado` consumido por:
-     - **BC-Tesoreria:** Crea CuentaSocio y vincula cargo
-     - **BC-Comunicacion:** Envía email de bienvenida con instrucciones de pago
-     - **BC-Membresia:** Genera carnet digital del nuevo socio
+13. Evento `MemberRegistered` consumido por:
+     - **BC-Treasury:** Crea MemberAccount y vincula cargo
+     - **BC-Communication:** Envía email de bienvenida con instrucciones de pago
+     - **BC-Membership:** Genera carnet digital del nuevo socio
 14. Sistema muestra confirmación: "Socio dado de alta correctamente. Número asignado: #00343"
 
 #### Flujos Alternativos
@@ -1868,18 +1868,18 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 
 **FA-2: Alta con datos bancarios (SEPA)**
 - En paso 3, secretario añade IBAN del socio
-- Sistema incluye IBAN en evento SocioRegistrado
-- BC-Tesoreria escucha el evento y crea mandato SEPA pendiente de firma
+- Sistema incluye IBAN en evento MemberRegistered
+- BC-Treasury escucha el evento y crea mandato SEPA pendiente de firma
 - Cargo de inscripción se incluirá en próxima remesa SEPA
 
 **FA-3: Pago inmediato de inscripción**
 - Aspirante accede a portal del socio con credenciales recibidas por email
 - Ve cargo pendiente de 50€
-- Realiza pago mediante pasarela (ver UC-025: Pasarela de pago online de BC-Tesoreria)
+- Realiza pago mediante pasarela (ver UC-025: Pasarela de pago online de BC-Treasury)
 - Al confirmar pago:
-  - BC-Tesoreria emite evento `PagoRegistrado`
+  - BC-Treasury emite evento `PaymentRecorded`
   - Cargo pasa a estado COBRADO
-  - BC-Comunicacion envía email de confirmación
+  - BC-Communication envía email de confirmación
   - Carnet digital queda activo para uso
 
 #### Flujos de Excepción
@@ -1899,7 +1899,7 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 - Sistema bloquea: "La edad no cumple los requisitos del tipo 'Adulto'"
 
 **FE-4: No hay plan de inscripción configurado**
-- Tenant sin PlanCuota tipo UNICA
+- Tenant sin FeePlan tipo UNICA
 - Sistema bloquea alta: "Debe configurar un plan de cuota de inscripción"
 - Redirige a configuración de planes
 
@@ -1913,13 +1913,13 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `SocioRegistrado` | socioId, tipoSocioId, cargoInscripcionId, fechaAlta, iban? | Al crear el registro | BC-Tesoreria (crear CuentaSocio, crear MandatoSepa si iban presente), BC-Comunicacion (email bienvenida), BC-Membresia (generar carnet) |
+| `MemberRegistered` | memberId, memberTypeId, registrationChargeId, registrationDate, iban? | Al crear el registro | BC-Treasury (crear MemberAccount, crear MandatoSepa si iban presente), BC-Communication (email bienvenida), BC-Membership (generar carnet) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia → BC-Tesoreria:** Crear CuentaSocio y vincular cargo de inscripción
-- **BC-Membresia → BC-Comunicacion:** Enviar email de bienvenida con credenciales y datos de pago
+- **BC-Membership → BC-Treasury:** Crear MemberAccount y vincular cargo de inscripción
+- **BC-Membership → BC-Communication:** Enviar email de bienvenida con credenciales y datos de pago
 
 #### Poscondiciones
 - **Éxito:** Socio activo, cargo de inscripción generado, suscripción cerrada, eventos emitidos
@@ -1941,13 +1941,13 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 3. **Generación de número de socio:**
    - Secuencia autoincremental por tenant
    - Formato configurable: `00001`, `SOC-0001`, etc.
-   - Consulta `SELECT MAX(numero_socio) FROM socios WHERE tenant_id = ?` + lock
+   - Consulta `SELECT MAX(member_number) FROM members WHERE tenant_id = ?` + lock
 
 4. **Cuota UNICA (IMPORTANTE):**
-   - Al crear SuscripcionCuota con PlanCuota tipo UNICA:
+   - Al crear FeeSubscription con FeePlan tipo UNICA:
      - Sistema genera 1 solo Cargo inmediatamente
-     - Cierra la suscripción con `motivoBaja = FIN_CUOTA_UNICA`
-     - Estado final: suscripción CERRADA, cargo PENDIENTE
+     - Cierra la suscripción con `cancelReason = ONE_TIME_COMPLETED`
+     - Estado final: suscripción CERRADA, cargo PENDING
    - Diferencia con suscripciones periódicas: estas permanecen ACTIVAS y generan cargos mensualmente
 
 5. **Transacción atómica (RNFT-037):**
@@ -1968,9 +1968,9 @@ Proceso simplificado de alta de socio en 3 pasos (datos personales, tipo de soci
 
 #### Metadatos
 - **User Stories:** US-029, US-030, US-031
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `AltaSocioService` (workflow complejo)
-- **Aggregates:** **Socio**, **SolicitudAlta** (con Entity DocumentoPendiente, Aval)
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberRegistrationService` (workflow complejo)
+- **Aggregates:** **Member**, **RegistrationRequest** (con Entity DocumentoPendiente, Aval)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -1980,13 +1980,13 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 
 | Fase | Nombre de Fase | Estado de Solicitud | Validaciones Requeridas |
 |------|----------------|---------------------|------------------------|
-| **1** | Solicitud escrita | `SOLICITUD_RECIBIDA` | Datos personales completos |
-| **2** | Avales de hermanos | `PENDIENTE_DOCUMENTACION` | 2 avales de hermanos con antigüedad ≥2 años |
-| **3** | Entrega documentación | `DOCUMENTACION_COMPLETA` | Todos documentos marcados como entregados |
-| **4** | Pago inscripción | `PENDIENTE_PAGO` → `PAGO_CONFIRMADO` | Cargo de inscripción pagado |
-| **5** | Periodo formación | `EN_FORMACION` | 1 año desde pago confirmado |
-| **6** | Aprobación Junta | `PENDIENTE_APROBACION` | Ceremonia de jura programada |
-| **7** | Alta efectiva | `ALTA_EFECTIVA` | Imposición de medalla registrada |
+| **1** | Solicitud escrita | `REQUEST_RECEIVED` | Datos personales completos |
+| **2** | Avales de hermanos | `PENDING_DOCUMENTATION` | 2 avales de hermanos con antigüedad ≥2 años |
+| **3** | Entrega documentación | `DOCUMENTATION_COMPLETE` | Todos documentos marcados como entregados |
+| **4** | Pago inscripción | `PENDING_PAYMENT` → `PAYMENT_CONFIRMED` | Cargo de inscripción pagado |
+| **5** | Periodo formación | `IN_TRAINING` | 1 año desde pago confirmado |
+| **6** | Aprobación Junta | `PENDING_APPROVAL` | Ceremonia de jura programada |
+| **7** | Alta efectiva | `EFFECTIVE_REGISTRATION` | Imposición de medalla registrada |
 
 **Regla de avance:** Las fases deben completarse en orden estricto (no se permiten saltos). Cada transición valida que la fase anterior esté completa antes de avanzar.
 
@@ -2001,7 +2001,7 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 - Entidad configurada como Cofradía
 - Workflow de alta complejo habilitado en configuración
 - Al menos 2 hermanos con antigüedad >= 2 años (para avales)
-- PlanCuota de inscripción configurado
+- FeePlan de inscripción configurado
 
 #### Flujo Normal
 
@@ -2009,7 +2009,7 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 
 1. Aspirante presenta solicitud escrita al Hermano Mayor
 2. Secretario registra solicitud en sistema:
-3. Sistema crea solicitud en estado `SOLICITUD_RECIBIDA`
+3. Sistema crea solicitud en estado `REQUEST_RECEIVED`
 
 **Fase 2: Avales de hermanos**
 
@@ -2058,11 +2058,11 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 10. Secretario avanza a Fase 4
 11. Sistema crea suscripción de inscripción (cuota UNICA) y genera cargo:
 12. Aspirante paga cargo (efectivo, transferencia o SEPA)
-13. Al registrar pago, solicitud avanza a estado `PAGO_CONFIRMADO`
+13. Al registrar pago, solicitud avanza a estado `PAYMENT_CONFIRMED`
 
 **Fase 5: Periodo de formación**
 
-14. Solicitud pasa a estado `EN_FORMACION`
+14. Solicitud pasa a estado `IN_TRAINING`
 15. Sistema registra fecha inicio formación: `01/04/2026`
 16. Fecha fin formación calculada: `01/04/2027` (1 año después)
 17. Sistema programa recordatorio 1 mes antes del fin
@@ -2073,14 +2073,14 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 19. Secretario programa ceremonia de jura
 20. Tras jura, Hermano Mayor registra imposición de medalla
 21. Sistema ejecuta alta efectiva:
-    - Crea Aggregate **Socio** con estado "Activo"
-    - Marca solicitud como `ALTA_EFECTIVA`
-    - Emite evento `SocioRegistrado` (igual que UC-011)
+    - Crea Aggregate **Member** con estado "Activo"
+    - Marca solicitud como `EFFECTIVE_REGISTRATION`
+    - Emite evento `MemberRegistered` (igual que UC-011)
 22. Sistema muestra confirmación: "Alta efectiva completada. Nuevo hermano: Juan García (#00343)"
 
 **Alertas de procesos estancados:**
 
-23. Proceso batch diario detecta solicitudes con `fechaUltimaActualizacion` > 60 días en misma fase
+23. Proceso batch diario detecta solicitudes con `lastUpdatedAt` > 60 días en misma fase
 24. Sistema envía alerta a secretario:
      - "Aspirante Juan García estancado en fase 3 (documentación) hace 75 días"
      - Dashboard muestra sección "Procesos Estancados" con 3 solicitudes
@@ -2116,16 +2116,16 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `SolicitudAltaIniciada` | solicitudId, datosSolicitante | Al ejecutar la operación | BC-Comunicacion (email confirmación) |
-| `SolicitudAltaAprobada` | solicitudId, socioId, aprobadoPor | Fase 6: tras aprobación de jura e imposición de medalla por Hermano Mayor | BC-Comunicacion (notificar aspirante), BC-Tesoreria (confirmar pago inscripción) |
-| `ProcesoEstancado` | solicitudId, fase, diasEstancado | Al ejecutar la operación | BC-Comunicacion (alertas) |
-| `SocioRegistrado` | socioId, tipoSocioId | Al crear el registro | BC-Tesoreria, BC-Comunicacion (ver UC-011) |
+| `RegistrationRequestStarted` | requestId, applicantData | Al ejecutar la operación | BC-Communication (email confirmación) |
+| `RegistrationRequestApproved` | requestId, memberId, approvedBy | Fase 6: tras aprobación de jura e imposición de medalla por Hermano Mayor | BC-Communication (notificar aspirante), BC-Treasury (confirmar pago inscripción) |
+| `ProcessStalled` | requestId, phase, stalledDays | Al ejecutar la operación | BC-Communication (alertas) |
+| `MemberRegistered` | memberId, memberTypeId | Al crear el registro | BC-Treasury, BC-Communication (ver UC-011) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia → BC-Comunicacion:** Notificaciones de avance de fase, alertas
-- **BC-Membresia → BC-Tesoreria:** Crear cargo de inscripción, devolver pago si aplica
+- **BC-Membership → BC-Communication:** Notificaciones de avance de fase, alertas
+- **BC-Membership → BC-Treasury:** Crear cargo de inscripción, devolver pago si aplica
 
 #### Poscondiciones
 - **Éxito:** Socio activo tras completar 7 fases, solicitud cerrada
@@ -2134,17 +2134,17 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 #### Notas de Implementación
 
 1. **Aggregate SolicitudAlta:**
-   - Tabla `solicitudes_alta` con columnas: `solicitud_id`, `tenant_id`, `dni`, `nombre`, `estado`, `fase_actual`, `fecha_solicitud`, `fecha_ultima_actualizacion`, `socio_id`
-   - Tabla `solicitud_avales` (Entity): `aval_id`, `solicitud_id`, `hermano_id`, `fecha`
-   - Tabla `solicitud_documentos` (Entity): `doc_id`, `solicitud_id`, `tipo_documento`, `entregado`, `fecha_limite`, `archivo_id`
+   - Tabla `registration_requests` con columnas: `request_id`, `tenant_id`, `dni`, `nombre`, `estado`, `current_phase`, `request_date`, `last_updated_at`, `member_id`
+   - Tabla `request_endorsements` (Entity): `endorsement_id`, `request_id`, `member_sponsor_id`, `fecha`
+   - Tabla `request_documents` (Entity): `document_id`, `request_id`, `document_type`, `entregado`, `deadline`, `file_id`
 
 2. **State Machine del workflow:**
    - Usar librería `xstate` para gestionar transiciones de estados
    - Configuración del workflow en JSON editable por tenant
 
 3. **Alertas de procesos estancados (RNFT-042):**
-   - CRON diario que ejecuta query: `SELECT * FROM solicitudes_alta WHERE fecha_ultima_actualizacion < NOW() - INTERVAL '60 days' AND estado NOT IN ('ALTA_EFECTIVA', 'DESISTIDA')`
-   - Emite evento `ProcesoEstancado` para cada solicitud
+   - CRON diario que ejecuta query: `SELECT * FROM solicitudes_alta WHERE last_updated_at < NOW() - INTERVAL '60 days' AND estado NOT IN ('ALTA_EFECTIVA', 'DESISTIDA')`
+   - Emite evento `ProcessStalled` para cada solicitud
 
 4. **Documentos (RNFT-009, RNFT-011):**
    - Archivos almacenados en MinIO/S3
@@ -2162,9 +2162,9 @@ Proceso de alta por fases específico para cofradías que sigue un workflow trad
 
 #### Metadatos
 - **User Stories:** US-032, US-033, US-034, US-035
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `BajaSocioService`
-- **Aggregates:** **Socio**, **ExpedienteDisciplinario** (Entity)
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberDeactivationService`
+- **Aggregates:** **Member**, **DisciplinaryCase** (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -2174,7 +2174,7 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 - **Secretario** (procesa bajas voluntarias, gestiona expedientes)
 - **Tesorero** (ejecuta bajas por impago tras workflow)
 - **Presidente** (autoriza bajas disciplinarias, aprueba rehabilitaciones)
-- **Socio** (solicita baja voluntaria o rehabilitación)
+- **Member** (solicita baja voluntaria o rehabilitación)
 - **Sistema** (cierra suscripciones, calcula deuda, emite eventos)
 
 #### Precondiciones
@@ -2217,20 +2217,20 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 ```
 
 4. Secretario confirma baja
-5. `BajaSocioService.procesarBajaVoluntaria(socio_id, fecha_solicitud)` calcula fecha efectiva según **Tabla 4: Fórmulas de Cálculo de Fecha Efectiva de Baja:**
+5. `MemberDeactivationService.processVoluntaryLeave(memberId, requestDate)` calcula fecha efectiva según **Tabla 4: Fórmulas de Cálculo de Fecha Efectiva de Baja:**
 
 | Configuración Estatutaria | Fórmula de Cálculo | Ejemplo (Solicitud 15/07/2026) |
 |---------------------------|-------------------|-------------------------------|
-| **Baja inmediata** | `fecha_efectiva = fecha_solicitud` | Efectiva: 15/07/2026 |
+| **Baja inmediata** | `fecha_efectiva = request_date` | Efectiva: 15/07/2026 |
 | **Fin de ejercicio** | `fecha_efectiva = 31/12 del año actual` | Efectiva: 31/12/2026 |
 | **Fin de mes siguiente** | `fecha_efectiva = último_día(mes + 1)` | Efectiva: 31/08/2026 |
-| **Preaviso N días** | `fecha_efectiva = fecha_solicitud + N días` | Efectiva: 14/08/2026 (N=30) |
+| **Preaviso N días** | `fecha_efectiva = request_date + N días` | Efectiva: 14/08/2026 (N=30) |
 
 **Nota:** La fecha efectiva determina hasta cuándo se generan cargos de cuotas periódicas.
 
 6. Sistema ejecuta baja:
    - Estado: ACTIVO → **BAJA_VOLUNTARIA**
-   - Suscripciones cerradas con `motivoBaja = BAJA_SOCIO`
+   - Suscripciones cerradas con `cancelReason = MEMBER_LEAVE`
    - Cargos pendientes (30€) se mantienen como deuda
    - Procesos mensuales futuros **NO** generarán cargos para este socio
    - Timeline registra evento de baja
@@ -2247,7 +2247,7 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
     - 730 días: certificado de descubierto
     - +30 días sin regularizar: **baja automática**
 
-11. Sistema ejecuta `procesarBajaPorImpago(socio_id)`:
+11. Sistema ejecuta `processNonpaymentLeave(memberId)`:
 12. Sistema genera certificado de descubierto con:
      - Datos del socio
      - Deuda detallada (cargos, importes, fechas)
@@ -2260,7 +2260,7 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 **Oportunidad de regularización:**
 
 15. Socio notificado de baja inminente paga toda la deuda antes del plazo
-16. `BajaSocioService.cancelarBajaPorRegularizacion(socio_id)`:
+16. `MemberDeactivationService.cancelLeaveByRegularization(memberId)`:
      - Cancela proceso de baja
      - Cambia estado a ACTIVO
      - Registra evento en timeline: "Regularización de deuda - baja cancelada"
@@ -2268,7 +2268,7 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 **Baja disciplinaria (US-034):**
 
 17. Presidente abre expediente disciplinario por conducta sancionable
-18. `BajaSocioService.abrirExpedienteDisciplinario(socio_id, motivo)`:
+18. `MemberDeactivationService.openDisciplinaryCase(memberId, reason)`:
 19. Expediente sigue fases obligatorias:
 | Fase | Acción | Plazo | Documento |
 |------|--------|-------|-----------|
@@ -2280,11 +2280,11 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 | 6 | Recurso a Asamblea | 30 días | Recurso (opcional) |
 
 20. Si resolución es expulsión:
-     - Presidente ejecuta `procesarBajaDisciplinaria(expediente_id)`
+     - Presidente ejecuta `processDisciplinaryLeave(caseId)`
      - Sistema cambia estado a **BAJA_DISCIPLINARIA**
      - Cierra suscripciones
      - Conserva toda la documentación del expediente
-     - Emite evento `SocioDadoDeBaja`
+     - Emite evento `MemberDeactivated`
 21. Sistema muestra confirmación: "Baja disciplinaria ejecutada. Expediente archivado"
 
 **Rehabilitación de socios (US-035):**
@@ -2298,12 +2298,12 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
      - Nueva inscripción: 0€ (no requerida por estatutos)
      - **Total a pagar: 350€**
 26. Ex-socio paga importe completo
-27. `BajaSocioService.rehabilitarSocio(ex_socio_id)`:
+27. `MemberDeactivationService.reinstateMember(exMemberId)`:
      - Cambia estado: BAJA_IMPAGO → ACTIVO
      - Marca cargos pendientes como COBRADOS
      - Si config lo permite: recupera antigüedad anterior
      - Timeline muestra periodo de baja claramente
-     - Emite evento `SocioRehabilitado`
+     - Emite evento `MemberReinstated`
 28. Sistema muestra confirmación: "Socio rehabilitado correctamente. Deuda saldada: 350€"
 
 #### Flujos Alternativos
@@ -2313,9 +2313,9 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 - Baja sin cargos pendientes
 
 **FA-2: Mantenimiento vs pérdida de antigüedad**
-- Configuración `mantenerAntiguedadRehabilitacion = true`:
+- Configuración `keepSeniorityOnRehabilitation = true`:
   - Al rehabilitar, antigüedad incluye periodo anterior
-- Configuración `mantenerAntiguedadRehabilitacion = false`:
+- Configuración `keepSeniorityOnRehabilitation = false`:
   - Antigüedad comienza desde fecha de rehabilitación
 
 #### Flujos de Excepción
@@ -2324,10 +2324,10 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 - Socio inscrito en evento futuro
 - Sistema alerta: "El socio tiene inscripciones en eventos. ¿Cancelar inscripciones?"
 
-**FE-2: Error al consultar estado de cuotas (BC-Tesoreria caído)**
-- Si BC-Tesoreria no responde:
+**FE-2: Error al consultar estado de cuotas (BC-Treasury caído)**
+- Si BC-Treasury no responde:
   - Sistema muestra: "Estado de cuotas temporalmente no disponible"
-  - Muestra solo datos personales (disponibles en BC-Membresia)
+  - Muestra solo datos personales (disponibles en BC-Membership)
   - Opción: "Reintentar" o "Contactar con tesorería"
 
 **FE-2: Expediente sin notificación acreditada**
@@ -2344,16 +2344,16 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `ExpedienteDisciplinarioAbierto` | expedienteId, socioId, motivo | Al iniciar/abrir | BC-Documentos (archivar), BC-Comunicacion (notificar Junta) |
-| `SocioRehabilitado` | socioId, deudaPagada, antiguedadRecuperada | Al ejecutar la operación | BC-Tesoreria (reactivar), BC-Comunicacion (email bienvenida) |
+| `DisciplinaryCaseOpened` | caseId, memberId, motivo | Al iniciar/abrir | BC-Documents (archivar), BC-Communication (notificar Junta) |
+| `MemberReinstated` | memberId, debtPaid, seniorityRecovered | Al ejecutar la operación | BC-Treasury (reactivar), BC-Communication (email bienvenida) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia → BC-Tesoreria:** Cerrar suscripciones, mantener cargos pendientes
-- **BC-Membresia → BC-Comunicacion:** Notificar baja, fases de expediente
-- **BC-Membresia → BC-Eventos:** Cancelar inscripciones en eventos futuros
-- **BC-Membresia ← BC-Tesoreria:** Validar workflow morosidad completado (para baja por impago)
+- **BC-Membership → BC-Treasury:** Cerrar suscripciones, mantener cargos pendientes
+- **BC-Membership → BC-Communication:** Notificar baja, fases de expediente
+- **BC-Membership → BC-Events:** Cancelar inscripciones en eventos futuros
+- **BC-Membership ← BC-Treasury:** Validar workflow morosidad completado (para baja por impago)
 
 #### Poscondiciones
 - **Éxito:** Socio en estado BAJA_*, suscripciones cerradas, eventos registrados
@@ -2366,7 +2366,7 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
    - Permite filtros y estadísticas por tipo de baja
 
 2. **Cierre de suscripciones (ADR-004):**
-   - `MotivoBajaSuscripcion.BAJA_SOCIO` diferenciado de `FIN_CUOTA_UNICA`
+   - `MotivoBajaSuscripcion.BAJA_SOCIO` diferenciado de `ONE_TIME_COMPLETED`
    - Trigger que impide generación de cargos futuros para socios dados de baja
 
 3. **Certificado de descubierto (RNFT-022):**
@@ -2375,16 +2375,16 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
    - Almacenado en S3 con retention 10 años
 
 4. **Expediente disciplinario (RNFT-025):**
-   - Tabla `expedientes_disciplinarios` con todas las fases y documentos
+   - Tabla `disciplinary_cases` con todas las fases y documentos
    - Auditoría completa de cada paso
    - No se permite eliminación de expedientes (solo archivado)
 
 5. **Integración con morosidad (UC-022):**
-   - Evento `MorosidadCritica` (tras 730 días) inicia proceso de baja automático
-   - Tabla `workflow_morosidad` vinculada a `socios` para validar completitud
+   - Evento `CriticalDelinquency` (tras 730 días) inicia proceso de baja automático
+   - Tabla `delinquency_workflow` vinculada a `members` para validar completitud
 
 6. **Rehabilitación:**
-   - Campo `fecha_rehabilitacion` en tabla socios
+   - Campo `reinstatement_date` en tabla socios
    - Cálculo de antigüedad contempla periodos de baja si config lo permite
 
 7. **Performance (RNFT-037):**
@@ -2397,16 +2397,16 @@ Gestiona los tres tipos de baja: voluntaria (con fecha efectiva configurable seg
 
 #### Metadatos
 - **User Stories:** US-036, US-037
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `ListaEsperaService`
-- **Aggregates:** **ListaEspera** (nuevo Aggregate Root), AspiranteEnEspera (Entity)
+- **Bounded Context:** BC-Membership
+- **Application Service:** `WaitingListService`
+- **Aggregates:** **WaitingList** (nuevo Aggregate Root), AspiranteEnEspera (Entity)
 - **Prioridad:** Should
 
 **Descripción:**  
-Gestiona lista de espera cuando una entidad alcanza su límite de socios configurado. Registra aspirantes con prioridades configurables (hijo de socio, recomendado, cronológico), notifica automáticamente al primero de la lista cuando hay vacante, y gestiona plazos de aceptación con reasignación al final de la cola si no responde.
+Gestiona lista de espera cuando una entidad alcanza su límite de socios configurado. Registra aspirantes con priorityes configurables (hijo de socio, recomendado, cronológico), notifica automáticamente al primero de la lista cuando hay vacante, y gestiona plazos de aceptación con reasignación al final de la cola si no responde.
 
 #### Actores
-- **Secretario** (gestiona lista, configura prioridades)
+- **Secretario** (gestiona lista, configura priorityes)
 - **Aspirante** (consulta posición, acepta/rechaza vacante)
 - **Sistema** (notifica vacantes, gestiona plazos, reordena cola)
 
@@ -2447,7 +2447,7 @@ Gestiona lista de espera cuando una entidad alcanza su límite de socios configu
 
 **Prioridades configurables:**
 
-6. Secretario configura prioridades de ordenación según **Tabla 5: Algoritmo de Priorización de Lista de Espera:**
+6. Secretario configura priorityes de ordenación según **Tabla 5: Algoritmo de Priorización de Lista de Espera:**
 
 | Nivel | Nombre Prioridad | Condición de Asignación | Orden |
 |-------|------------------|-------------------------|-------|
@@ -2457,14 +2457,14 @@ Gestiona lista de espera cuando una entidad alcanza su límite de socios configu
 
 **Algoritmo de asignación automática:**
 - Al registrar aspirante, sistema verifica:
-  1. Si `padreSocioId` existe y padre está en estado ACTIVO → Prioridad 1
-  2. Si `recomendadoPor` (socio_id) está informado → Prioridad 2
+  1. Si `parentMemberId` existe y padre está en estado ACTIVO → Prioridad 1
+  2. Si `referredBy` (member_id) está informado → Prioridad 2
   3. Caso contrario → Prioridad 3
 
 **Ordenación final:**
-- Primera ordenación: Por prioridad ascendente (1, 2, 3)
-- Segunda ordenación (dentro de cada prioridad): Por fecha solicitud ascendente (primero el más antiguo)
-- Recálculo automático de posiciones cuando se añade/elimina aspirante
+- Primera ordenación: Por priority ascendente (1, 2, 3)
+- Segunda ordenación (dentro de cada priority): Por fecha solicitud ascendente (primero el más antiguo)
+- Recálculo automático de positiones cuando se añade/elimina aspirante
 
 7. Lista ordenada automáticamente: primero hijos de socios, luego recomendados, luego cronológico
 
@@ -2494,7 +2494,7 @@ Gestiona lista de espera cuando una entidad alcanza su límite de socios configu
 **Notificación automática de vacantes (US-037):**
 
 11. Socio se da de baja voluntaria (libera 1 plaza)
-12. Evento `SocioDadoDeBaja` consumido por `ListaEsperaService`:
+12. Evento `MemberDeactivated` consumido por `WaitingListService`:
 13. Sistema envía email + SMS al aspirante en posición 1:
 
 ```
@@ -2518,8 +2518,8 @@ Peña El Tambor
 ```
 
 14. Aspirante accede al enlace y confirma aceptación
-15. `ListaEsperaService.aceptarVacante(aspirante_id)`:
-    - Marca aspirante como `ALTA_CONFIRMADA`
+15. `WaitingListService.acceptVacancy(applicant_id)`:
+    - Marca aspirante como `REGISTRATION_CONFIRMED`
     - Inicia proceso de alta simple (UC-011)
     - Elimina aspirante de la lista
 
@@ -2561,15 +2561,15 @@ Peña El Tambor
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `AspiranteRegistrado` | aspiranteId, posicion | Al crear el registro | BC-Comunicacion (email confirmación) |
-| `VacanteDisponible` | tenantId, aspiranteNotificadoId | Al ejecutar la operación | BC-Comunicacion (email/SMS notificación) |
-| `PlazosVencido` | aspiranteId | Al ejecutar la operación | BC-Comunicacion (email informativo) |
+| `ApplicantRegistered` | applicantId, position | Al crear el registro | BC-Communication (email confirmación) |
+| `VacancyAvailable` | tenantId, notifiedApplicantId | Al ejecutar la operación | BC-Communication (email/SMS notificación) |
+| `DeadlineExpired` | applicantId | Al ejecutar la operación | BC-Communication (email informativo) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia ← BC-Membresia:** Evento `SocioDadoDeBaja` libera vacante
-- **BC-Membresia → BC-Comunicacion:** Notificaciones de vacantes, plazos
+- **BC-Membership ← BC-Membership:** Evento `MemberDeactivated` libera vacante
+- **BC-Membership → BC-Communication:** Notificaciones de vacantes, plazos
 
 #### Poscondiciones
 - **Éxito:** Aspirante registrado, posición calculada, notificaciones enviadas
@@ -2578,20 +2578,20 @@ Peña El Tambor
 #### Notas de Implementación
 
 1. **Aggregate ListaEspera:**
-   - Tabla `lista_espera` (1 por tenant): `lista_espera_id`, `tenant_id`, `limite_actual`, `socios_activos`
-   - Tabla `aspirantes_espera` (Entity): `aspirante_id`, `lista_espera_id`, `nombre`, `email`, `telefono`, `fecha_solicitud`, `prioridad`, `posicion`, `estado`, `fecha_notificacion`, `fecha_limite_respuesta`
+   - Tabla `waiting_lists` (1 por tenant): `waiting_list_id`, `tenant_id`, `limite_actual`, `active_members`
+   - Tabla `waiting_list_applicants` (Entity): `applicant_id`, `waiting_list_id`, `nombre`, `email`, `telefono`, `request_date`, `priority`, `position`, `estado`, `notification_date`, `response_deadline`
 
-2. **Cálculo de posiciones (RNFT-015):**
-   - Recalcular posiciones tras cada cambio (agregar, eliminar, reordenar)
-   - Query optimizada con índice en `(lista_espera_id, prioridad, fecha_solicitud)`
+2. **Cálculo de positiones (RNFT-015):**
+   - Recalcular positiones tras cada cambio (agregar, eliminar, reordenar)
+   - Query optimizada con índice en `(waiting_list_id, priority, request_date)`
 
 3. **Notificaciones (RNFT-042):**
-   - Email vía BC-Comunicacion
+   - Email vía BC-Communication
    - SMS vía Twilio (si configurado)
    - Notificación push si aspirante instaló PWA
 
 4. **Portal público para consulta:**
-   - Endpoint `/lista-espera/consultar/:token` (sin autenticación)
+   - Endpoint `/waiting-list/check/:token` (sin autenticación)
    - Token único generado al registrar aspirante
    - Expira tras alta confirmada o eliminación
 
@@ -2610,16 +2610,16 @@ Peña El Tambor
 
 #### Metadatos
 - **User Stories:** US-038, US-039, US-040, US-041, US-042
-- **Bounded Context:** BC-Membresia
-- **Application Service:** `CarnetService`
-- **Aggregates:** **Carnet**, **Socio**, **Ejercicio**
+- **Bounded Context:** BC-Membership
+- **Application Service:** `MemberCardService`
+- **Aggregates:** **MemberCard**, **Member**, **FiscalYear**
 - **Prioridad:** Must (digital), Should (físico y papeletas)
 
 **Descripción:**  
 Proporciona sistema completo de carnets digitales con QR único por ejercicio accesibles vía PWA, validación por escaneo con indicador de estado de pago, carnets físicos imprimibles (individual y masivo), y para cofradías: papeletas de sitio vinculadas a antigüedad con posición en cortejo procesional.
 
 #### Actores
-- **Socio** (accede a carnet digital, descarga PWA)
+- **Member** (accede a carnet digital, descarga PWA)
 - **Vocal de eventos** (escanea QR para validar acceso)
 - **Secretario** (genera carnets físicos y papeletas masivamente)
 - **Sistema** (genera QR, regenera cada ejercicio, valida escaneados)
@@ -2662,7 +2662,7 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 **QR único por ejercicio:**
 
 5. Al abrir nuevo ejercicio 2027, sistema detecta carnet de 2026 caducado
-6. `CarnetService.regenerarCarnetsPorEjercicio(ejercicio_id)`:
+6. `MemberCardService.regenerateCardsByFiscalYear(fiscalYearId)`:
 7. Carnet de 2026 queda inválido, nuevo QR generado para 2027
 
 **Carnet instalable como PWA:**
@@ -2700,7 +2700,7 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 **Socio moroso:**
 ```
 ┌───────────────────────────────────┐
-│  ⚠️ CARNET VÁLIDO - PAGO PENDIENTE│
+│  ⚠️ CARNET VÁLIDO - PAGO PENDING│
 ├───────────────────────────────────┤
 │  📷 [Foto]                        │
 │                                   │
@@ -2733,7 +2733,7 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 
 18. Secretario accede a ficha de socio
 19. Selecciona "Generar Carnet Físico"
-20. `CarnetService.generarCarnetFisico(socio_id)`:
+20. `MemberCardService.generatePhysicalCard(memberId)`:
 21. Sistema genera PDF imprimible tamaño tarjeta (85x54mm)
 22. Secretario descarga e imprime en impresora doméstica o envía a imprenta
 
@@ -2742,7 +2742,7 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 23. Secretario selecciona "Generar Carnets Masivos"
 24. Sistema muestra: "340 socios activos. ¿Generar todos?"
 25. Secretario confirma
-26. `CarnetService.generarCarnetsMasivos(tenant_id)`:
+26. `MemberCardService.generateBulkCards(tenant_id)`:
    - Genera PDF con 10 carnets por hoja (formato optimizado para imprenta)
    - Proceso asíncrono (puede tardar 2-3 minutos con 340 socios)
    - Progreso mostrado: "Generando... 150/340 (44%)"
@@ -2803,8 +2803,8 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- **BC-Membresia ← BC-Tesoreria:** Consultar estado de pago para indicador QR
-- **BC-Membresia → BC-Eventos:** Registro de validación de acceso
+- **BC-Membership ← BC-Treasury:** Consultar estado de pago para indicador QR
+- **BC-Membership → BC-Events:** Registro de validación de acceso
 
 #### Poscondiciones
 - **Éxito:** Carnet generado, QR único, PDF descargable
@@ -2813,13 +2813,13 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 #### Notas de Implementación
 
 1. **Entity Carnet (dentro de Socio):**
-   - Tabla `carnets`: `carnet_id`, `socio_id`, `ejercicio_id`, `codigo_qr`, `fecha_emision`, `fecha_validez`, `estado`
-   - Constraint UNIQUE: `(socio_id, ejercicio_id)` → 1 carnet activo por socio por ejercicio
+   - Tabla `member_cards`: `carnet_id`, `member_id`, `fiscal_year_id`, `qr_code`, `issue_date`, `valid_until`, `estado`
+   - Constraint UNIQUE: `(member_id, fiscal_year_id)` → 1 carnet activo por socio por ejercicio
 
 2. **Generación de QR (RNFT-009):**
    - Hash SHA-256 con salt aleatorio (no predecible)
    - Longitud: 32 caracteres
-   - Índice único en `carnets(codigo_qr)` para búsqueda rápida
+   - Índice único en `carnets(qr_code)` para búsqueda rápida
 
 3. **PWA (RNFT-045):**
    - Service Worker que cachea datos del carnet
@@ -2838,8 +2838,8 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
    - **Papeletas:** 1 por página A5 horizontal
    - Procesamiento asíncrono con Bull queue
 
-6. **Estado de pago (integración BC-Tesoreria):**
-   - Query: `SELECT COUNT(*) FROM cargos WHERE socio_id = ? AND estado = 'PENDIENTE'`
+6. **Estado de pago (integración BC-Treasury):**
+   - Query: `SELECT COUNT(*) FROM cargos WHERE member_id = ? AND estado = 'PENDING'`
    - Cache de 1h para reducir carga
    - Al escanear QR: consulta en tiempo real
 
@@ -2854,7 +2854,7 @@ Proporciona sistema completo de carnets digitales con QR único por ejercicio ac
 
 **Nota Explicativa:**
 El caso de uso UC-016 fue originalmente planificado para gestionar la renovación anual de carnets, pero durante el análisis de diseño se identificó que esta funcionalidad está altamente acoplada con la generación inicial de carnets.
-Para evitar fragmentación excesiva y mantener la cohesión del aggregate **Carnet**, UC-016 fue fusionado con **UC-015: Generación y validación de carnets**.
+Para evitar fragmentación excesiva y mantener la cohesión del aggregate **MemberCard**, UC-016 fue fusionado con **UC-015: Generación y validación de carnets**.
 UC-015 ahora incluye:
 - Generación de carnets digitales por primera vez
 - Renovación automática al inicio de cada ejercicio
@@ -2865,25 +2865,25 @@ UC-015 ahora incluye:
 
 ---
 
-## BC-Tesoreria
+## BC-Treasury
 
 ### Gestión económica: cuotas, cobros, contabilidad, pasarelas de pago
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-017 | Configuración de planes de cuota | US-047, US-048, US-049, US-050, US-051, US-052, US-053, US-054, US-055, US-056 | BC-Tesoreria | PlanCuotaService | Must | Alta |
-| UC-018 | Gestión de suscripciones de cuota | US-057, US-058, US-059, US-060 | BC-Tesoreria | SuscripcionService | Must | Media |
-| UC-019 | Generación masiva de cargos periódicos | US-061, US-062 | BC-Tesoreria | CargosPeriodicosService | Must | Alta |
-| UC-020 | Gestión de cargos manuales | US-063, US-064, US-065 | BC-Tesoreria | CargoManualService | Must | Baja |
-| UC-021 | Registro de cobros | US-066, US-067, US-068, US-069, US-070 | BC-Tesoreria | CobroService | Must | Media |
-| UC-022 | Workflow de morosidad | US-071, US-072, US-073 | BC-Tesoreria | MorosidadService | Should | Media |
-| UC-023 | Generación de remesas SEPA | US-074, US-075, US-076, US-077, US-078, US-079, US-080 | BC-Tesoreria | RemesaSepaService | Must | Alta |
-| UC-024 | Gestión de devoluciones SEPA | US-081, US-082 | BC-Tesoreria | DevolucionSepaService | Must | Media |
-| UC-025 | Pasarela de pago online | US-083, US-084, US-085, US-086 | BC-Tesoreria | PaymentGatewayService | Should | Alta |
-| UC-026 | Registro contable | US-087, US-088, US-089, US-090, US-091, US-092 | BC-Tesoreria | ContabilidadService | Should | Alta |
-| UC-027 | Caja por turnos (peñas) | US-093, US-094, US-095, US-096, US-097 | BC-Tesoreria | CajaTurnosService | Should | Alta |
+| UC-017 | Configuración de planes de cuota | US-047, US-048, US-049, US-050, US-051, US-052, US-053, US-054, US-055, US-056 | BC-Treasury | FeePlanService | Must | Alta |
+| UC-018 | Gestión de suscripciones de cuota | US-057, US-058, US-059, US-060 | BC-Treasury | SubscriptionService | Must | Media |
+| UC-019 | Generación masiva de cargos periódicos | US-061, US-062 | BC-Treasury | PeriodicChargesService | Must | Alta |
+| UC-020 | Gestión de cargos manuales | US-063, US-064, US-065 | BC-Treasury | ManualChargeService | Must | Baja |
+| UC-021 | Registro de cobros | US-066, US-067, US-068, US-069, US-070 | BC-Treasury | CollectionService | Must | Media |
+| UC-022 | Workflow de morosidad | US-071, US-072, US-073 | BC-Treasury | DelinquencyService | Should | Media |
+| UC-023 | Generación de remesas SEPA | US-074, US-075, US-076, US-077, US-078, US-079, US-080 | BC-Treasury | SepaRemittanceService | Must | Alta |
+| UC-024 | Gestión de devoluciones SEPA | US-081, US-082 | BC-Treasury | SepaReturnService | Must | Media |
+| UC-025 | Pasarela de pago online | US-083, US-084, US-085, US-086 | BC-Treasury | PaymentGatewayService | Should | Alta |
+| UC-026 | Registro contable | US-087, US-088, US-089, US-090, US-091, US-092 | BC-Treasury | AccountingService | Should | Alta |
+| UC-027 | Caja por turnos (peñas) | US-093, US-094, US-095, US-096, US-097 | BC-Treasury | CashRegisterShiftService | Should | Alta |
 
-**Total BC-Tesoreria:** 11 UCs cubriendo 40 User Stories (US-047 a US-097)
+**Total BC-Treasury:** 11 UCs cubriendo 40 User Stories (US-047 a US-097)
 
 **Highlights técnicos:**
 - UC-023: Generación XML SEPA ISO 20022, firmado con certificados
@@ -2897,9 +2897,9 @@ UC-015 ahora incluye:
 
 #### Metadatos
 - **User Stories:** US-043, US-044
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `PlanCuotaService`
-- **Aggregates:** **PlanCuota**, TipoSocioPlanCuota (relación N:M)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `FeePlanService`
+- **Aggregates:** **FeePlan**, MemberTypeFeePlan (relación N:M)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -2911,7 +2911,7 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 
 #### Precondiciones
 - Usuario autenticado con rol Tesorero o superior
-- Tipos de socio ya configurados en BC-Membresia
+- Tipos de socio ya configurados en BC-Membership
 
 #### Flujo Normal
 
@@ -2922,9 +2922,9 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 
 **Opción A: Plan Periódico (mensual, trimestral, semestral, anual)**
 
-5. `PlanCuotaService.crearPlan(tenant_id, planData)`
+5. `FeePlanService.createPlan(tenant_id, planData)`
    - Valida código único dentro del tenant
-   - Valida que tipo=PERIODICA → mesesCobro no vacío
+   - Valida que tipo=PERIODICA → billingMonths no vacío
    - Valida importe >= 0
    - Crea registro en tabla `planes_cuota`
 
@@ -2935,11 +2935,11 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 **Flujo: Vinculación a Tipos de Socio (US-044)**
 
 7. Tesorero accede a "Vincular a Tipos de Socio" desde el plan creado
-8. Sistema muestra tipos de socio disponibles (consultando BC-Membresia)
+8. Sistema muestra tipos de socio disponibles (consultando BC-Membership)
 9. Tesorero selecciona vinculaciones:
-10. `PlanCuotaService.vincularTiposSocio(planId, vinculaciones)`
+10. `FeePlanService.linkMemberTypes(planId, vinculaciones)`
     - Valida que solo haya un plan default por tipo de socio
-    - Crea registros en tabla intermedia `tipo_socio_plan_cuota`
+    - Crea registros en tabla intermedia `member_type_fee_plan`
 11. Sistema confirma: "Plan vinculado a 2 tipos de socio"
 
 #### Flujos Alternativos
@@ -2982,11 +2982,11 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
   - Opción: "Continuar sin cuota (socio exento)" o "Volver a configurar"
 
 **FE-4: Validación de meses de cobro inválidos**
-- Si mesesCobro contiene valores fuera de rango [1-12]:
+- Si billingMonths contiene valores fuera de rango [1-12]:
   - Sistema rechaza: "Los meses de cobro deben estar entre 1 y 12"
 
 **FE-5: Plan periódico sin meses de cobro**
-- Si tipo=PERIODICA y mesesCobro = []:
+- Si tipo=PERIODICA y billingMonths = []:
   - Sistema rechaza: "Un plan periódico debe tener al menos un mes de cobro"
 
 #### Eventos de Dominio
@@ -2995,15 +2995,15 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `PlanCuotaCreado` | `{ planCuotaId: UUID, nombre: string, importe: number, periodicidad: string }` | Al completar la operación principal | BC-Membresia |
-| `PlanCuotaModificado` | `{ planCuotaId: UUID, camposModificados: string[], fechaModificacion: Date }` | Al completar la operación principal | cachés de configuración, BC-Membresia |
-| `PlanCuotaVinculadoATipoSocio` | `{ planCuotaId: UUID, tipoSocioId: UUID, fechaVinculacion: Date }` | Al completar la operación principal | BC-Membresia |
+| `FeePlanCreated` | `{ feePlanId: UUID, name: string, amount: number, periodicidad: string }` | Al completar la operación principal | BC-Membership |
+| `FeePlanModified` | `{ feePlanId: UUID, modifiedFields: string[], modificationDate: Date }` | Al completar la operación principal | cachés de configuración, BC-Membership |
+| `FeePlanLinkedToMemberType` | `{ feePlanId: UUID, memberTypeId: UUID, linkDate: Date }` | Al completar la operación principal | BC-Membership |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria ← BC-Membresia: Consulta tipos de socio disponibles para vinculación
-- BC-Tesoreria → BC-Membresia: BC-Membresia consulta planes disponibles cuando necesita mostrar opciones en alta de socio
+- BC-Treasury ← BC-Membership: Consulta tipos de socio disponibles para vinculación
+- BC-Treasury → BC-Membership: BC-Membership consulta planes disponibles cuando necesita mostrar options en alta de socio
 
 #### Poscondiciones
 - Plan de cuota creado y disponible para vinculación
@@ -3013,10 +3013,10 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 #### Notas de Implementación
 - **RNFT-015:** Consulta de planes debe ser <100ms (uso frecuente en alta de socios)
 - Los planes se almacenan en tabla `planes_cuota` en BD del tenant
-- La relación N:M con TipoSocio se materializa mediante tabla intermedia `tipo_socio_plan_cuota` que almacena IDs de ambos aggregates. BC-Tesoreria consulta TipoSocio via Application Service de BC-Membresia cuando necesita mostrar opciones de vinculación
+- La relación N:M con TipoSocio se materializa mediante tabla intermedia `member_type_fee_plan` que almacena IDs de ambos aggregates. BC-Treasury consulta TipoSocio via Application Service de BC-Membership cuando necesita mostrar options de vinculación
 - Permitir descuentos a nivel de suscripción individual (no en el plan, sino al aplicarlo)
 - Los planes "inactivos" se ocultan en UI pero se conservan para histórico
-- Validar periodicidad orientativa vs mesesCobro:
+- Validar periodicidad orientativa vs billingMonths:
   - MENSUAL: 12 meses
   - TRIMESTRAL: 4 meses
   - SEMESTRAL: 2 meses
@@ -3029,9 +3029,9 @@ Configuración de los diferentes planes de cuota disponibles en la entidad (mens
 
 #### Metadatos
 - **User Stories:** US-045, US-046, US-049, US-050, US-052
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `SuscripcionService`
-- **Aggregates:** **CuentaSocio**, *SuscripcionCuota* (Entity), **PlanCuota**
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `SubscriptionService`
+- **Aggregates:** **MemberAccount**, *FeeSubscription* (Entity), **FeePlan**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -3040,11 +3040,11 @@ Creación, modificación y cierre de suscripciones de cuota asociadas a socios. 
 #### Actores
 - **Secretario** (crea suscripciones al dar de alta socios)
 - **Tesorero** (modifica suscripciones, aplica descuentos)
-- **Socio** (solicita cambio de modalidad de pago)
+- **Member** (solicita cambio de modalidad de pago)
 
 #### Precondiciones
-- Socio registrado en BC-Membresia
-- Cuenta de socio creada en BC-Tesoreria
+- Socio registrado en BC-Membership
+- Cuenta de socio creada en BC-Treasury
 - Planes de cuota configurados y vinculados al tipo de socio
 
 #### Flujo Normal
@@ -3053,8 +3053,8 @@ Creación, modificación y cierre de suscripciones de cuota asociadas a socios. 
 
 1. Secretario completa alta de nuevo socio (ver UC-011)
 2. Sistema detecta que el tipo de socio "Juvenil" tiene planes vinculados
-3. Sistema consulta `PlanCuotaService.obtenerPlanesPorTipoSocio(tipoSocioId)`
-4. Sistema presenta opciones de cuota disponibles:
+3. Sistema consulta `FeePlanService.getPlansByMemberType(memberTypeId)`
+4. Sistema presenta options de cuota disponibles:
 
 ```
 ┌─ Selección de Modalidad de Pago ───────────────────┐
@@ -3079,19 +3079,19 @@ Creación, modificación y cierre de suscripciones de cuota asociadas a socios. 
 
 | Elemento | Fórmula | Explicación |
 |----------|---------|-------------|
-| **Fórmula CORRECTA** | `importeEfectivo = importeBase × (1 - descuentoTipo) × (1 - descuentoPersonalizado)` | Los descuentos se aplican acumulativamente multiplicando los factores de reducción |
-| **Fórmula INCORRECTA** | ~~`importeEfectivo = importeBase × (1 - (descuentoTipo + descuentoPersonalizado))`~~ ❌ | Error común: sumar porcentajes produce descuento total incorrecto |
+| **Fórmula CORRECTA** | `effectiveAmount = baseAmount × (1 - descuentoTipo) × (1 - descuentoPersonalizado)` | Los descuentos se aplican acumulativamente multiplicando los factores de reducción |
+| **Fórmula INCORRECTA** | ~~`effectiveAmount = baseAmount × (1 - (descuentoTipo + descuentoPersonalizado))`~~ ❌ | Error común: sumar porcentajes produce descuento total incorrecto |
 
 **Ejemplo de aplicación (Caso del flujo actual):**
 
 **Datos:**
-- `importeBase = 120€` (plan anual)
+- `baseAmount = 120€` (plan anual)
 - `descuentoTipo = 0.30` (30% por tipo "Juvenil")
 - `descuentoPersonalizado = 0.10` (10% adicional por situación especial)
 
 **Cálculo correcto (multiplicativo):**
 ```
-importeEfectivo = 120€ × (1 - 0.30) × (1 - 0.10)
+effectiveAmount = 120€ × (1 - 0.30) × (1 - 0.10)
                 = 120€ × 0.70 × 0.90
                 = 84€ × 0.90
                 = 75.60€
@@ -3101,7 +3101,7 @@ Descuento total efectivo: (120€ - 75.60€) / 120€ = 37%
 
 **Cálculo INCORRECTO (aditivo) - NO USAR:**
 ```
-importeEfectivo = 120€ × (1 - (0.30 + 0.10))
+effectiveAmount = 120€ × (1 - (0.30 + 0.10))
                 = 120€ × (1 - 0.40)
                 = 120€ × 0.60
                 = 72.00€ ❌
@@ -3116,18 +3116,18 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
 
 **Regla de negocio crítica:** El sistema **NUNCA** suma porcentajes de descuento. Cada descuento adicional se aplica sobre el resultado del descuento anterior, evitando descuentos excesivos que comprometan la sostenibilidad financiera de la asociación.
 
-**Nota para implementadores:** Esta lógica está implementada en `SuscripcionService.calcularImporteEfectivo()`. Los tests unitarios deben validar ambos casos (multiplicativo correcto vs. aditivo incorrecto) para prevenir regresiones.
+**Nota para implementadores:** Esta lógica está implementada en `SubscriptionService.calculateEffectiveAmount()`. Los tests unitarios deben validar ambos casos (multiplicativo correcto vs. aditivo incorrecto) para prevenir regresiones.
 
-7. `SuscripcionService.crearSuscripcion(cuentaSocioId, suscripcionData)`
-8. Sistema crea registro en entity `SuscripcionCuota` dentro del aggregate `CuentaSocio`
-9. Sistema programa generación de cargos según `planCuota.mesesCobro` y fecha de alta (ver UC-019 para prorrateo)
+7. `SubscriptionService.createSubscription(memberAccountId, subscriptionData)`
+8. Sistema crea registro en entity `FeeSubscription` dentro del aggregate `MemberAccount`
+9. Sistema programa generación de cargos según `planCuota.billingMonths` y fecha de alta (ver UC-019 para prorrateo)
 
 **Alta con Cuota de Inscripción (Plan UNICA):**
 
 10. Además de la suscripción periódica, sistema crea suscripción de inscripción:
-11. `SuscripcionService.crearSuscripcion(cuentaSocioId, inscripcionData)`
+11. `SubscriptionService.createSubscription(memberAccountId, registrationData)`
 12. Sistema genera cargo único inmediato (ver UC-019)
-13. Sistema emite evento `SuscripcionCreada`
+13. Sistema emite evento `SubscriptionCreated`
 14. Sistema muestra confirmación: "Suscripción creada. Cargo de inscripción: 50€, Cuota anual: 75.60€"
 
 **Parte 2: Cambio de Modalidad de Pago (US-046)**
@@ -3169,15 +3169,15 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
     ```
 
 20. Tesorero confirma cambio efectivo 01/04/2026
-21. `SuscripcionService.cambiarPlan(suscripcionId, nuevoPlanId, fechaEfectiva)`
+21. `SubscriptionService.changePlan(subscriptionId, newPlanId, effectiveDate)`
     - **Cierra suscripción actual:**
     - **Cancela cargos futuros** del plan antiguo (si los hay programados)
     - **Crea nueva suscripción:**
-    - **Programa nuevos cargos** desde abril según mesesCobro del plan mensual
+    - **Programa nuevos cargos** desde abril según billingMonths del plan mensual
 
 22. Sistema emite eventos:
-    - `SuscripcionCerrada` (plan anterior)
-    - `SuscripcionCreada` (plan nuevo)
+    - `SubscriptionClosed` (plan anterior)
+    - `SubscriptionCreated` (plan nuevo)
 23. Sistema confirma: "Cambio de plan registrado. Efectivo desde 01/04/2026"
 
 **Parte 3: Gestión de Descuentos (US-049)**
@@ -3197,13 +3197,13 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
     Aprobado por: [Junta Directiva 15/03/2026]
     ```
 
-27. `SuscripcionService.modificarDescuento(suscripcionId, nuevoDescuento, motivo)`
-    - Recalcula `importeEfectivo`:
+27. `SubscriptionService.updateDiscount(subscriptionId, newDiscount, motivo)`
+    - Recalcula `effectiveAmount`:
     - Los **cargos ya generados** mantienen su importe original
     - Los **cargos futuros** se generarán con el nuevo importe
 
 28. Sistema muestra confirmación: "Descuento actualizado a 47%. Nuevo importe: 63.60€/año"
-29. Sistema emite `SuscripcionModificada`
+29. Sistema emite `SubscriptionModified`
 
 **Parte 4: Exenciones (US-050)**
 
@@ -3212,7 +3212,7 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
     - **Opción B:** Crear suscripción con descuento 100% (para trazabilidad)
 
 31. Para exención temporal (situación económica):
-    - Cerrar suscripción actual con `motivoBaja = EXENCION_TEMPORAL`
+    - Cerrar suscripción actual con `cancelReason = EXENCION_TEMPORAL`
     - Registrar periodo de exención
     - Programar alerta para reactivar al finalizar el periodo
 32. Sistema confirma: "Exención temporal aplicada. Sin cargos hasta 31/12/2026"
@@ -3266,25 +3266,25 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Consulta tipo de socio para aplicar descuentos
-- BC-Tesoreria → BC-Comunicacion: Notifica cambio de plan al socio
+- BC-Treasury → BC-Membership: Consulta tipo de socio para aplicar descuentos
+- BC-Treasury → BC-Communication: Notifica cambio de plan al socio
 
 #### Poscondiciones
-- Suscripción creada/modificada/cerrada en CuentaSocio
+- Suscripción creada/modificada/cerrada en MemberAccount
 - Cargos programados/reprogramados según nuevo plan
 - Histórico de suscripciones actualizado
 - Socio notificado del cambio (si aplica)
 
 #### Notas de Implementación
 - **RNFT-025:** Datos de descuentos personalizados incluyen motivo (auditabilidad)
-- La entity `SuscripcionCuota` vive dentro del aggregate `CuentaSocio`
-- Soft-delete: Las suscripciones nunca se eliminan físicamente, solo se cierran (fechaBaja)
-- Calcular `importeEfectivo` en tiempo de creación/modificación, no dinámicamente
+- La entity `FeeSubscription` vive dentro del aggregate `MemberAccount`
+- Soft-delete: Las suscripciones nunca se eliminan físicamente, solo se cierran (leaveDate)
+- Calcular `effectiveAmount` en tiempo de creación/modificación, no dinámicamente
 - Para descuentos combinados: aplicar secuencialmente (no sumar porcentajes)
 - Validar transiciones de estado:
   - Activa → Cerrada (OK)
   - Cerrada → Activa (NO, crear nueva suscripción)
-- Índice en BD: `cuenta_socio_id + fecha_baja IS NULL` (buscar suscripción activa)
+- Índice en BD: `cuenta_member_id + leave_date IS NULL` (buscar suscripción activa)
 
 ---
 
@@ -3292,9 +3292,9 @@ Diferencia: 3.60€ de error (socio pagaría menos de lo debido)
 
 #### Metadatos
 - **User Stories:** US-047, US-048
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `GeneracionCargosService`
-- **Aggregates:** **CuentaSocio**, *Cargo* (Entity), *SuscripcionCuota* (Entity), **PlanCuota**
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `ChargeGenerationService`
+- **Aggregates:** **MemberAccount**, *Charge* (Entity), *FeeSubscription* (Entity), **FeePlan**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -3305,8 +3305,8 @@ Proceso automatizado que genera mensualmente los cargos pendientes de cobro para
 - **Tesorero** (ejecución manual retroactiva si falla el proceso)
 
 #### Precondiciones
-- Suscripciones activas en CuentaSocio
-- Planes de cuota configurados con mesesCobro
+- Suscripciones activas en MemberAccount
+- Planes de cuota configurados con billingMonths
 - Fecha del sistema correcta (para determinar mes a procesar)
 
 #### Flujo Normal
@@ -3314,13 +3314,13 @@ Proceso automatizado que genera mensualmente los cargos pendientes de cobro para
 **Parte 1: Proceso Mensual Automático** (US-047)
 
 1. Sistema ejecuta cron job el día 1 de cada mes a las 02:00 AM
-2. `GeneracionCargosService.generarCargosMensuales(mes, año)`
+2. `ChargeGenerationService.generateMonthlyCharges(mes, año)`
 3. Sistema consulta todas las suscripciones activas:
 4. Para cada suscripción, sistema evalúa si debe generar cargo este mes:
 5. Sistema genera cargos para suscripciones que cumplen criterios:
-6. `CuentaSocio.agregarCargo(cargo)` - Se añade al aggregate
+6. `MemberAccount.agregarCargo(cargo)` - Se añade al aggregate
 7. Sistema persiste el cargo en BD
-8. Sistema emite evento `CargoGenerado`
+8. Sistema emite evento `ChargeGenerated`
 
 **Ejemplo de ejecución completa:**
 
@@ -3330,10 +3330,10 @@ Proceso de generación - Mes 4 (Abril 2025)
 
 Suscripciones evaluadas: 340
 
-✓ Juan García   | Plan: Mensual [1..12]      | Mes 4 ∈ mesesCobro → Cargo 15.00€
-✓ María López   | Plan: Trimestral [1,4,7,10]| Mes 4 ∈ mesesCobro → Cargo 35.00€
-✗ Pedro Martín  | Plan: Semestral [1,7]      | Mes 4 ∉ mesesCobro → Sin cargo
-✗ Ana Ruiz      | Plan: Anual [2]            | Mes 4 ∉ mesesCobro → Sin cargo
+✓ Juan García   | Plan: Mensual [1..12]      | Mes 4 ∈ billingMonths → Cargo 15.00€
+✓ María López   | Plan: Trimestral [1,4,7,10]| Mes 4 ∈ billingMonths → Cargo 35.00€
+✗ Pedro Martín  | Plan: Semestral [1,7]      | Mes 4 ∉ billingMonths → Sin cargo
+✗ Ana Ruiz      | Plan: Anual [2]            | Mes 4 ∉ billingMonths → Sin cargo
 ✗ Luis Torres   | Plan: Mensual [1..12]      | Ya existe cargo mes 4 → Duplicado evitado
 
 Resultado:
@@ -3353,17 +3353,17 @@ Duración: 2.3 segundos
 
 12. Contexto: Alta de socio el 15 de julio de 2025
 13. Secretario completa alta y crea suscripción (ver UC-018)
-14. `GeneracionCargosService.generarCargosSuscripcionNueva(suscripcionId)`
-    - Detecta que `fechaAlta = 15/07/2025` (mitad de ejercicio)
-    - Consulta `plan.mesesCobro` y `plan.tipo`
+14. `ChargeGenerationService.generateNewSubscriptionCharges(subscriptionId)`
+    - Detecta que `registrationDate = 15/07/2025` (mitad de ejercicio)
+    - Consulta `plan.billingMonths` y `plan.tipo`
     - Aplica **Tabla 6: Fórmulas de Prorrateo de Cuotas al Alta:**
 
-| Escenario | Tipo Plan | Fórmula de Prorrateo | Ejemplo (Alta 15/07, `mesesCobro`) |
+| Escenario | Tipo Plan | Fórmula de Prorrateo | Ejemplo (Alta 15/07, `billingMonths`) |
 |-----------|-----------|----------------------|-----------------------------------|
-| **A: Mensual** | PERIODICA | Generar cargos solo para `mesesCobro >= mes_alta` en ejercicio actual | `[1,2,3,4,5,6,7,8,9,10,11,12]` → Genera `[7,8,9,10,11,12]` (6 cargos) |
-| **B: Trimestral** | PERIODICA | Generar cargos solo para `mesesCobro >= mes_alta` en ejercicio actual | `[1,4,7,10]` → Genera `[7,10]` (2 cargos) |
-| **C: Anual inmediato** | PERIODICA | `importeProrrateo = (importeAnual / 12) × mesesRestantes` donde `mesesRestantes = 12 - mes_alta + 1` | `[2]` ya pasó → `(120€ / 12) × 6 = 60€` cargo único inmediato |
-| **D: Anual diferido** | PERIODICA | Esperar al próximo ciclo (no generar cargo hasta `mesesCobro` del siguiente ejercicio) | `[2]` → No genera cargo en 2025, esperará Feb 2026 |
+| **A: Mensual** | PERIODICA | Generar cargos solo para `billingMonths >= registration_month` en ejercicio actual | `[1,2,3,4,5,6,7,8,9,10,11,12]` → Genera `[7,8,9,10,11,12]` (6 cargos) |
+| **B: Trimestral** | PERIODICA | Generar cargos solo para `billingMonths >= registration_month` en ejercicio actual | `[1,4,7,10]` → Genera `[7,10]` (2 cargos) |
+| **C: Anual inmediato** | PERIODICA | `prorataAmount = (annualAmount / 12) × remainingMonths` donde `remainingMonths = 12 - registration_month + 1` | `[2]` ya pasó → `(120€ / 12) × 6 = 60€` cargo único inmediato |
+| **D: Anual diferido** | PERIODICA | Esperar al próximo ciclo (no generar cargo hasta `billingMonths` del siguiente ejercicio) | `[2]` → No genera cargo en 2025, esperará Feb 2026 |
 
 **Regla general:** El sistema nunca genera cargos para meses anteriores a la fecha de alta (no se cobran periodos no disfrutados).
 
@@ -3373,7 +3373,7 @@ Duración: 2.3 segundos
 
 **Escenario C: Plan Anual con prorrateo inmediato**
 
-15. Sistema emite `CargoGenerado` por cada cargo creado
+15. Sistema emite `ChargeGenerated` por cada cargo creado
 16. Sistema muestra confirmación: "Prorrateo aplicado. Generados 6 cargos por alta a mitad de ejercicio"
 
 #### Flujos Alternativos
@@ -3386,7 +3386,7 @@ Duración: 2.3 segundos
   - Genera solo cargos no existentes (prevención duplicados activa)
 
 **FA-2: Configuración de fechas de vencimiento**
-- Por defecto: `fechaVencimiento = último día del mes del cargo`
+- Por defecto: `dueDate = último día del mes del cargo`
 - Configurable por entidad:
   - Fin de mes actual
   - +15 días desde emisión
@@ -3424,8 +3424,8 @@ Duración: 2.3 segundos
   - Permite corrección manual y reintento
 
 **FE-3: Fecha de vencimiento en el pasado**
-- Si por error de configuración fechaVencimiento < fechaEmision:
-  - Sistema ajusta automáticamente: `fechaVencimiento = fechaEmision + 30 días`
+- Si por error de configuración dueDate < issueDate:
+  - Sistema ajusta automáticamente: `dueDate = issueDate + 30 días`
   - Registra warning en log
 
 **FE-4: Proceso ejecutado múltiples veces mismo mes**
@@ -3441,12 +3441,12 @@ Duración: 2.3 segundos
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Consulta estado del socio (Activo/Suspendido) antes de generar
-- BC-Tesoreria → BC-Comunicacion: Notifica cargos generados para envío de avisos
+- BC-Treasury → BC-Membership: Consulta estado del socio (Activo/Suspendido) antes de generar
+- BC-Treasury → BC-Communication: Notifica cargos generados para envío de avisos
 
 #### Poscondiciones
 - Cargos generados para todas las suscripciones aplicables
-- Estado `PENDIENTE` en todos los cargos nuevos
+- Estado `PENDING` en todos los cargos nuevos
 - Log de auditoría registrado con resultado del proceso
 - Eventos emitidos para consumidores
 
@@ -3454,7 +3454,7 @@ Duración: 2.3 segundos
 - **RNFT-015:** Proceso debe completarse en <30 segundos para 1000 socios
 - Usar transacciones por lotes (100 cargos por transacción) para performance
 - Índices en BD:
-  - `suscripciones_cuota(fecha_baja)` WHERE fecha_baja IS NULL
+  - `suscripciones_cuota(leave_date)` WHERE leave_date IS NULL
   - `cargos(periodo_mes, año, suscripcion_id)` UNIQUE
 - Implementar idempotencia: `INSERT ... ON CONFLICT DO NOTHING`
 - Ejecutar en horario de baja actividad (02:00 AM)
@@ -3477,9 +3477,9 @@ Duración: 2.3 segundos
 
 #### Metadatos
 - **User Stories:** US-051
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `GeneracionCargosService`
-- **Aggregates:** **CuentaSocio**, *Cargo* (Entity)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `ChargeGenerationService`
+- **Aggregates:** **MemberAccount**, *Charge* (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -3522,15 +3522,15 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
    ```
 
 3. Tesorero completa el formulario y pulsa "Crear Cargo"
-4. `GeneracionCargosService.crearCargoManual(cuentaSocioId, cargoData)`
-5. Sistema crea entity `Cargo` dentro del aggregate `CuentaSocio`:
-6. Sistema emite evento `CargoGenerado`
+4. `ChargeGenerationService.createManualCharge(memberAccountId, chargeData)`
+5. Sistema crea entity `Cargo` dentro del aggregate `MemberAccount`:
+6. Sistema emite evento `ChargeGenerated`
 7. Sistema muestra confirmación: "Cargo manual creado correctamente. Importe: 75.00€"
 
 **Parte 2: Cargo Manual Masivo (Derrama a Todos)** (US-051)
 
 8. Tesorero accede a "Tesorería > Cargos > Cargo Masivo"
-9. Sistema presenta opciones de destinatarios:
+9. Sistema presenta options de destinatarios:
    ```
    ┌─ Cargo Masivo ──────────────────────────────────────┐
    │                                                      │
@@ -3555,9 +3555,9 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
    ```
 
 10. Tesorero confirma creación
-11. `GeneracionCargosService.crearCargosMasivos(filtroSocios, cargoData)`
+11. `ChargeGenerationService.createBulkCharges(filtroSocios, chargeData)`
 12. Sistema procesa la creación en lotes (50 cargos por transacción)
-13. Sistema emite 342 eventos `CargoGenerado`
+13. Sistema emite 342 eventos `ChargeGenerated`
 14. Sistema muestra confirmación: "Derrama creada exitosamente. 342 cargos generados (25,650.00€)"
 
 **Parte 3: Cargo de Penalización por Devolución SEPA** (US-051)
@@ -3575,7 +3575,7 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
 
 18. Tesorero confirma
 19. Sistema crea cargo manual vinculado a la devolución (campo adicional: `devolucionId`)
-20. Sistema emite `CargoGenerado` con metadata de penalización
+20. Sistema emite `ChargeGenerated` con metadata de penalización
 21. Sistema muestra confirmación: "Cargo de penalización creado. Gastos bancarios: 5.00€"
 
 #### Flujos Alternativos
@@ -3598,7 +3598,7 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
 - Registrar motivo del descuento
 
 **FA-4: Programación de cargos futuros**
-- Crear cargo con `fechaEmision` futura
+- Crear cargo con `issueDate` futura
 - El cargo se mantiene oculto hasta la fecha de emisión
 - Útil para programar derramas aprobadas con fecha efectiva posterior
 
@@ -3609,7 +3609,7 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
   - Sistema rechaza: "El importe debe ser mayor que 0"
 
 **FE-2: Fecha de vencimiento anterior a emisión**
-- Si `fechaVencimiento < fechaEmision`:
+- Si `dueDate < issueDate`:
   - Sistema rechaza: "La fecha de vencimiento no puede ser anterior a la emisión"
   - Sugiere automáticamente: `vencimiento = emision + 30 días`
 
@@ -3635,17 +3635,17 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `CargoGenerado` | `{ cargoId: UUID, socioId: UUID, concepto: string, importe: number, fechaVencimiento: Date, esManual: boolean }` | Al completar la operación principal | BC-Comunicacion (notificar socio), MorosidadService |
+| `ChargeGenerated` | `{ chargeId: UUID, memberId: UUID, description: string, amount: number, dueDate: Date, isManual: boolean }` | Al completar la operación principal | BC-Communication (notificar socio), DelinquencyService |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Consulta socios activos para carga masiva
-- BC-Tesoreria → BC-Comunicacion: Notifica cargos generados para envío de avisos
+- BC-Treasury → BC-Membership: Consulta socios activos para carga masiva
+- BC-Treasury → BC-Communication: Notifica cargos generados para envío de avisos
 
 #### Poscondiciones
-- Cargo(s) manual(es) creado(s) en estado PENDIENTE
-- `esManual = true` y `suscripcionId = null`
+- Cargo(s) manual(es) creado(s) en estado PENDING
+- `isManual = true` y `subscriptionId = null`
 - Socios notificados del nuevo cargo (si configurado)
 - Auditoría registrada con usuario que creó el cargo
 
@@ -3653,7 +3653,7 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
 - **RNFT-015:** Creación masiva de 1000 cargos debe completarse en <10 segundos
 - Usar transacciones por lotes (50-100 cargos) para performance
 - Los cargos manuales NO participan en generación automática mensual
-- Campo `esManual` permite distinguir en consultas e informes
+- Campo `isManual` permite distinguir en consultas e informes
 - Para cargos masivos, usar jobs asíncronos si >500 destinatarios
 - Validar permisos especiales para cargos masivos (rol Tesorero/Presidente)
 - Registrar aprobación de Junta en metadata del cargo masivo
@@ -3670,9 +3670,9 @@ Creación de cargos puntuales sin vinculación a suscripciones, para conceptos n
 
 #### Metadatos
 - **User Stories:** US-053, US-054, US-055, US-056, US-057
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `CobroService`
-- **Aggregates:** **CuentaSocio**, *Cargo* (Entity), *Pago* (Entity)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `CollectionService`
+- **Aggregates:** **MemberAccount**, *Charge* (Entity), *Payment* (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -3681,10 +3681,10 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
 #### Actores
 - **Tesorero** (registro manual de cobros)
 - **Sistema** (registro automático desde SEPA/pasarela)
-- **Socio** (consulta de recibos)
+- **Member** (consulta de recibos)
 
 #### Precondiciones
-- Cargo pendiente en estado `PENDIENTE` o `PARCIAL`
+- Cargo pendiente en estado `PENDING` o `PARCIAL`
 - Usuario con permisos `tesoreria:write`
 
 #### Flujo Normal
@@ -3743,7 +3743,7 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
    ```
 
 6. Tesorero confirma el registro
-7. `CobroService.registrarCobro(cuentaSocioId, pagoData)`
+7. `CollectionService.recordCollection(memberAccountId, paymentData)`
 8. Sistema ejecuta lógica de negocio:
 9. Sistema genera recibo automático en PDF (US-057):
    ```
@@ -3780,8 +3780,8 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
    └─────────────────────────────────────────────────┘
    ```
 
-10. Sistema vincula el PDF al pago (campo `justificanteId`)
-11. Sistema emite evento `PagoRegistrado`
+10. Sistema vincula el PDF al pago (campo `receiptDocumentId`)
+11. Sistema emite evento `PaymentRecorded`
 12. Sistema muestra confirmación:
     ```
     ✓ Pago registrado exitosamente
@@ -3814,7 +3814,7 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
     ```
 
 17. Sistema almacena el archivo en Object Storage (MinIO/S3)
-18. Vincula el documento al pago: `pago.justificanteId = "documento-uuid"`
+18. Vincula el documento al pago: `payment.receiptDocumentId = "documento-uuid"`
 
 **Parte 3: Gestión de Estados de Pago (US-054)**
 
@@ -3895,11 +3895,11 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
   Importe cobrado: 40.00€
   Motivo: Situación económica especial - Aprobado JD 01/02/25
   ```
-- `cargo.estado = PAGADO_CON_DESCUENTO`
+- `charge.status = PAID_WITH_DISCOUNT`
 
 **FA-3: Cobro anticipado (cargo futuro)**
 - Socio paga antes de que se genere el cargo
-- Sistema registra pago con `cargoId = null`
+- Sistema registra pago con `chargeId = null`
 - Al generarse el cargo, sistema vincula automáticamente el pago
 
 **FA-4: Generación masiva de recibos**
@@ -3918,7 +3918,7 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
     - Cancelar y verificar
 
 **FE-2: Fecha de pago futura**
-- Si `fechaPago > fecha actual`:
+- Si `paymentDate > fecha actual`:
   - Sistema rechaza: "La fecha de pago no puede ser futura"
   - Excepción: Si es pago programado (caso especial)
 
@@ -3942,15 +3942,15 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `PagoRegistrado` | `{ pagoId: UUID, cargoId: UUID, socioId: UUID, importe: number, metodoPago: string, fechaPago: Date }` | Al completar la operación principal | BC-Membresia (actualizar estado morosidad), BC-Comunicacion (confirmación) |
-| `ReciboGenerado` | `{ reciboId: UUID, pagoId: UUID, numeroRecibo: string, fechaEmision: Date }` | Al completar la operación principal | BC-Documentos (archivar) |
+| `PaymentRecorded` | `{ paymentId: UUID, chargeId: UUID, memberId: UUID, amount: number, paymentMethod: string, paymentDate: Date }` | Al completar la operación principal | BC-Membership (actualizar estado morosidad), BC-Communication (confirmación) |
+| `ReceiptGenerated` | `{ reciboId: UUID, paymentId: UUID, numeroRecibo: string, issueDate: Date }` | Al completar la operación principal | BC-Documents (archivar) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Notifica pago para actualizar estado del socio (si estaba en PendientePago)
-- BC-Tesoreria → BC-Comunicacion: Envía recibo por email al socio
-- BC-Tesoreria → BC-Documentos: Almacena recibo y justificantes
+- BC-Treasury → BC-Membership: Notifica pago para actualizar estado del socio (si estaba en PendientePago)
+- BC-Treasury → BC-Communication: Envía recibo por email al socio
+- BC-Treasury → BC-Documents: Almacena recibo y justificantes
 
 #### Poscondiciones
 - Pago registrado en estado CONFIRMADO
@@ -3981,9 +3981,9 @@ Registro de cobros por múltiples métodos de pago (efectivo, transferencia, dom
 
 #### Metadatos
 - **User Stories:** US-058, US-059, US-060
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `MorosidadService`
-- **Aggregates:** **CuentaSocio**, *Cargo* (Entity), **Socio** (BC-Membresia)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `DelinquencyService`
+- **Aggregates:** **MemberAccount**, *Charge* (Entity), **Member** (BC-Membership)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -3995,7 +3995,7 @@ Proceso automatizado de gestión de morosidad con fases configurables, notificac
 - **Presidente** (autorización de expedientes de baja)
 
 #### Precondiciones
-- Cargos vencidos (fechaVencimiento < fecha actual)
+- Cargos vencidos (dueDate < fecha actual)
 - Configuración de workflow de morosidad definida
 - Plantillas de notificación configuradas
 
@@ -4011,7 +4011,7 @@ Proceso automatizado de gestión de morosidad con fases configurables, notificac
    │ ⚙️  FASES DEL WORKFLOW                               │
    │                                                      │
    │ Fase 1: Vencimiento del cargo                       │
-   │   Trigger: Cargo vence (fechaVencimiento)           │
+   │   Trigger: Cargo vence (dueDate)           │
    │   Acción: Marcar cargo como VENCIDO                 │
    │   ────────────────────────────────────────────────  │
    │                                                      │
@@ -4060,12 +4060,12 @@ Proceso automatizado de gestión de morosidad con fases configurables, notificac
    ```
 
 3. Presidente ajusta plazos según estatutos propios
-4. Sistema valida y guarda configuración en `configuracion_morosidad` del tenant
+4. Sistema valida y guarda configuración en `delinquency_config` del tenant
 
 **Parte 2: Proceso Automático Diario (US-058)**
 
 5. Sistema ejecuta cron job cada día a las 03:00 AM
-6. `MorosidadService.procesarMorosidadDiaria()`
+6. `DelinquencyService.processDailyDelinquency()`
 
 **Ejemplo de ejecución:**
 
@@ -4093,16 +4093,16 @@ Duración: 1.8 segundos
 
 7. Sistema registra cada acción en la tabla `historial_morosidad`:
 8. Sistema emite eventos correspondientes:
-   - `MorosidadDetectada` (primera vez que se detecta morosidad)
-   - `AvisoMorosidadEnviado` (cada notificación)
-   - `EstadoSocioCambiado` (cuando cambia a PendientePago/Suspendido)
+   - `DelinquencyDetected` (primera vez que se detecta morosidad)
+   - `DelinquencyNoticeSent` (cada notificación)
+   - `MemberStatusChanged` (cuando cambia a PendientePago/Suspendido)
 
 **Parte 3: Regularización (US-058)**
 
 9. Socio en Fase 5 (Suspendido, 185 días vencido) paga toda la deuda
 10. Tesorero registra el cobro (ver UC-021)
 11. Sistema detecta que ya no hay cargos pendientes:
-12. BC-Membresia consume el evento `MorosidadRegularizada`
+12. BC-Membership consume el evento `DelinquencyRegularized`
 13. Socio vuelve a estado "Activo" automáticamente
 14. Sistema envía email de confirmación:
     ```
@@ -4152,7 +4152,7 @@ Duración: 1.8 segundos
 - Configurar plazos distintos para:
   - Cargos ordinarios (cuotas): 730 días hasta baja
   - Derramas: 365 días hasta baja (más estricto)
-- Sistema aplica el plazo correspondiente según `cargo.tipoConcepto`
+- Sistema aplica el plazo correspondiente según `charge.chargeType`
 
 **FA-2: Suspensión manual del workflow**
 - Tesorero puede pausar el workflow para un socio específico:
@@ -4168,7 +4168,7 @@ Duración: 1.8 segundos
   ```
   Cargo Q1 2023: 24.50€ → ANULADO (motivo: Condonado por Junta)
   Cargo Q2 2023: 24.50€ → ANULADO
-  Cargo Q3 2023: 24.50€ → PENDIENTE (mantener)
+  Cargo Q3 2023: 24.50€ → PENDING (mantener)
   ```
 - Workflow se recalcula con deuda restante
 
@@ -4211,19 +4211,19 @@ Duración: 1.8 segundos
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `MorosidadDetectada` | `{ socioId: UUID, deudaTotal: number, cargosImpagados: number, diasMorosidad: number }` | Al completar la operación principal | BC-Membresia, BC-Comunicacion |
-| `EstadoSocioCambiado` | `{ socioId: UUID, estadoAnterior: EstadoSocio, estadoNuevo: EstadoSocio, motivo?: string, fechaCambio: Date }` | Al completar la operación principal | BC-Membresia (cambiar estado), BC-Eventos (suspender inscripciones) |
-| `MorosidadRegularizada` | `{ socioId: UUID, importePagado: number, fechaRegularizacion: Date }` | Al completar la operación principal | BC-Membresia (reactivar socio), BC-Comunicacion (confirmación) |
-| `BajaPorImpago` | `{ socioId: UUID, deudaTotal: number, fechaBaja: Date }` | Al completar la operación principal | BC-Membresia (ejecutar baja), BC-Documentos (archivar expediente) |
-| `CertificadoDescubiertoGenerado` | `{ certificadoId: UUID, socioId: UUID, deudaTotal: number, fechaEmision: Date }` | Al completar la operación principal | BC-Documentos, sistema de auditoría |
+| `DelinquencyDetected` | `{ memberId: UUID, totalDebt: number, unpaidCharges: number, delinquencyDays: number }` | Al completar la operación principal | BC-Membership, BC-Communication |
+| `MemberStatusChanged` | `{ memberId: UUID, previousStatus: MemberStatus, newStatus: MemberStatus, reason?: string, changeDate: Date }` | Al completar la operación principal | BC-Membership (cambiar estado), BC-Events (suspender inscripciones) |
+| `DelinquencyRegularized` | `{ memberId: UUID, paidAmount: number, regularizationDate: Date }` | Al completar la operación principal | BC-Membership (reactivar socio), BC-Communication (confirmación) |
+| `NonpaymentLeave` | `{ memberId: UUID, totalDebt: number, leaveDate: Date }` | Al completar la operación principal | BC-Membership (ejecutar baja), BC-Documents (archivar expediente) |
+| `OverdraftCertificateGenerated` | `{ certificateId: UUID, memberId: UUID, totalDebt: number, issueDate: Date }` | Al completar la operación principal | BC-Documents, sistema de auditoría |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Actualiza estado del socio según fase de morosidad
-- BC-Tesoreria → BC-Comunicacion: Envía notificaciones de morosidad
-- BC-Tesoreria → BC-Documentos: Almacena certificados y expedientes
-- BC-Tesoreria → BC-Eventos: Suspende acceso a eventos si socio suspendido
+- BC-Treasury → BC-Membership: Actualiza estado del socio según fase de morosidad
+- BC-Treasury → BC-Communication: Envía notificaciones de morosidad
+- BC-Treasury → BC-Documents: Almacena certificados y expedientes
+- BC-Treasury → BC-Events: Suspende acceso a eventos si socio suspendido
 
 #### Poscondiciones
 - Workflow de morosidad ejecutado para todos los cargos vencidos
@@ -4241,8 +4241,8 @@ Duración: 1.8 segundos
 - Plazos en días hábiles vs días naturales (configurable)
 - Para notificaciones certificadas (Fase 7), integrar con servicio de correo certificado o generar PDF con acuse de recibo
 - Índices en BD:
-  - `cargos(fecha_vencimiento, estado)` WHERE estado IN ('PENDIENTE', 'PARCIAL')
-  - `historial_morosidad(cargo_id, fase)` UNIQUE
+  - `cargos(fecha_vencimiento, estado)` WHERE estado IN ('PENDING', 'PARCIAL')
+  - `historial_morosidad(charge_id, fase)` UNIQUE
 - Alertas al tesorero:
   - Resumen diario por email: "Hoy se ejecutaron X acciones de morosidad"
   - Alerta si >10 socios pasan a Suspendido en una semana
@@ -4261,9 +4261,9 @@ Duración: 1.8 segundos
 
 #### Metadatos
 - **User Stories:** US-061, US-062, US-063, US-064, US-065
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `RemesaSepaService`
-- **Aggregates:** **RemesaSepa**, *AdeudoSepa* (Entity), *MandatoSepa* (Entity en CuentaSocio), **CuentaSocio**
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `SepaRemittanceService`
+- **Aggregates:** **SepaRemittance**, *SepaDebit* (Entity), *SepaMandate* (Entity en MemberAccount), **MemberAccount**
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -4328,7 +4328,7 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
 
 **Nota:** El Banco de España proporciona el identificador completo tras solicitud formal. La validación evita errores de transcripción.
 
-4. Sistema guarda la configuración en la tabla `configuracion_sepa` del tenant
+4. Sistema guarda la configuración en la tabla `sepa_config` del tenant
 
 **Parte 2: Registro de Mandatos SEPA (US-063)**
 
@@ -4360,8 +4360,8 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
    ```
 
 8. Tesorero completa el formulario y adjunta mandato firmado
-9. `RemesaSepaService.registrarMandato(cuentaSocioId, mandatoData)`
-10. Sistema emite evento `MandatoSepaRegistrado`
+9. `SepaRemittanceService.registerMandate(memberAccountId, mandateData)`
+10. Sistema emite evento `SepaMandateRegistered`
 11. Sistema confirma: "Mandato registrado. El primer adeudo será tipo FRST"
 
 **Parte 3: Generación de Remesa SEPA (US-061)**
@@ -4417,23 +4417,23 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
     ```
 
 17. Tesorero confirma generación
-18. `RemesaSepaService.generarRemesa(remesaData)`
+18. `SepaRemittanceService.generateRemittance(remittanceData)`
 
 **Método: Determinar Tipo de Secuencia (US-064)**
 
-19. Para cada adeudo incluido en la remesa, `RemesaSepaService.determinarTipoSecuencia(mandato, cargo)` aplica **Tabla 8: Algoritmo de Determinación del Tipo de Secuencia SEPA:**
+19. Para cada adeudo incluido en la remesa, `SepaRemittanceService.determinarTipoSecuencia(mandato, cargo)` aplica **Tabla 8: Algoritmo de Determinación del Tipo de Secuencia SEPA:**
 
 | Condición | Tipo Secuencia | Acción Adicional | Ejemplo |
 |-----------|----------------|------------------|---------|
 | `esCobroUnico = true` | **OOFF** | Ninguna | Cargo único extraordinario (evento puntual) |
-| `fechaUltimoAdeudo = NULL` | **FRST** | Primera domiciliación del mandato | Socio nuevo con mandato recién registrado |
-| `mesesSinUso ≥ 36` | **FRST** | Reactivar mandato + notificar socio | Mandato inactivo desde 2022 (>3 años) |
-| Caso contrario | **RCUR** | Actualizar `fechaUltimoAdeudo` | Cuota mensual de socio activo |
+| `lastDebitDate = NULL` | **FRST** | Primera domiciliación del mandato | Socio nuevo con mandato recién registrado |
+| `monthsUnused ≥ 36` | **FRST** | Reactivar mandato + notificar socio | Mandato inactivo desde 2022 (>3 años) |
+| Caso contrario | **RCUR** | Actualizar `lastDebitDate` | Cuota mensual de socio activo |
 
 **Reglas de negocio críticas:**
-- **Regla de 36 meses (normativa SEPA):** Un mandato sin adeudos durante más de 36 meses debe tratarse como nuevo (FRST), no como recurrente. El sistema calcula `mesesSinUso = MESES_ENTRE(fechaUltimoAdeudo, fechaActual)`.
-- **OOFF tiene prioridad:** Si un cargo está marcado explícitamente como único (`Cargo.esCobroUnico = true`), se asigna OOFF independientemente del historial del mandato.
-- **Actualización posterior:** Tras el procesamiento exitoso de la remesa (confirmación del banco), el sistema actualiza `MandatoSepa.fechaUltimoAdeudo` para los adeudos FRST y RCUR (no para OOFF).
+- **Regla de 36 meses (normativa SEPA):** Un mandato sin adeudos durante más de 36 meses debe tratarse como nuevo (FRST), no como recurrente. El sistema calcula `monthsUnused = MESES_ENTRE(lastDebitDate, currentDate)`.
+- **OOFF tiene priority:** Si un cargo está marcado explícitamente como único (`Cargo.esCobroUnico = true`), se asigna OOFF independientemente del historial del mandato.
+- **Actualización posterior:** Tras el procesamiento exitoso de la remesa (confirmación del banco), el sistema actualiza `SepaMandate.lastDebitDate` para los adeudos FRST y RCUR (no para OOFF).
 
 **Nota:** El XML generado incluye el tag `<SeqTp>` con valores `FRST`, `RCUR` u `OOFF` según este algoritmo. Una asignación incorrecta puede causar rechazo bancario.
 
@@ -4472,7 +4472,7 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
 22. Tesorero descarga el fichero y lo sube a la banca online
 23. Tras confirmar el envío, pulsa "Marcar como enviada"
 24. Sistema actualiza el estado de la remesa a ENVIADA
-25. Sistema emite evento `RemesaSepaEnviada`
+25. Sistema emite evento `SepaRemittanceSent`
 26. Sistema muestra confirmación: "Remesa marcada como enviada. Cobros programados para el 15/02/2025"
 
 #### Flujos Alternativos
@@ -4529,18 +4529,18 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `RemesaSepaEnviada` | `{ remesaId: string, fechaEnvio: Date, banco: string }` | Al completar la operación principal | BC-Comunicacion (notificar socios), auditoría |
+| `SepaRemittanceSent` | `{ remittanceId: string, sendDate: Date, banco: string }` | Al completar la operación principal | BC-Communication (notificar socios), auditoría |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Comunicacion: Notifica a socios incluidos en remesa
-- BC-Tesoreria → BC-Documentos: Almacena fichero XML y mandatos firmados
+- BC-Treasury → BC-Communication: Notifica a socios incluidos en remesa
+- BC-Treasury → BC-Documents: Almacena fichero XML y mandatos firmados
 
 #### Poscondiciones
 - Remesa generada y fichero XML almacenado
 - Cargos en estado EN_PROCESO_COBRO
-- Mandatos actualizados con `fechaUltimoAdeudo`
+- Mandatos actualizados con `lastDebitDate`
 - Tesorero puede descargar fichero para banco
 
 #### Notas de Implementación
@@ -4551,7 +4551,7 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
 - Calcular BIC automáticamente desde IBAN (primeros 8 caracteres)
 - Para días hábiles, usar librería de festivos actualizad a (ej: `date-holidays`)
 - Implementar retry en generación XML si falla (3 intentos)
-- Los mandatos se almacenan en la entity `MandatoSepa` dentro del aggregate `CuentaSocio`
+- Los mandatos se almacenan en la entity `SepaMandate` dentro del aggregate `MemberAccount`
 - Numeración de remesas: `REMESA-{AÑO}-{MES}{DIA}-{SECUENCIAL}`
 - Formato de referencia de adeudo: `CARGO-{NUM_SOCIO}-{CONCEPTO_ABREVIADO}` (max 35 car)
 - Validar longitud de campos según norma SEPA:
@@ -4565,9 +4565,9 @@ Generación de ficheros de remesa SEPA Core (ISO 20022 pain.008.001.08) para dom
 
 #### Metadatos
 - **User Stories:** US-066, US-067
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `RemesaSepaService`, `CobroService`
-- **Aggregates:** **CuentaSocio**, *Cargo* (Entity), **RemesaSepa**, *AdeudoSepa* (Entity)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `SepaRemittanceService`, `CollectionService`
+- **Aggregates:** **MemberAccount**, *Charge* (Entity), **SepaRemittance**, *SepaDebit* (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -4661,7 +4661,7 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
    ```
 
 6. Tesorero completa el formulario y confirma
-7. `RemesaSepaService.registrarDevolucion(adeudoId, devolucionData)`
+7. `SepaRemittanceService.recordReturn(debitId, returnData)`
 8. Sistema procesa la devolución aplicando **Tabla 9: Mapeo de Códigos de Devolución SEPA y Acciones:**
 
 | Código | Descripción | Permitir Reintento | Acción Sugerida | Días Reintento Sugeridos | Requiere Intervención Manual |
@@ -4679,13 +4679,13 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 - **Código AM04 (Amount):** Fondos insuficientes → Sistema permite reintento automático pero recomienda contacto previo con el socio para confirmar disponibilidad.
 - **Código AG01 (Agent):** Problemas con el banco agente → Sistema marca mandato como sospechoso y requiere verificación manual.
 - **Código MD01 (Mandate):** Mandato inexistente o inválido → Sistema marca mandato como INACTIVO y notifica al tesorero.
-- **Código MS02 (Customer):** Rechazo explícito del deudor → Sistema **revoca automáticamente el mandato** (`MandatoSepa.estado = REVOCADO`) y emite evento `MandatoSepaRevocado`.
+- **Código MS02 (Customer):** Rechazo explícito del deudor → Sistema **revoca automáticamente el mandato** (`SepaMandate.status = REVOKED`) y emite evento `SepaMandateRevoked`.
 - **Código MS03 (Other):** Motivo genérico → Sistema requiere investigación, no asume acción automática.
 
 **Automatizaciones por código:**
-- **AM04:** Si `numeroIntentosSepa < 3` → Reintento automático habilitado. Sistema crea tarea para tesorero: "Contactar a {socio} antes del reintento".
+- **AM04:** Si `sepaRetryCount < 3` → Reintento automático habilitado. Sistema crea tarea para tesorero: "Contactar a {socio} antes del reintento".
 - **MS02:** Sistema revoca mandato inmediatamente, excluye socio de futuras remesas SEPA, cambia método cobro sugerido a "Transferencia" o "Efectivo".
-- **AC01/AC04/MD01:** Sistema crea tarea de alta prioridad para tesorero con enlace directo a la ficha del socio.
+- **AC01/AC04/MD01:** Sistema crea tarea de alta priority para tesorero con enlace directo a la ficha del socio.
 
 **Nota:** Los códigos SEPA son estándar ISO 20022. Una clasificación incorrecta puede resultar en acciones inapropiadas (ej: reintentar con IBAN incorrecto genera gastos bancarios adicionales innecesarios).
 
@@ -4784,9 +4784,9 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 
 **Parte 4: Actualización de Estado del Socio** (US-066)
 
-18. El evento `PagoDevuelto` es consumido por BC-Membresia
+18. El evento `PaymentReturned` es consumido por BC-Membership
 19. Si el socio acumula múltiples devoluciones, sistema actualiza estado: `EN_MOROSIDAD` si hay 3+ devoluciones en ejercicio actual
-20. Sistema muestra confirmación: "Devolución SEPA registrada correctamente. Se ha actualizado el estado del cargo y notificado al BC-Membresia"
+20. Sistema muestra confirmación: "Devolución SEPA registrada correctamente. Se ha actualizado el estado del cargo y notificado al BC-Membership"
 
 #### Flujos Alternativos
 
@@ -4802,7 +4802,7 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 
 **FA-3: Mandato revocado por el socio**
 - Motivo MS02 (Rechazo del deudor)
-- Sistema marca mandato como REVOCADO automáticamente
+- Sistema marca mandato como REVOKED automáticamente
 - Futuros cargos no se incluyen en remesas SEPA
 - Notifica al tesorero para cambiar método de cobro
 
@@ -4822,7 +4822,7 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
   - Permite vincular devolución a cargo específico
 
 **FE-2: Gastos bancarios mayores que el cargo**
-- Si `gastosBancarios > cargo.importe`:
+- Si `bankFees > charge.amount`:
   - Sistema advierte pero permite continuar
   - El socio queda con deuda neta por los gastos
 
@@ -4841,8 +4841,8 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Membresia: Notifica devolución para actualizar estado del socio
-- BC-Tesoreria → BC-Comunicacion: Envía notificación de devolución al socio
+- BC-Treasury → BC-Membership: Notifica devolución para actualizar estado del socio
+- BC-Treasury → BC-Communication: Envía notificación de devolución al socio
 
 #### Poscondiciones
 - Cargo en estado DEVUELTO con motivo registrado
@@ -4854,7 +4854,7 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 #### Notas de Implementación
 - **RNFT-025:** Auditoría completa de devoluciones (quién, cuándo, motivo)
 - Mantener historial completo de reintentos en el cargo
-- Contador de intentos: `cargo.numeroIntentosSepa`
+- Contador de intentos: `charge.sepaRetryCount`
 - Límite de reintentos automáticos: 3 (configurable)
 - Para motivos que no permiten reintento, sugerir método alternativo (efectivo, transferencia)
 - Implementar parsers para ficheros pain.002 (respuestas bancarias)
@@ -4886,9 +4886,9 @@ Gestión de adeudos devueltos por el banco, clasificación por código de motivo
 
 #### Metadatos
 - **User Stories:** US-068, US-069, US-070, US-071
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `PasarelaPagoService`
-- **Aggregates:** **Cargo**, EnlacePago (Entity), IntegracionPasarela (Entity)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `PaymentGatewayService`
+- **Aggregates:** **Charge**, EnlacePago (Entity), IntegracionPasarela (Entity)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -4896,12 +4896,12 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
 
 #### Actores
 - **Tesorero** (genera enlaces de pago)
-- **Socio** (realiza pago online)
+- **Member** (realiza pago online)
 - **Sistema** (recibe webhooks, concilia automáticamente)
 
 #### Precondiciones
 - Credenciales de pasarela de pago configuradas en el tenant (API Key Stripe/Redsys)
-- Cargo existente en estado PENDIENTE
+- Cargo existente en estado PENDING
 - Socio con email válido para envío de enlace
 
 #### Flujo Normal
@@ -4910,7 +4910,7 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
 
 1. Tesorero accede a ficha de cargo pendiente (ej: Cuota Q1 2025 - 24.50€)
 2. Pulsa "Generar enlace de pago"
-3. `PasarelaPagoService.generarEnlacePago(cargo_id)`:
+3. `PaymentGatewayService.generatePaymentLink(charge_id)`:
 4. Sistema muestra confirmación con:
    - URL de pago: `https://pay.associated.es/p/abc123...`
    - Código QR para escanear con móvil
@@ -4919,8 +4919,8 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
 **Parte 2: Envío al socio** (US-069)
 
 5. Tesorero pulsa "Enviar por email"
-6. Sistema emite evento `EnlacePagoGenerado`
-7. BC-Comunicacion consume evento y envía email al socio:
+6. Sistema emite evento `PaymentLinkGenerated`
+7. BC-Communication consume evento y envía email al socio:
    ```
    Asunto: Enlace de pago - Peña El Tambor
    
@@ -5012,16 +5012,16 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EnlacePagoGenerado` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Comunicacion (enviar email con enlace) |
-| `CargoCobrado` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Membresia (actualizar estado socio si moroso), BC-Comunicacion (confirmación al socio) |
+| `PaymentLinkGenerated` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Communication (enviar email con enlace) |
+| `ChargeCollected` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Membership (actualizar estado socio si moroso), BC-Communication (confirmación al socio) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → Pasarela externa (Stripe/Redsys): Crear payment intent, procesar pago
-- BC-Tesoreria ← Pasarela externa: Webhooks de confirmación/fallo
-- BC-Tesoreria → BC-Comunicacion: Notificar generación de enlace y confirmación de pago
-- BC-Tesoreria → BC-Membresia: Si pago regulariza morosidad
+- BC-Treasury → Pasarela externa (Stripe/Redsys): Crear payment intent, procesar pago
+- BC-Treasury ← Pasarela externa: Webhooks de confirmación/fallo
+- BC-Treasury → BC-Communication: Notificar generación de enlace y confirmación de pago
+- BC-Treasury → BC-Membership: Si pago regulariza morosidad
 
 #### Poscondiciones
 - Enlace de pago generado y vigente (o ya existente reutilizado)
@@ -5052,7 +5052,7 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
    - QR embebido en email como imagen inline (base64)
 
 5. **Expiración de enlaces:**
-   - CRON diario que invalida enlaces con `fechaExpiracion < NOW()`
+   - CRON diario que invalida enlaces con `expirationDate < NOW()`
    - Estado: VIGENTE → EXPIRADO
 
 6. **Comisiones (US-071):**
@@ -5073,9 +5073,9 @@ Integración con pasarelas de pago online (Stripe/Redsys) para permitir a los so
 
 #### Metadatos
 - **User Stories:** US-072, US-073, US-074, US-075, US-076, US-077
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `ContabilidadService`
-- **Aggregates:** **Movimiento**, CategoriaContable, EjercicioContable
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `AccountingService`
+- **Aggregates:** **Transaction**, CategoriaContable, EjercicioContable
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -5119,7 +5119,7 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
    ```
 
 4. Tesorero completa datos y pulsa "Registrar"
-5. `ContabilidadService.registrarIngreso(data)`:
+5. `AccountingService.recordIncome(data)`:
 6. Sistema muestra confirmación: "Ingreso registrado correctamente"
 7. Saldo actualizado en dashboard: Saldo anterior + 4.900€
 
@@ -5151,7 +5151,7 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
     ```
 
 11. Tesorero completa datos y adjunta factura PDF
-12. `ContabilidadService.registrarGasto(data)`:
+12. `AccountingService.recordExpense(data)`:
     - Crea Movimiento tipo GASTO
     - Genera asiento: Debe (cuenta gasto) / Haber (caja)
     - Descuenta del saldo acumulado
@@ -5164,7 +5164,7 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
 
 15. Presidente accede a "Contabilidad > Informes"
 16. Selecciona "Informe económico 2024"
-17. `ContabilidadService.generarInformeEjercicio(ejercicio_id)`:
+17. `AccountingService.generateFiscalYearReport(fiscal_year_id)`:
 18. Sistema genera PDF con:
     - Resumen ingresos por categoría (tabla + gráfico circular)
     - Resumen gastos por categoría (tabla + gráfico circular)
@@ -5238,13 +5238,13 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EjercicioCerrado` | `{ ejercicioId: UUID, nombre: string, fechaCierre: Date, memoriaId?: UUID }` | Al completar la operación principal | BC-Documentos (archivar documentación), BC-Membresia (snapshot socios) |
+| `FiscalYearClosed` | `{ fiscalYearId: UUID, name: string, closeDate: Date, memoriaId?: UUID }` | Al completar la operación principal | BC-Documents (archivar documentación), BC-Membership (snapshot socios) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Documentos: Almacenar facturas y justificantes
-- BC-Tesoreria ← BC-Tesoreria (Cobros): Registrar ingresos automáticamente desde cobros
+- BC-Treasury → BC-Documents: Almacenar facturas y justificantes
+- BC-Treasury ← BC-Treasury (Cobros): Registrar ingresos automáticamente desde cobros
 
 #### Poscondiciones
 - Movimiento registrado en ejercicio contable
@@ -5259,12 +5259,12 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
    - Gastos: Suministros, Servicios, Personal, Eventos, Otros
 
 2. **Plan ENL (RD 1491/2011):**
-   - Activable por tenant (`ejercicio.planContable`)
+   - Activable por tenant (`fiscalYear.accountingPlan`)
    - Mapeo categorías → cuentas ENL en tabla `categoria_cuentas_enl`
    - Grupos de cuentas: Activo, Pasivo, Fondo Social, Ingresos, Gastos
 
 3. **Almacenamiento facturas (RNFT-009, RNFT-011):**
-   - S3 / MinIO en bucket `facturas/{tenant_id}/{ejercicio_id}/{movimiento_id}.pdf`
+   - S3 / MinIO en bucket `facturas/{tenant_id}/{fiscal_year_id}/{movimiento_id}.pdf`
    - Cifrado AES-256-GCM
    - Retention policy: 10 años (obligación legal)
 
@@ -5279,7 +5279,7 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
    - Ejercicio pasa a CERRADO (no modificable)
 
 6. **Performance (RNFT-015):**
-   - Index en `movimientos(ejercicio_id, tipo, fecha)`
+   - Index en `movimientos(fiscal_year_id, tipo, fecha)`
    - Agregaciones de saldos cacheadas en Redis (TTL 1h)
 
 ---
@@ -5288,9 +5288,9 @@ Registro de ingresos y gastos de la entidad con categorización contable, genera
 
 #### Metadatos
 - **User Stories:** US-078, US-079, US-080, US-081, US-082
-- **Bounded Context:** BC-Tesoreria
-- **Application Service:** `CajaTurnoService`
-- **Aggregates:** **TurnoCaja**, VentaCaja (Entity), ArqueoCaja (Entity)
+- **Bounded Context:** BC-Treasury
+- **Application Service:** `CashRegisterShiftService`
+- **Aggregates:** **CashRegisterShift**, VentaCaja (Entity), ArqueoCaja (Entity)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -5302,7 +5302,7 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 - **Sistema** (detecta descuadres, genera balances)
 
 #### Precondiciones
-- Evento activo con venta de productos habilitada
+- Evento activo con venta de products habilitada
 - Productos de barra configurados (cerveza, refrescos, bocadillos, etc.)
 - Usuario con permisos `caja:write`
 
@@ -5331,8 +5331,8 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
    ```
 
 4. Responsable confirma y pulsa "Abrir Turno"
-5. `CajaTurnoService.abrirTurno(data)`:
-6. Sistema muestra pantalla de caja con productos rápidos:
+5. `CashRegisterShiftService.openShift(data)`:
+6. Sistema muestra pantalla de caja con products rápidos:
    ```
    ┌─ Turno de Pedro Martínez ──────────────────────────┐
    │ Fondo inicial: 100,00 €         Hora: 20:15        │
@@ -5354,7 +5354,7 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 
 **Parte 2: Registro de ventas** (US-079, US-080)
 
-7. Responsable registra ventas pulsando botones de productos
+7. Responsable registra ventas pulsando botones de products
 8. Cliente pide: 5x Cerveza, 2x Bocadillo, 3x Refresco
 9. Responsable pulsa:
    - Cerveza (x5) → +10,00€
@@ -5362,7 +5362,7 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
    - Refresco (x3) → +4,50€
    - **Total venta: 22,50€**
 
-10. `CajaTurnoService.registrarVenta(turno_id, productos)`:
+10. `CashRegisterShiftService.recordSale(shift_id, products)`:
 11. Sistema actualiza total ventas del turno en tiempo real
 12. Responsable continúa registrando ventas durante su turno (2-3 horas)
 
@@ -5403,7 +5403,7 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 15. Responsable introduce efectivo contado: 320€
 16. Sistema detecta descuadre: -5€
 17. Responsable añade observaciones y confirma
-18. `CajaTurnoService.cerrarTurno(turno_id, arqueo)`:
+18. `CashRegisterShiftService.closeShift(shift_id, arqueo)`:
 19. Turno queda cerrado (no modificable)
 20. Sistema registra descuadre para auditoría
 21. Responsable entrega efectivo al siguiente turno o tesorero
@@ -5412,7 +5412,7 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 
 22. Tras finalizar jornada, tesorero accede a "Eventos > Fiestas 2025 > Balance Caja"
 23. Sistema consulta turnos cerrados del evento
-24. `CajaTurnoService.obtenerBalanceEvento(evento_id)`:
+24. `CashRegisterShiftService.getEventBalance(evento_id)`:
 25. Sistema muestra balance consolidado (read-only):
     ┌─ Balance de Caja: Fiestas 2025 ──────────────────┐
     │                                                  │
@@ -5484,12 +5484,12 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `DescuadreDetectado` | `{ ...<campos del evento> }` | Al completar la operación principal | notificar tesorero por email |
+| `DiscrepancyDetected` | `{ ...<campos del evento> }` | Al completar la operación principal | notificar tesorero por email |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Tesoreria → BC-Eventos: Consultar estado evento, vincular turnos a evento
+- BC-Treasury → BC-Events: Consultar estado evento, vincular turnos a evento
 
 #### Poscondiciones
 - Turno cerrado con arqueo registrado
@@ -5500,13 +5500,13 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 #### Notas de Implementación
 
 1. **Aggregate TurnoCaja:**
-   - Tabla `turnos_caja`: turno_id, evento_id, responsable, fondo_inicial, hora_inicio, hora_fin, estado
-   - Tabla `ventas_caja` (Entity): venta_id, turno_id, timestamp, importe_total
+   - Tabla `cash_register_shifts`: shift_id, evento_id, responsable, fondo_inicial, hora_inicio, hora_fin, estado
+   - Tabla `ventas_caja` (Entity): venta_id, shift_id, timestamp, importe_total
    - Tabla `ventas_detalle`: producto_id, cantidad, precio_unitario
-   - Tabla `arqueos_caja` (Entity): arqueo_id, turno_id, efectivo_esperado, efectivo_contado, descuadre
+   - Tabla `arqueos_caja` (Entity): arqueo_id, shift_id, efectivo_esperado, efectivo_contado, descuadre
 
 2. **Productos de barra:**
-   - Tabla `productos_barra`: producto_id, tenant_id, nombre, precio, activo
+   - Tabla `products_barra`: producto_id, tenant_id, nombre, precio, activo
    - Configuración previa por tenant (cerveza, refrescos, comida, etc.)
 
 3. **Modo offline (RNFT-024, RNFT-037):**
@@ -5527,25 +5527,25 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 
 ---
 
-## BC-Eventos
+## BC-Events
 
 ### Gestión de actividades: calendario, inscripciones, check-in, eventos específicos
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-028 | Registro y configuración de eventos | US-098, US-099 | BC-Eventos | EventoConfigService | Must | Media |
-| UC-029 | Calendario y sincronización | US-100, US-101 | BC-Eventos | CalendarioService | Must | Media |
-| UC-030 | Inscripciones online | US-102, US-103, US-104, US-105, US-106, US-107, US-108 | BC-Eventos | InscripcionService | Must | Alta |
-| UC-031 | Control de aforo y listas de espera | US-109, US-110 | BC-Eventos | AforoService | Must | Media |
-| UC-032 | Check-in y control de asistencia | US-111, US-112, US-113, US-114, US-115 | BC-Eventos | CheckInService | Must | Alta |
-| UC-033 | Eventos específicos: Comidas populares (peñas) | US-116, US-117, US-118 | BC-Eventos | ComidaPopularService | Should | Media |
-| UC-034 | Eventos específicos: Procesiones (cofradías) | US-119, US-120, US-121, US-122 | BC-Eventos | ProcesionService | Should | Alta |
-| UC-035 | Eventos específicos: Cuadrillas de costaleros | US-123, US-124, US-125 | BC-Eventos | CostaleroService | Should | Media |
-| UC-036 | Eventos específicos: Cultos (cofradías) | US-126, US-127, US-128 | BC-Eventos | CultoService | Could | Baja |
-| UC-037 | Eventos específicos: Competiciones (clubes deportivos) | US-129, US-130, US-131, US-132 | BC-Eventos | CompeticionService | Should | Media |
-| UC-038 | Valoraciones y feedback de eventos | US-133 | BC-Eventos | FeedbackEventoService | Should | Media |
+| UC-028 | Registro y configuración de eventos | US-098, US-099 | BC-Events | EventConfigService | Must | Media |
+| UC-029 | Calendario y sincronización | US-100, US-101 | BC-Events | CalendarService | Must | Media |
+| UC-030 | Inscripciones online | US-102, US-103, US-104, US-105, US-106, US-107, US-108 | BC-Events | RegistrationService | Must | Alta |
+| UC-031 | Control de aforo y listas de espera | US-109, US-110 | BC-Events | CapacityService | Must | Media |
+| UC-032 | Check-in y control de asistencia | US-111, US-112, US-113, US-114, US-115 | BC-Events | CheckInService | Must | Alta |
+| UC-033 | Eventos específicos: Comidas populares (peñas) | US-116, US-117, US-118 | BC-Events | SocialDinnerService | Should | Media |
+| UC-034 | Eventos específicos: Procesiones (cofradías) | US-119, US-120, US-121, US-122 | BC-Events | ProcessionService | Should | Alta |
+| UC-035 | Eventos específicos: Cuadrillas de costaleros | US-123, US-124, US-125 | BC-Events | BearerService | Should | Media |
+| UC-036 | Eventos específicos: Cultos (cofradías) | US-126, US-127, US-128 | BC-Events | WorshipService | Could | Baja |
+| UC-037 | Eventos específicos: Competiciones (clubes deportivos) | US-129, US-130, US-131, US-132 | BC-Events | CompetitionService | Should | Media |
+| UC-038 | Valoraciones y feedback de eventos | US-133 | BC-Events | EventFeedbackService | Should | Media |
 
-**Total BC-Eventos:** 11 UCs cubriendo 36 User Stories (US-098 a US-133)
+**Total BC-Events:** 11 UCs cubriendo 36 User Stories (US-098 a US-133)
 
 **Highlights técnicos:**
 - UC-032: QR codes validación, check-in offline PWA
@@ -5558,9 +5558,9 @@ Gestión de caja por turnos para eventos con venta de bebidas y comida (típico 
 
 #### Metadatos
 - **User Stories:** US-083, US-084
-- **Bounded Context:** BC-Eventos
-- **Application Service:** EventosManagementService
-- **Aggregates:** Evento (Aggregate Root), TipoEvento (Aggregate Root)
+- **Bounded Context:** BC-Events
+- **Application Service:** EventManagementService
+- **Aggregates:** Event (Aggregate Root), EventType (Aggregate Root)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -5574,7 +5574,7 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 #### Precondiciones
 - El usuario tiene rol con permiso `eventos:write` (RNF-003)
 - El tenant está activo y provisionado
-- Existe al menos un Ejercicio activo en BC-Membresia
+- Existe al menos un Ejercicio activo en BC-Membership
 
 #### Flujo Normal
 
@@ -5587,12 +5587,12 @@ Permite a los organizadores crear y configurar eventos con toda la información 
    - Ubicación (dirección, coordenadas GPS opcionales, sala)
    - Responsable/organizador
 4. El sistema carga los campos personalizados configurados para ese tipo de evento
-5. Configura opciones de inscripción (si el evento las requiere):
+5. Configura options de inscripción (si el evento las requiere):
    - ¿Requiere inscripción previa? (Sí/No)
    - Fechas de apertura y cierre de inscripciones
    - Aforo máximo (opcional)
    - ¿Habilitar lista de espera? (Sí/No)
-   - Precio de inscripción (opcional, integración con BC-Tesoreria)
+   - Precio de inscripción (opcional, integración con BC-Treasury)
    - Precios diferenciados por tipo de socio (opcional)
 
 6. Configura campos personalizados del formulario de inscripción según el tipo de evento:
@@ -5609,9 +5609,9 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 
 9. El organizador pulsa "Publicar Evento"
 
-10. El sistema publica el evento y emite `EventoPublicado`
+10. El sistema publica el evento y emite `EventPublished`
 
-11. BC-Comunicacion recibe el evento y notifica a los socios según preferencias de notificación
+11. BC-Communication recibe el evento y notifica a los socios según preferencias de notificación
 
 12. El evento aparece en el calendario de la entidad
 
@@ -5633,7 +5633,7 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 
 **FA-4: Evento con precio y pago anticipado obligatorio**
 - Cuándo: El organizador marca "Pago anticipado obligatorio"
-- Qué pasa: Las inscripciones quedan en "Pendiente de pago" hasta que BC-Tesoreria confirme el cobro vía `PagoCobrado` event
+- Qué pasa: Las inscripciones quedan en "Pendiente de pago" hasta que BC-Treasury confirme el cobro vía `ChargeCollected` event
 
 #### Flujos de Excepción
 
@@ -5659,20 +5659,20 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EventoCreado` | eventoId, tenantId, tipoEventoId, nombre, periodo | Al crear el registro | BC-Documentos (crear carpeta para el evento) |
-| `EventoPublicado` | eventoId, tenantId, nombre, periodo, requireInscripcion | Al enviar/publicar | BC-Comunicacion (notificar socios según preferencias), BC-Documentos (publicar en tablón) |
-| `InscripcionesAbiertas` | eventoId, tenantId, fechaCierre, aforoMaximo? | Al ejecutar la operación | BC-Comunicacion (recordatorio a socios), Monitoring (métricas) |
-| `EventoModificado` | eventoId, cambios, modificadoPor | Al actualizar el registro | BC-Comunicacion (notificar inscritos si cambios relevantes) |
-| `EventoCancelado` | eventoId, estadoAnterior, motivoCancelacion, canceladoPor | Transición manual a estado "Cancelado" con justificación (línea 5761) | BC-Comunicacion (notificar inscritos), BC-Tesoreria (gestionar reembolsos), BC-Eventos/UC-030 (cancelar inscripciones) |
+| `EventCreated` | eventId, tenantId, eventTypeId, nombre, periodo | Al crear el registro | BC-Documents (crear carpeta para el evento) |
+| `EventPublished` | eventId, tenantId, nombre, periodo, requireInscripcion | Al enviar/publicar | BC-Communication (notificar socios según preferencias), BC-Documents (publicar en tablón) |
+| `InscripcionesAbiertas` | eventId, tenantId, closeDate, aforoMaximo? | Al ejecutar la operación | BC-Communication (recordatorio a socios), Monitoring (métricas) |
+| `EventModified` | eventId, cambios, modifiedBy | Al actualizar el registro | BC-Communication (notificar inscritos si cambios relevantes) |
+| `EventCancelled` | eventId, previousStatus, cancellationReason, cancelledBy | Transición manual a estado "Cancelado" con justificación (línea 5761) | BC-Communication (notificar inscritos), BC-Treasury (gestionar reembolsos), BC-Events/UC-030 (cancelar inscripciones) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):** Consulta Ejercicio activo para vincular el evento
-- **BC-Eventos → BC-Tesoreria:** No hay interacción en creación (solo cuando hay inscripciones con pago)
-- **BC-Eventos ← BC-Comunicacion:** Consume `EventoPublicado` para enviar notificaciones
-- **BC-Eventos → BC-Documentos:** Adjuntar documentos al evento, crear carpeta específica
+- **BC-Events → BC-Membership (ACL):** Consulta Ejercicio activo para vincular el evento
+- **BC-Events → BC-Treasury:** No hay interacción en creación (solo cuando hay inscripciones con pago)
+- **BC-Events ← BC-Communication:** Consume `EventPublished` para enviar notificaciones
+- **BC-Events → BC-Documents:** Adjuntar documentos al evento, crear carpeta específica
 
 #### Poscondiciones
 
@@ -5685,7 +5685,7 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 - **Éxito (publicado):**
   - Evento visible en calendario de la entidad
   - Si tiene inscripciones configuradas, formulario accesible
-  - Evento `EventoPublicado` emitido
+  - Evento `EventPublished` emitido
   - Notificaciones automáticas enviadas a socios
   - Evento vinculado al Ejercicio activo
 
@@ -5697,10 +5697,10 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 #### Notas de Implementación
 
 1. **Tipos de Evento Configurables por Tenant (US-084):**
-   - Aggregate `TipoEvento` permite personalización completa por tenant
+   - Aggregate `EventType` permite personalización completa por tenant
    - Campos personalizados se definen como JSON Schema para validación dinámica
    - Tipos pre-configurados según naturaleza del tenant (cofradía, peña, club, asociación)
-   - Referencia: `005_modelo-dominio.md` línea 717 (Aggregate TipoEvento)
+   - Referencia: `005_modelo-dominio.md` línea 717 (Aggregate EventType)
 
 2. **Validación de Invariantes de Negocio:**
    - `FechaFin >= FechaInicio` (evitar eventos con periodo inválido)
@@ -5715,7 +5715,7 @@ Permite a los organizadores crear y configurar eventos con toda la información 
    - Exportación a iCal incluye coordenadas GEO
 
 4. **Adjuntar Documentos al Evento (RNF-009):**
-   - Integración con BC-Documentos para almacenar archivos
+   - Integración con BC-Documents para almacenar archivos
    - Object Storage S3-compatible (MinIO dev / AWS S3 prod) según ADR-011
    - Tipos permitidos: PDF, DOC/DOCX, JPG/PNG (planos), iCal
    - Tamaño máximo por archivo: 10 MB
@@ -5743,17 +5743,17 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 
 8. **Performance en Creación de Eventos (RNFT-015):**
    - Tiempo de respuesta esperado: <300ms p95
-   - Índices en BD: `(tenantId, fechaInicio)`, `(tenantId, tipoEventoId)`, `(tenantId, estado)`
+   - Índices en BD: `(tenantId, startDate)`, `(tenantId, eventTypeId)`, `(tenantId, status)`
    - Pre-cargar tipos de evento activos en caché Redis (TTL 1h)
 
 9. **Precio Diferenciado por Tipo de Socio (US-092):**
-   - ConfiguracionInscripcion puede incluir `preciosPorTipoSocio: Map<TipoSocioId, Dinero>`
-   - Al inscribirse, el sistema consulta el tipo de socio actual en BC-Membresia (via ACL)
-   - Se aplica el precio correspondiente al generar el cargo en BC-Tesoreria
+   - RegistrationConfig puede incluir `pricesByMemberType: Map<MemberTypeId, Dinero>`
+   - Al inscribirse, el sistema consulta el tipo de socio actual en BC-Membership (via ACL)
+   - Se aplica el precio correspondiente al generar el cargo en BC-Treasury
 
 10. **Notificaciones Configurables por Socio (RNFT-042):**
     - Los socios pueden configurar preferencias de notificación en su perfil
-    - BC-Comunicacion respeta estas preferencias al consumir `EventoPublicado`
+    - BC-Communication respeta estas preferencias al consumir `EventPublished`
     - Canales disponibles: Email, Push (PWA), SMS (opcional)
 
 ---
@@ -5762,8 +5762,8 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 
 #### Metadatos
 - **User Stories:** US-085, US-086
-- **Bounded Context:** BC-Eventos
-- **Application Service:** CalendarioService
+- **Bounded Context:** BC-Events
+- **Application Service:** CalendarService
 - **Aggregates:** Evento (Aggregate Root)
 - **Prioridad:** Must
 
@@ -5771,7 +5771,7 @@ Permite a los organizadores crear y configurar eventos con toda la información 
 Proporciona un calendario visual de todos los eventos de la entidad con múltiples vistas (mensual, semanal, lista), filtros por tipo de evento, y capacidades de exportación/sincronización con calendarios externos (iCal/CalDAV).
 
 #### Actores
-- **Socio** (consultar calendario, exportar eventos, suscribirse al calendario)
+- **Member** (consultar calendario, exportar eventos, suscribirse al calendario)
 - **Organizador/Junta Directiva** (visualización completa con métricas de inscripción)
 - **Sistema** (generar feeds iCal, mantener sincronización)
 
@@ -5805,8 +5805,8 @@ Proporciona un calendario visual de todos los eventos de la entidad con múltipl
 8. El sistema genera y descarga un fichero `.ics` compatible con Google Calendar, Outlook, Apple Calendar
 9. Para suscripción al calendario completo, el socio accede a "Configuración > Sincronización de Calendario"
 10. El sistema muestra la URL personalizada de suscripción iCal:
-    - URL formato: `https://associated.app/api/v1/calendario/feed/{tenantId}/{socioId}/{token}.ics`
-    - Token único y revocable (JWT con `sub: socioId`, `scope: calendar:read`, sin expiración)
+    - URL formato: `https://associated.app/api/v1/calendar/feed/{tenantId}/{memberId}/{token}.ics`
+    - Token único y revocable (JWT con `sub: memberId`, `scope: calendar:read`, sin expiración)
     - El socio copia la URL y la añade a su aplicación de calendario
 11. El calendario externo del socio sincroniza automáticamente los eventos (polling cada 1-24h según la app)
 12. Los cambios en eventos (modificaciones, cancelaciones) se reflejan en el calendario externo en la siguiente sincronización
@@ -5815,7 +5815,7 @@ Proporciona un calendario visual de todos los eventos de la entidad con múltipl
 
 **FA-1: Vista semanal con detalle horario**
 - Cuándo: El socio selecciona "Vista semanal"
-- Qué pasa: Se muestra grid de 7 días con franjas horarias (06:00-24:00), eventos posicionados según hora exacta, permite scroll vertical para ver todo el día
+- Qué pasa: Se muestra grid de 7 días con franjas horarias (06:00-24:00), eventos positionados según hora exacta, permite scroll vertical para ver todo el día
 
 **FA-2: Vista lista para próximos eventos**
 - Cuándo: El socio selecciona "Vista lista"
@@ -5858,8 +5858,8 @@ Proporciona un calendario visual de todos los eventos de la entidad con múltipl
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):** Consulta tipo de socio para verificar permisos de visualización de eventos (si hay eventos privados por tipo)
-- **BC-Eventos → BC-Identidad (ACL):** Valida token de feed para endpoints públicos de iCal
+- **BC-Events → BC-Membership (ACL):** Consulta tipo de socio para verificar permisos de visualización de eventos (si hay eventos privados por tipo)
+- **BC-Events → BC-Identity (ACL):** Valida token de feed para endpoints públicos de iCal
 
 #### Poscondiciones
 
@@ -5898,7 +5898,7 @@ import esLocale from '@fullcalendar/core/locales/es';
 const CalendarioView: React.FC = () => {
   const { data: eventos, isLoading } = useEventosCalendario({
     vista: 'month',
-    fechaReferencia: new Date()
+    referenceDate: new Date()
   });
 
   const handleEventClick = (info) => {
@@ -5925,7 +5925,7 @@ const CalendarioView: React.FC = () => {
 ```
 
 2. **Performance en Carga de Calendario (RNFT-015):**
-   - Índice compuesto en BD: `(tenantId, fechaInicio, estado)`
+   - Índice compuesto en BD: `(tenantId, startDate, estado)`
    - Query optimizada con proyección parcial (no cargar descripción completa, solo campos necesarios)
    - Caché en Redis con TTL 5 minutos para vista mensual
    - Invalidación de caché al crear/modificar/cancelar evento
@@ -5953,10 +5953,10 @@ const CalendarioView: React.FC = () => {
 
 7. **Filtrado de Eventos por Permisos:**
    - Si el tenant configura eventos privados (ej: solo para Junta Directiva), el feed solo incluye eventos públicos o a los que el socio tiene acceso
-   - ACL validado mediante `EventoPolicy.canView(evento, socio)`
+   - ACL validado mediante `EventPolicy.canView(evento, socio)`
 
 8. **Colores Distintivos por Tipo de Evento:**
-   - Cada TipoEvento tiene campo `color: string` (hex, ej: `#FF5733`)
+   - Cada EventType tiene campo `color: string` (hex, ej: `#FF5733`)
    - El calendario frontend usa estos colores para visual scanning rápido
    - Paleta de colores por defecto según categoría:
      - Asambleas: Azul oscuro `#1E3A8A`
@@ -5966,7 +5966,7 @@ const CalendarioView: React.FC = () => {
      - Cultos: Dorado `#F59E0B`
 
 9. **Exportación Masiva de Eventos:**
-   - Endpoint adicional: `GET /api/v1/eventos/export?formato=ics&filtros=...`
+   - Endpoint adicional: `GET /api/v1/events/export?formato=ics&filtros=...`
    - Permite exportar eventos filtrados (ej: solo comidas del año 2025)
    - Retorna ZIP con múltiples ficheros .ics o un único .ics con múltiples eventos
 
@@ -5981,8 +5981,8 @@ const CalendarioView: React.FC = () => {
 
 #### Metadatos
 - **User Stories:** US-087, US-092, US-093
-- **Bounded Context:** BC-Eventos
-- **Application Service:** InscripcionesService
+- **Bounded Context:** BC-Events
+- **Application Service:** RegistrationService
 - **Aggregates:** Evento (Aggregate Root), Inscripcion (Entity)
 - **Prioridad:** Must
 
@@ -5990,15 +5990,15 @@ const CalendarioView: React.FC = () => {
 Permite a los socios inscribirse online a eventos que requieren inscripción previa, con soporte para eventos gratuitos y de pago, acompañantes, formularios configurables con campos personalizados, precio diferenciado por tipo de socio, y cancelación con gestión de reembolsos.
 
 #### Actores
-- **Socio** (inscribirse, cancelar inscripción)
-- **Sistema** (validar aforo, generar cargos en BC-Tesoreria, notificar confirmaciones)
-- **BC-Tesoreria** (procesar pagos, confirmar inscripciones tras cobro)
-- **BC-Comunicacion** (enviar emails de confirmación y recordatorios)
+- **Member** (inscribirse, cancelar inscripción)
+- **Sistema** (validar aforo, generar cargos en BC-Treasury, notificar confirmaciones)
+- **BC-Treasury** (procesar pagos, confirmar inscripciones tras cobro)
+- **BC-Communication** (enviar emails de confirmación y recordatorios)
 
 #### Precondiciones
 - El socio está autenticado
-- El socio tiene estado "Activo" en BC-Membresia (no puede inscribirse si está de baja)
-- El evento tiene inscripciones abiertas (`estadoInscripciones === EstadoInscripciones.Abiertas`)
+- El socio tiene estado "Activo" en BC-Membership (no puede inscribirse si está de baja)
+- El evento tiene inscripciones abiertas (`registrationStatus === RegistrationStatus.OPEN`)
 - Hay plazas disponibles o lista de espera habilitada
 
 #### Flujo Normal
@@ -6022,7 +6022,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 5. Si el evento tiene formulario personalizado, el sistema muestra los campos configurados:
    - Campos obligatorios marcados con asterisco (*)
    - Validación en frontend (tipos, formatos, longitud)
-   - Campos con opciones limitadas (ej: menú vegetariano con cupo de 20)
+   - Campos con options limitadas (ej: menú vegetariano con cupo de 20)
 
 6. Si el evento permite acompañantes, el socio puede añadirlos:
    - Nombre completo
@@ -6039,22 +6039,22 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 
 9. **Si el evento es gratuito:**
    - La inscripción queda en estado "Confirmada" inmediatamente
-   - Se emite evento `InscripcionRealizada`
-   - BC-Comunicacion envía email de confirmación
+   - Se emite evento `RegistrationCompleted`
+   - BC-Communication envía email de confirmación
    - Plazas disponibles se actualizan en tiempo real
 
 10. **Si el evento requiere pago:**
     - La inscripción queda en estado "Pendiente de pago"
-    - Se genera cargo en BC-Tesoreria vía ACL
-    - BC-Comunicacion envía email con enlace de pago
+    - Se genera cargo en BC-Treasury vía ACL
+    - BC-Communication envía email con enlace de pago
     - El socio puede pagar mediante:
       - Domiciliación SEPA (incluir en próxima remesa)
       - Pasarela online (tarjeta de crédito, transferencia inmediata)
       - Efectivo/transferencia manual (tesorero registra pago)
 
-11. Cuando BC-Tesoreria confirma el pago (evento `PagoCobrado`):
+11. Cuando BC-Treasury confirma el pago (evento `ChargeCollected`):
     - El Event Handler actualiza la inscripción a estado "Confirmada"
-    - BC-Comunicacion envía confirmación definitiva
+    - BC-Communication envía confirmación definitiva
 
 12. El socio recibe email de confirmación con:
     - Resumen del evento
@@ -6073,22 +6073,22 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 - Qué pasa:
   - La inscripción pasa a estado "Cancelada"
   - Se libera la plaza
-  - Se emite evento `InscripcionCancelada` y `PlazaLiberada`
+  - Se emite evento `RegistrationCancelled` y `SlotReleased`
   - Si hay lista de espera, se notifica automáticamente al siguiente (UC-031)
   - Si había pago confirmado:
     - Se consulta política de reembolso del evento
-    - Si permite reembolso (ej: cancelación con >7 días de antelación), se registra solicitud de reembolso en BC-Tesoreria
+    - Si permite reembolso (ej: cancelación con >7 días de antelación), se registra solicitud de reembolso en BC-Treasury
     - El tesorero aprueba/rechaza el reembolso
-  - BC-Comunicacion envía confirmación de cancelación
+  - BC-Communication envía confirmación de cancelación
 
 **FA-3: Precio diferenciado por tipo de socio (US-092)**
-- Cuándo: El evento tiene configurado `preciosPorTipoSocio`
+- Cuándo: El evento tiene configurado `pricesByMemberType`
 - Qué pasa:
-  - El sistema consulta el tipo de socio actual en BC-Membresia (vía ACL)
+  - El sistema consulta el tipo de socio actual en BC-Membership (vía ACL)
   - Aplica el precio correspondiente: ej. Adulto 35€, Juvenil 25€, Infantil 15€
   - Muestra en pantalla: "Precio para socios Juveniles: 25€"
 
-**FA-4: Campos de formulario con opciones limitadas (US-093)**
+**FA-4: Campos de formulario con options limitadas (US-093)**
 - Cuándo: Un campo del formulario tiene cupo (ej: menú vegetariano máximo 20)
 - Qué pasa:
   - El sistema consulta cuántas inscripciones han seleccionado esa opción
@@ -6100,7 +6100,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 - Qué pasa:
   - Solo permitido si inscripciones aún están abiertas
   - Se actualiza la inscripción existente (no se crea nueva)
-  - Si el cambio afecta al precio (ej: añadir acompañante), se ajusta el cargo en BC-Tesoreria
+  - Si el cambio afecta al precio (ej: añadir acompañante), se ajusta el cargo en BC-Treasury
   - Se envía notificación de modificación
 
 #### Flujos de Excepción
@@ -6117,8 +6117,8 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
   - Se reintenta automáticamente (máximo 3 intentos con backoff exponencial)
   - Si tras reintentos no hay plaza, se ofrece lista de espera
 
-**FE-3: Error al generar cargo en BC-Tesoreria**
-- Cuándo: Falla la llamada ACL a BC-Tesoreria (servicio caído, timeout)
+**FE-3: Error al generar cargo en BC-Treasury**
+- Cuándo: Falla la llamada ACL a BC-Treasury (servicio caído, timeout)
 - Manejo:
   - No se persiste la inscripción (transacción rollback)
   - Se retorna error "Error al procesar pago. Intente nuevamente"
@@ -6129,7 +6129,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 - Manejo: Sistema rechaza con mensaje "Solo los socios activos pueden inscribirse. Contacte con la junta si desea reactivar su membresía"
 
 **FE-5: Inscripción después de fecha límite**
-- Cuándo: El socio intenta inscribirse tras `configuracionInscripcion.fechaCierre`
+- Cuándo: El socio intenta inscribirse tras `configuracionInscripcion.closeDate`
 - Manejo: Botón "Inscribirse" deshabilitado, mensaje "Inscripciones cerradas"
 
 #### Eventos de Dominio
@@ -6138,18 +6138,18 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `InscripcionRealizada` | inscripcionId, eventoId, socioId, estado, plazasDisponibles, precio? | Al ejecutar la operación | BC-Tesoreria (generar cargo si precio), BC-Comunicacion (enviar confirmación) |
-| `InscripcionCancelada` | inscripcionId, eventoId, socioId, fechaCancelacion | Al ejecutar la operación | BC-Tesoreria (gestionar reembolso si aplica), BC-Comunicacion (confirmación cancelación) |
-| `AforoCompletado` | eventoId, tenantId, nombreEvento | Al completar/cerrar | BC-Comunicacion (notificar organizador), Monitoring (métricas) |
+| `RegistrationCompleted` | registrationId, eventId, memberId, estado, availableSlots, precio? | Al ejecutar la operación | BC-Treasury (generar cargo si precio), BC-Communication (enviar confirmación) |
+| `RegistrationCancelled` | registrationId, eventId, memberId, cancellationDate | Al ejecutar la operación | BC-Treasury (gestionar reembolso si aplica), BC-Communication (confirmación cancelación) |
+| `CapacityReached` | eventId, tenantId, nombreEvento | Al completar/cerrar | BC-Communication (notificar organizador), Monitoring (métricas) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):** Consultar socio (estado, tipoSocioId) para validar inscripción y determinar precio
-- **BC-Eventos → BC-Tesoreria (ACL):** Generar cargo al inscribirse a evento de pago
-- **BC-Eventos ← BC-Tesoreria (Pub/Sub):** Consumir `PagoCobrado` para confirmar inscripción
-- **BC-Eventos → BC-Comunicacion (Pub/Sub):** Emitir `InscripcionRealizada` para envío de confirmaciones
+- **BC-Events → BC-Membership (ACL):** Consultar socio (estado, memberTypeId) para validar inscripción y determinar precio
+- **BC-Events → BC-Treasury (ACL):** Generar cargo al inscribirse a evento de pago
+- **BC-Events ← BC-Treasury (Pub/Sub):** Consumir `ChargeCollected` para confirmar inscripción
+- **BC-Events → BC-Communication (Pub/Sub):** Emitir `RegistrationCompleted` para envío de confirmaciones
 
 #### Poscondiciones
 
@@ -6161,7 +6161,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 
 - **Éxito (evento de pago):**
   - Inscripción registrada en estado "Pendiente de pago"
-  - Cargo generado en BC-Tesoreria
+  - Cargo generado en BC-Treasury
   - Email con enlace de pago enviado
   - Tras confirmar pago, inscripción pasa a "Confirmada"
 
@@ -6180,7 +6180,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 #### Notas de Implementación
 
 1. **Optimistic Locking para Evitar Double-Booking (RNFT-019):**
-   - Campo `version: int` en tabla `eventos` (Prisma `@@map("version")`)
+   - Campo `version: int` en tabla `events` (Prisma `@@map("version")`)
    - Al inscribirse, se incrementa la versión: `UPDATE eventos SET version = version + 1 WHERE id = ? AND version = ?`
    - Si la versión cambió (otro proceso inscribió simultáneamente), se reintenta con backoff exponencial (máximo 3 intentos)
 
@@ -6191,7 +6191,7 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
    - Evita que alguien bloquee plazas sin completar pago
 
 3. **Formularios Dinámicos con Validación (US-093):**
-   - Los campos personalizados se definen en TipoEvento como JSON Schema
+   - Los campos personalizados se definen en EventType como JSON Schema
    - Frontend usa **Zod** para validación dinámica según el schema
    - Backend valida nuevamente con **class-validator** + decoradores dinámicos
 
@@ -6201,13 +6201,13 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
    - Acompañantes pueden tener precio fijo o heredar precio de tipo "Acompañante" si existe
 
 5. **Event Handler para Confirmar Inscripción tras Pago (Saga):**
-   - Event Handler escucha `PagoCobrado` de BC-Tesoreria
-   - Extrae `eventoId` y `inscripcionId` del metadata del cargo
+   - Event Handler escucha `ChargeCollected` de BC-Treasury
+   - Extrae `eventId` y `registrationId` del metadata del cargo
    - Actualiza estado de inscripción a "Confirmada"
-   - Emite `InscripcionConfirmada` para que BC-Comunicacion envíe email definitivo
+   - Emite `RegistrationConfirmed` para que BC-Communication envíe email definitivo
 
 6. **Política de Reembolso Configurable:**
-   - Campo `politicaReembolso` en ConfiguracionInscripcion
+   - Campo `politicaReembolso` en RegistrationConfig
    - Tipos: `NoReembolsable`, `ReembolsoHasta7Dias`, `ReembolsoHasta48h`, `Siempre`
    - Al cancelar, se valida si aplica reembolso según política y fecha del evento
 
@@ -6216,8 +6216,8 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
    - Implementado en UC-029, también aplica en detalle de evento
 
 8. **Resumen Consolidado para Organizador (US-093):**
-   - Endpoint: `GET /api/v1/eventos/:id/resumen-inscripciones`
-   - Retorna consolidado de opciones de formulario (ej: 85 menú normal, 20 vegetariano, 15 infantil)
+   - Endpoint: `GET /api/v1/events/:id/resumen-inscripciones`
+   - Retorna consolidado de options de formulario (ej: 85 menú normal, 20 vegetariano, 15 infantil)
    - Exportable a CSV/Excel para entregar a proveedores (catering, transporte)
 
 9. **Accesibilidad del Formulario (RNFT-051):**
@@ -6228,8 +6228,8 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 10. **Cancelación Masiva por Cancelación del Evento:**
     - Si el organizador cancela el evento completo (UC-028 alternativa)
     - Se cancelan automáticamente todas las inscripciones
-    - Se emiten `InscripcionCancelada` para cada una
-    - BC-Tesoreria gestiona reembolsos masivos según política
+    - Se emiten `RegistrationCancelled` para cada una
+    - BC-Treasury gestiona reembolsos masivos según política
 
 ---
 
@@ -6237,8 +6237,8 @@ Permite a los socios inscribirse online a eventos que requieren inscripción pre
 
 #### Metadatos
 - **User Stories:** US-088, US-089, US-090, US-091
-- **Bounded Context:** BC-Eventos
-- **Application Service:** ControlAforoService, ListaEsperaService
+- **Bounded Context:** BC-Events
+- **Application Service:** CapacityControlService, WaitingListService
 - **Aggregates:** Evento (Aggregate Root), Inscripcion (Entity)
 - **Prioridad:** Must
 
@@ -6247,7 +6247,7 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 #### Actores
 - **Sistema** (control automático de aforo, notificaciones, cierre de inscripciones)
-- **Socio** (inscribirse a lista de espera, confirmar plaza liberada)
+- **Member** (inscribirse a lista de espera, confirmar plaza liberada)
 - **Organizador** (consultar ocupación, reabrir inscripciones manualmente)
 
 #### Precondiciones
@@ -6265,8 +6265,8 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 4. El sistema actualiza en tiempo real (WebSocket) el contador para todos los usuarios conectados
 5. Cuando se ocupa la última plaza:
    - El evento cambia a estado `EstadoInscripciones.AforoCompleto`
-   - Se emite evento de dominio `AforoCompletado`
-   - BC-Comunicacion notifica al organizador: "Evento [nombre] completó aforo"
+   - Se emite evento de dominio `CapacityReached`
+   - BC-Communication notifica al organizador: "Evento [nombre] completó aforo"
 
 6. Nuevos socios que intentan inscribirse ven mensaje: "Aforo completo"
 7. Si el evento tiene lista de espera habilitada, se ofrece opción: "¿Desea apuntarse a lista de espera?"
@@ -6282,7 +6282,7 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 12. **Si confirma dentro del plazo (24h):**
     - Su inscripción pasa de "ListaEspera" a "Confirmada"
-    - Se genera cargo en BC-Tesoreria si el evento tiene precio
+    - Se genera cargo en BC-Treasury si el evento tiene precio
     - Recibe confirmación definitiva
     - Los demás en lista avanzan una posición
 
@@ -6297,7 +6297,7 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 **FA-1: Reapertura manual de inscripciones**
 - Cuándo: El organizador necesita reabrir inscripciones tras el cierre (ej: aumentó aforo, hubo bajas)
-- Qué pasa: Desde panel de gestión, pulsa "Reabrir inscripciones", define nueva fecha límite, se emite `InscripcionesReabiertas`, BC-Comunicacion notifica a los interesados
+- Qué pasa: Desde panel de gestión, pulsa "Reabrir inscripciones", define nueva fecha límite, se emite `InscripcionesReabiertas`, BC-Communication notifica a los interesados
 
 **FA-2: Cancelación múltiple libera varias plazas**
 - Cuándo: Varios socios cancelan simultáneamente (ej: familia completa)
@@ -6305,7 +6305,7 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 **FA-3: Socio en lista de espera cancela voluntariamente**
 - Cuándo: Decide que ya no le interesa el evento
-- Qué pasa: Su inscripción se cancela, los demás en lista avanzan automáticamente sus posiciones, reciben notificación de nueva posición
+- Qué pasa: Su inscripción se cancela, los demás en lista avanzan automáticamente sus positiones, reciben notificación de nueva posición
 
 **FA-4: Evento sin lista de espera (aforo rígido)**
 - Cuándo: El organizador no habilita lista de espera
@@ -6335,18 +6335,18 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `AforoCompletado` | eventoId, tenantId, nombreEvento, listaEsperaHabilitada | Al completar/cerrar | BC-Comunicacion (notificar organizador), Monitoring (métricas de ocupación) |
-| `SocioAgregadoListaEspera` | eventoId, socioId, posicion | Al ejecutar la operación | BC-Comunicacion (confirmar posición en lista) |
-| `InscripcionesCerradas` | eventoId, tenantId, motivo, totalInscritos | Al ejecutar la operación | BC-Comunicacion (enviar listado final a organizador) |
-| `InscripcionesReabiertas` | eventoId, tenantId, nuevaFechaCierre | Al ejecutar la operación | BC-Comunicacion (notificar a interesados) |
+| `CapacityReached` | eventId, tenantId, nombreEvento, listaEsperaHabilitada | Al completar/cerrar | BC-Communication (notificar organizador), Monitoring (métricas de ocupación) |
+| `MemberAddedToWaitingList` | eventId, memberId, position | Al ejecutar la operación | BC-Communication (confirmar posición en lista) |
+| `RegistrationsClosed` | eventId, tenantId, motivo, totalRegistered | Al ejecutar la operación | BC-Communication (enviar listado final a organizador) |
+| `InscripcionesReabiertas` | eventId, tenantId, nuevaFechaCierre | Al ejecutar la operación | BC-Communication (notificar a interesados) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Comunicacion (Pub/Sub):** Emitir eventos para notificaciones automáticas de aforo completo, plaza liberada, inscripciones cerradas
-- **BC-Eventos → BC-Tesoreria (ACL):** Generar cargo cuando socio de lista de espera confirma plaza (si evento de pago)
-- **BC-Eventos (WebSocket):** Actualización en tiempo real de plazas disponibles a clientes conectados
+- **BC-Events → BC-Communication (Pub/Sub):** Emitir eventos para notificaciones automáticas de aforo completo, plaza liberada, inscripciones cerradas
+- **BC-Events → BC-Treasury (ACL):** Generar cargo cuando socio de lista de espera confirma plaza (si evento de pago)
+- **BC-Events (WebSocket):** Actualización en tiempo real de plazas disponibles a clientes conectados
 
 #### Poscondiciones
 
@@ -6399,8 +6399,8 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 6. **Movimiento de Lista de Espera:**
    - Cuando alguien sale: todos avanzan una posición automáticamente
-   - Notificación de nueva posición: solo si avanza ≥3 posiciones (evitar spam)
-   - Visualización en portal: "Posición 5 (subiste 2 posiciones desde ayer)"
+   - Notificación de nueva posición: solo si avanza ≥3 positiones (evitar spam)
+   - Visualización en portal: "Posición 5 (subiste 2 positiones desde ayer)"
 
 7. **Dashboard de Organizador en Tiempo Real:**
    - Panel con métricas live:
@@ -6416,9 +6416,9 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
    - Permite resolver disputas: "¿por qué no quedé inscrito?"
 
 9. **Performance en Consultas de Aforo (RNFT-015):**
-   - Campo desnormalizado `plazasDisponibles` en tabla eventos (actualizado por triggers)
+   - Campo desnormalizado `availableSlots` en tabla eventos (actualizado por triggers)
    - Evita contar inscripciones en cada query
-   - Índice: `(tenantId, plazasDisponibles, estadoInscripciones)` para listar eventos con plazas
+   - Índice: `(tenantId, availableSlots, registrationStatus)` para listar eventos con plazas
 
 10. **Gestión de Reservas Temporales:**
     - Al iniciar inscripción a evento de pago: reserva 15 min
@@ -6431,9 +6431,9 @@ Gestiona el control automático de aforo en tiempo real, previene overbooking me
 
 #### Metadatos
 - **User Stories:** US-094, US-095, US-096, US-097, US-098
-- **Bounded Context:** BC-Eventos
-- **Application Service:** CheckInService, AsistenciaReportService
-- **Aggregates:** Evento, AsistenciaEvento (Entity)
+- **Bounded Context:** BC-Events
+- **Application Service:** CheckInService, AttendanceReportService
+- **Aggregates:** Evento, EventAttendance (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -6447,13 +6447,13 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
 #### Precondiciones
 - El evento está en curso o finalizado (no permite check-in anticipado)
 - El organizador tiene permiso `eventos:check-in`
-- Para check-in por QR: el socio tiene carnet digital vigente (BC-Membresia)
+- Para check-in por QR: el socio tiene carnet digital vigente (BC-Membership)
 
 #### Flujo Normal
 
 1. El organizador accede al evento desde "Mis Eventos" el día de la actividad
 2. Pulsa "Control de Asistencia"
-3. El sistema muestra dos opciones:
+3. El sistema muestra dos options:
    - **"Escanear QR"**: para check-in rápido con cámara del móvil/tablet
    - **"Lista de inscritos"**: para check-in manual con checkboxes
 
@@ -6529,7 +6529,7 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
 
 **FA-2: Check-in con pago pendiente - redirección a cobro**
 - Cuándo: Socio inscrito pero con pago pendiente llega al evento
-- Qué pasa: El sistema muestra "⚠️ Pendiente de pago: 35€" con opciones: "Permitir entrada sin pago" (organizador decide permitir acceso), "Ir a cobro" (redirige a UC-021 para registrar pago en efectivo), si organizador elige "Permitir entrada", se registra check-in marcando que accedió con pago pendiente, si elige "Ir a cobro", se abre pantalla de registro de cobros (BC-Tesoreria) y tras confirmar pago vuelve a check-in automáticamente
+- Qué pasa: El sistema muestra "⚠️ Pendiente de pago: 35€" con options: "Permitir entrada sin pago" (organizador decide permitir acceso), "Ir a cobro" (redirige a UC-021 para registrar pago en efectivo), si organizador elige "Permitir entrada", se registra check-in marcando que accedió con pago pendiente, si elige "Ir a cobro", se abre pantalla de registro de cobros (BC-Treasury) y tras confirmar pago vuelve a check-in automáticamente
 
 **FA-3: QR de ejercicio anterior**
 - Cuándo: Socio presenta carnet del año pasado
@@ -6551,7 +6551,7 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
 
 **FE-3: Sincronización offline con conflictos**
 - Cuándo: Dos organizadores registraron el mismo check-in offline
-- Manejo: Al sincronizar, el servidor detecta duplicado por (eventoId + socioId), mantiene el registro con timestamp más antiguo, descarta el duplicado, notifica a ambos organizadores de la resolución
+- Manejo: Al sincronizar, el servidor detecta duplicado por (eventId + memberId), mantiene el registro con timestamp más antiguo, descarta el duplicado, notifica a ambos organizadores de la resolución
 
 **FE-4: Fallo al generar PDF de exportación**
 - Cuándo: Error en librería pdfmake (datos corruptos, memoria insuficiente)
@@ -6572,9 +6572,9 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):** Validar carnet, consultar foto y datos del socio
-- **BC-Eventos → BC-Tesoreria (ACL):** Consultar estado de pago de inscripción, redirigir a flujo de cobro (UC-021) si necesario
-- **BC-Eventos → BC-Comunicacion (Pub/Sub):** Enviar recordatorio a no presentados (opcional)
+- **BC-Events → BC-Membership (ACL):** Validar carnet, consultar foto y datos del socio
+- **BC-Events → BC-Treasury (ACL):** Consultar estado de pago de inscripción, redirigir a flujo de cobro (UC-021) si necesario
+- **BC-Events → BC-Communication (Pub/Sub):** Enviar recordatorio a no presentados (opcional)
 
 #### Poscondiciones
 
@@ -6608,8 +6608,8 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
    - Background Sync API para sincronización automática
    - Indicador visual claro de estado de conexión
 
-3. **Validación de Carnet con BC-Membresia (ACL):**
-   - Consulta eficiente: índice en `(socioId, ejercicioId, vigente)`
+3. **Validación de Carnet con BC-Membership (ACL):**
+   - Consulta eficiente: índice en `(memberId, fiscalYearId, vigente)`
    - Caché temporal (5 min) de carnets validados para evitar consultas repetidas
    - El QR contiene: `carnetId` firmado con JWT (imposible falsificar)
 
@@ -6632,7 +6632,7 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
    - Fórmulas para totales y promedios
 
 7. **Control de Entrada/Salida para Formaciones:**
-   - Campo adicional `horaCheckOut` en AsistenciaEvento
+   - Campo adicional `horaCheckOut` en EventAttendance
    - Cálculo automático de tiempo de permanencia
    - Validación: salida debe ser posterior a entrada
    - Útil para justificar horas de formación en subvenciones
@@ -6661,9 +6661,9 @@ Permite registrar la asistencia real a eventos mediante escaneo de QR del carnet
 
 #### Metadatos
 - **User Stories:** US-099, US-100, US-101
-- **Bounded Context:** BC-Eventos
-- **Application Service:** ComidasPopularesService
-- **Aggregates:** Evento (Aggregate Root), EventoComida (extensión)
+- **Bounded Context:** BC-Events
+- **Application Service:** SocialDinnerService
+- **Aggregates:** Evento (Aggregate Root), DinnerEvent (extensión)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -6671,7 +6671,7 @@ Gestiona eventos específicos de comidas populares típicas de peñas festeras, 
 
 #### Actores
 - **Organizador de Peña** (configurar menús, gestionar alergias, comunicar con catering)
-- **Socio** (elegir menú, declarar alergias, gestionar acompañantes)
+- **Member** (elegir menú, declarar alergias, gestionar acompañantes)
 - **Proveedor de Catering** (consumir listados consolidados)
 
 #### Precondiciones
@@ -6703,7 +6703,7 @@ Gestiona eventos específicos de comidas populares típicas de peñas festeras, 
 9. Al confirmar inscripción:
    - Se verifica disponibilidad de cada menú (con optimistic locking)
    - Se decrementan las plazas de cada menú (Vegetariano -1, Normal -1, Infantil -1)
-   - Se genera cargo de 105€ en BC-Tesoreria
+   - Se genera cargo de 105€ en BC-Treasury
    - La inscripción queda "PendientePago"
 10. El organizador consulta periódicamente el resumen de inscripciones en panel de gestión
 11. El sistema muestra métricas en tiempo real:
@@ -6808,16 +6808,16 @@ CAMBIOS DESDE 10/07/2025:
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `MenuAgotado` | eventoId, codigoMenu, nombreMenu | Al ejecutar la operación | BC-Comunicacion (notificar organizador), Monitoring (métricas de demanda) |
-| `InscripcionModificada` | inscripcionId, cambios (menuAnterior, menuNuevo) | Al ejecutar la operación | BC-Comunicacion (notificar organizador), Auditoría |
+| `MenuSoldOut` | eventId, codigoMenu, nombreMenu | Al ejecutar la operación | BC-Communication (notificar organizador), Monitoring (métricas de demanda) |
+| `RegistrationModified` | registrationId, cambios (menuAnterior, menuNuevo) | Al ejecutar la operación | BC-Communication (notificar organizador), Auditoría |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Tesoreria (ACL):** Generar/ajustar cargo según menú seleccionado y acompañantes
-- **BC-Eventos → BC-Comunicacion (Pub/Sub):** Notificar recordatorios de pago anticipado obligatorio
-- **BC-Eventos (Export):** Generar archivos Excel para proveedor externo (catering)
+- **BC-Events → BC-Treasury (ACL):** Generar/ajustar cargo según menú seleccionado y acompañantes
+- **BC-Events → BC-Communication (Pub/Sub):** Notificar recordatorios de pago anticipado obligatorio
+- **BC-Events (Export):** Generar archivos Excel para proveedor externo (catering)
 
 #### Poscondiciones
 
@@ -6896,8 +6896,8 @@ CAMBIOS DESDE 10/07/2025:
 
 #### Metadatos
 - **User Stories:** US-102 (Papeletas de sitio), US-103 (Reserva insignias), US-104 (Publicación programada)
-- **Bounded Context:** BC-Eventos
-- **Application Service:** `EventoService.registrarProcesion()`
+- **Bounded Context:** BC-Events
+- **Application Service:** `EventService.registerProcession()`
 - **Aggregates:** Evento (extendido con datos de procesión), Papeleta, ReservaInsignia
 - **Prioridad:** Should
 
@@ -6912,7 +6912,7 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 
 #### Precondiciones
 - Evento de tipo "Procesión" creado y configurado
-- BC-Membresia accesible vía ACL para consultar antigüedad de hermanos
+- BC-Membership accesible vía ACL para consultar antigüedad de hermanos
 - Hermanos con estado "Activo" y al corriente de pago
 - Solo hermanos tipo "Numerario" tienen derecho a procesionar
 
@@ -6926,7 +6926,7 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
    - Define secciones del cortejo: Cruz de guía, Estandarte, Hermanos de carga, Penitentes, Varas de palio
    - Indica número de hermanos por sección (ej: Hermanos de carga: 80)
    
-2. **Sistema consulta hermanos elegibles a BC-Membresia:**
+2. **Sistema consulta hermanos elegibles a BC-Membership:**
 
 3. **Sistema genera papeletas individuales:**
 
@@ -6974,9 +6974,9 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
     - Estado de socio: Suspendido por sanción
 
 **FA-2: Ajuste Manual de Posiciones**
-- **Cuándo:** Secretario necesita ajustar posiciones por motivos especiales (enfermedad, cargo de responsabilidad)
+- **Cuándo:** Secretario necesita ajustar positiones por motivos especiales (enfermedad, cargo de responsabilidad)
 - **Qué pasa:**
-  - Secretario puede editar posiciones manualmente con justificación
+  - Secretario puede editar positiones manualmente con justificación
   - Se registra en auditoría el cambio con motivo
   - Se regenera la papeleta afectada con nueva posición
 
@@ -6998,8 +6998,8 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 
 #### Flujos de Excepción
 
-**FE-1: Error al Consultar Antigüedad en BC-Membresia**
-- **Cuándo:** ACL a BC-Membresia falla o timeout
+**FE-1: Error al Consultar Antigüedad en BC-Membership**
+- **Cuándo:** ACL a BC-Membership falla o timeout
 - **Manejo:**
   - Registrar error en Sentry
   - Retry automático con backoff exponencial (3 intentos)
@@ -7042,30 +7042,30 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `PapeletasProcesionGeneradas` | eventoId, totalGeneradas, ejercicio | Al ejecutar la operación | BC-Comunicacion (anuncio interno) |
-| `ReservaInsigniaSolicitada` | reservaId, hermanoId, elementoTipo | Al ejecutar la operación | BC-Comunicacion (notificar Junta si requiere aprobación) |
-| `ReservaInsigniaAprobada` | reservaId, hermanoId, elemento | Al ejecutar la operación | BC-Comunicacion (confirmación al hermano) |
-| `ReservaInsigniaRechazada` | reservaId, hermanoId, motivo | Al ejecutar la operación | BC-Comunicacion (notificación explicativa) |
-| `InsigniaAsignada` | hermanoId, elemento, posicion | Al ejecutar la operación | BC-Comunicacion (confirmación definitiva) |
-| `ListasProcesionPublicadas` | eventoId, totalHermanos, fechaPublicacion | Al ejecutar la operación | BC-Comunicacion (notificación masiva), BC-Documentos (archivar lista oficial) |
+| `ProcessionTicketsGenerated` | eventId, totalGenerated, ejercicio | Al ejecutar la operación | BC-Communication (anuncio interno) |
+| `ReservaInsigniaSolicitada` | reservaId, hermanoId, elementoTipo | Al ejecutar la operación | BC-Communication (notificar Junta si requiere aprobación) |
+| `ReservaInsigniaAprobada` | reservaId, hermanoId, elemento | Al ejecutar la operación | BC-Communication (confirmación al hermano) |
+| `ReservaInsigniaRechazada` | reservaId, hermanoId, motivo | Al ejecutar la operación | BC-Communication (notificación explicativa) |
+| `InsigniaAsignada` | hermanoId, elemento, position | Al ejecutar la operación | BC-Communication (confirmación definitiva) |
+| `ProcessionListsPublished` | eventId, totalMembers, publicationDate | Al ejecutar la operación | BC-Communication (notificación masiva), BC-Documents (archivar lista oficial) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):**
+- **BC-Events → BC-Membership (ACL):**
   - Query: Obtener hermanos con antigüedad, tipo y estado de pago
   - Filtrado: Solo Numerarios, Activos, Al corriente de pago
   - Ordenación: Por antigüedad descendente (mayor antigüedad primero)
 
-- **BC-Eventos → BC-Comunicacion (Event-Driven):**
-  - `ListasProcesionPublicadas` → Notificación masiva a hermanos
+- **BC-Events → BC-Communication (Event-Driven):**
+  - `ProcessionListsPublished` → Notificación masiva a hermanos
   - `ReservaInsigniaAprobada` → Email/notificación individual
   - `ReservaInsigniaRechazada` → Notificación con motivo del rechazo
 
-- **BC-Eventos → BC-Documentos (Event-Driven):**
-  - `ListasProcesionPublicadas` → Archivar lista oficial para histórico de la cofradía
-  - Generación de "Libro de Procesiones" anual con todas las posiciones
+- **BC-Events → BC-Documents (Event-Driven):**
+  - `ProcessionListsPublished` → Archivar lista oficial para histórico de la cofradía
+  - Generación de "Libro de Procesiones" anual con todas las positiones
 
 #### Postcondiciones
 
@@ -7075,12 +7075,12 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 - Reservas de insignias registradas con estado Pendiente/Aprobada/Rechazada
 - Elementos procesionales asignados a hermanos según antigüedad/criterio junta
 - Publicación programada configurada para fecha tradicional (Viernes de Dolores)
-- Eventos de dominio emitidos: `PapeletasProcesionGeneradas`, `ReservaInsigniaSolicitada`, `ListasProcesionPublicadas`
+- Eventos de dominio emitidos: `ProcessionTicketsGenerated`, `ReservaInsigniaSolicitada`, `ProcessionListsPublished`
 - Hermanos notificados de asignaciones y listas publicadas
 - Registro de auditoría de generación y publicación
 
 **Fallo:**
-- Papeletas no generadas si falla consulta a BC-Membresia (antigüedad)
+- Papeletas no generadas si falla consulta a BC-Membership (antigüedad)
 - Reservas rechazadas si elemento no disponible o hermano sin derecho
 - Publicación no ejecutada si scheduled job falla (reintento al reiniciar)
 - PDFs servidos desde filesystem local si storage no disponible (temporal)
@@ -7089,12 +7089,12 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 
 #### Notas de Implementación
 
-- **ACL a BC-Membresia:** Implementar adaptador `MembresiaACL` para consultas de antigüedad sin dependencia directa
+- **ACL a BC-Membership:** Implementar adaptador `MembresiaACL` para consultas de antigüedad sin dependencia directa
 - **Performance:** Precalcular antigüedad de hermanos en vista materializada para evitar cálculos en generación de papeletas (>500 hermanos)
 - **Algoritmo de asignación:** Usar algoritmo estable para evitar cambios de posición si se regeneran papeletas (ordenación determinística)
 - **QR Generation:** Librería `qrcode` para generar códigos QR embebidos en PDFs (formato PNG base64)
 - **PDF Generation:** PDFKit para generar papeletas individuales con formato A6 (4 por página A4 para impresión)
-- **Reservas de insignias:** Implementar cola de prioridad (Priority Queue) para gestionar conflictos en reservas simultáneas
+- **Reservas de insignias:** Implementar cola de priority (Priority Queue) para gestionar conflictos en reservas simultáneas
 - **Publicación programada:** Usar BullMQ scheduler para publicación automática en fecha/hora configurada
 - **RNFT-024:** Lazy loading de imágenes de insignias en lista de reservas (puede ser grande en cofradías con muchas insignias)
 - **RNFT-026:** Papeletas de sitio contienen datos personales → EventoDeAuditoria al generar/descargar
@@ -7106,8 +7106,8 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 
 #### Metadatos
 - **User Stories:** US-105 (Gestión de cuadrillas), US-106 (Notificaciones de ensayos)
-- **Bounded Context:** BC-Eventos
-- **Application Service:** `EventoService.gestionarCuadrilla()`
+- **Bounded Context:** BC-Events
+- **Application Service:** `EventService.manageSquad()`
 - **Aggregates:** Cuadrilla (nuevo), Ensayo
 - **Entities:** Costalero, AsistenciaEnsayo
 - **Prioridad:** Could
@@ -7116,14 +7116,14 @@ Gestiona la organización de procesiones en cofradías, incluyendo la generació
 Gestiona cuadrillas de costaleros para pasos procesionales, incluyendo la "igualá" digital (medición de altura y experiencia), asignación a trabajaderas validando homogeneidad de alturas, convocatoria de ensayos y control de asistencia.
 
 #### Actores
-- **Capataz** (gestiona cuadrilla, convoca ensayos, asigna posiciones)
+- **Capataz** (gestiona cuadrilla, convoca ensayos, asigna positiones)
 - **Costalero** (registra igualá, confirma asistencia a ensayos)
 - **Sistema** (valida homogeneidad de alturas, calcula estadísticas de asistencia)
 
 #### Precondiciones
 - Evento de tipo "Procesión" creado
 - Paso procesional configurado (nombre, peso, características)
-- Costaleros registrados como socios en BC-Membresia
+- Costaleros registrados como socios en BC-Membership
 
 ---
 
@@ -7220,9 +7220,9 @@ Gestiona cuadrillas de costaleros para pasos procesionales, incluyendo la "igual
   - Registra la incidencia para análisis (posible conflicto de fechas)
 
 **FE-3: Costalero No Registrado como Socio**
-- **Cuándo:** Intentan registrar igualá de persona no existente en BC-Membresia
+- **Cuándo:** Intentan registrar igualá de persona no existente en BC-Membership
 - **Manejo:**
-  - Validación previa: consultar a BC-Membresia si socioId existe
+  - Validación previa: consultar a BC-Membership si memberId existe
   - Si no existe: mensaje "Debe estar registrado como socio primero"
   - Redirigir a proceso de alta de socio
 
@@ -7234,20 +7234,20 @@ Gestiona cuadrillas de costaleros para pasos procesionales, incluyendo la "igual
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `CuadrillaCreada` | cuadrillaId, nombrePaso, configuracion | Al ejecutar la operación | BC-Comunicacion (anuncio de apertura de inscripciones) |
-| `EnsayoConvocado` | ensayoId, cuadrillaId, fecha, costalerosConvocados | Al ejecutar la operación | BC-Comunicacion (notificaciones individuales) |
+| `CuadrillaCreada` | cuadrillaId, nombrePaso, configuracion | Al ejecutar la operación | BC-Communication (anuncio de apertura de inscripciones) |
+| `EnsayoConvocado` | ensayoId, cuadrillaId, fecha, costalerosConvocados | Al ejecutar la operación | BC-Communication (notificaciones individuales) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):**
-  - Query: Validar que socioId existe antes de registrar igualá
+- **BC-Events → BC-Membership (ACL):**
+  - Query: Validar que memberId existe antes de registrar igualá
   - Query: Obtener datos de costaleros para listados (nombre completo)
 
-- **BC-Eventos → BC-Comunicacion (Event-Driven):**
+- **BC-Events → BC-Communication (Event-Driven):**
   - `EnsayoConvocado` → Notificaciones individuales a todos los costaleros convocados
-  - `CuadrillaCompleta` → Anuncio interno cuando todas las posiciones están cubiertas
+  - `CuadrillaCompleta` → Anuncio interno cuando todas las positiones están cubiertas
 
 ---
 
@@ -7275,7 +7275,7 @@ Gestiona cuadrillas de costaleros para pasos procesionales, incluyendo la "igual
    - Validación en dominio (método del Aggregate), no en Application Service
    - Frontend debe mostrar advertencia visual si altura no es compatible antes de intentar
 
-2. **Consultas a BC-Membresia para Costaleros:**
+2. **Consultas a BC-Membership para Costaleros:**
    - Usar ACL para obtener datos básicos: nombre completo, foto de perfil
    - Cache de 10 minutos para datos que no cambian frecuentemente
    - Timeout de 5 segundos en consultas ACL
@@ -7318,8 +7318,8 @@ Gestiona cuadrillas de costaleros para pasos procesionales, incluyendo la "igual
 
 #### Metadatos
 - **User Stories:** US-107 (Calendario de cultos), US-108 (Control de aforo en cultos)
-- **Bounded Context:** BC-Eventos
-- **Application Service:** `EventoService.registrarCulto()`
+- **Bounded Context:** BC-Events
+- **Application Service:** `EventService.registerWorship()`
 - **Aggregates:** Evento (tipo Culto)
 - **Prioridad:** Should
 
@@ -7428,17 +7428,17 @@ Gestiona el calendario litúrgico de cofradías, incluyendo creación de cultos 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `CultoSerieCreada` | serieId, tipoCulto, nombre, totalDias, eventoIds | Al ejecutar la operación | BC-Comunicacion (anuncio a hermanos) |
-| `InscripcionATurnoRealizada` | eventoId, socioId, turnoId, fechaHora | Al ejecutar la operación | BC-Comunicacion (confirmación con hora asignada) |
-| `CalendarioICalExportado` | tenantId, urlSuscripcion | Al ejecutar la operación | BC-Documentos (archivar URL para referencia) |
+| `WorshipSeriesCreated` | serieId, tipoCulto, nombre, totalDias, eventIds | Al ejecutar la operación | BC-Communication (anuncio a hermanos) |
+| `ShiftRegistrationCompleted` | eventId, memberId, shiftId, dateTime | Al ejecutar la operación | BC-Communication (confirmación con hora asignada) |
+| `CalendarioICalExportado` | tenantId, urlSuscripcion | Al ejecutar la operación | BC-Documents (archivar URL para referencia) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Comunicacion (Event-Driven):**
-  - `CultoSerieCreada` → Anuncio del calendario de cultos a hermanos
-  - `InscripcionATurnoRealizada` → Confirmación individual con recordatorio de hora
+- **BC-Events → BC-Communication (Event-Driven):**
+  - `WorshipSeriesCreated` → Anuncio del calendario de cultos a hermanos
+  - `ShiftRegistrationCompleted` → Confirmación individual con recordatorio de hora
 
 ---
 
@@ -7450,7 +7450,7 @@ Gestiona el calendario litúrgico de cofradías, incluyendo creación de cultos 
 - Calendario iCal generado en formato RFC 5545 compatible con Google/Outlook
 - URL de suscripción iCal segura generada con token firmado (expiración 1 año)
 - Turnos de besamanos configurados con aforo e inscripciones habilitadas
-- Eventos de dominio emitidos: `CultoSerieCreada`, `InscripcionTurnoRealizada`
+- Eventos de dominio emitidos: `WorshipSeriesCreated`, `ShiftRegistrationCompleted`
 - Registro de auditoría de creación y configuración
 
 **Fallo:**
@@ -7489,7 +7489,7 @@ Gestiona el calendario litúrgico de cofradías, incluyendo creación de cultos 
    - Tolerancia de 15 minutos después de inicio de turno
 
 5. **Reutilización de Lógica Existente:**
-   - Inscripciones a turnos: extender UC-030 con concepto de `turnoId`
+   - Inscripciones a turnos: extender UC-030 con concepto de `shiftId`
    - Control de aforo por turno: adaptar UC-031 para aforo no global
    - Check-in: reutilizar UC-032 con validación de turno actual
 
@@ -7512,8 +7512,8 @@ Gestiona el calendario litúrgico de cofradías, incluyendo creación de cultos 
 
 #### Metadatos
 - **User Stories:** US-109 (Calendario competición), US-110 (Convocatoria jugadores), US-111 (Control sanciones), US-112 (Registro resultados/estadísticas)
-- **Bounded Context:** BC-Eventos
-- **Application Service:** `EventoService.registrarCompeticion()`
+- **Bounded Context:** BC-Events
+- **Application Service:** `EventService.registerCompetition()`
 - **Aggregates:** Partido (extiende Evento), Convocatoria, Sancion
 - **Entities:** JugadorConvocado, Incidencia, Resultado, Estadistica
 - **Prioridad:** Should
@@ -7530,7 +7530,7 @@ Gestiona el ciclo completo de competiciones deportivas en clubes: calendario de 
 
 #### Precondiciones
 - Club deportivo configurado con equipos y categorías
-- Jugadores registrados como socios en BC-Membresia
+- Jugadores registrados como socios en BC-Membership
 - Calendario federativo disponible (Excel/CSV)
 
 ---
@@ -7635,21 +7635,21 @@ Gestiona el ciclo completo de competiciones deportivas en clubes: calendario de 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `PartidoCreado` | partidoId, rival, fecha, local | Al crear el registro | BC-Comunicacion (anuncio a socios del club) |
-| `ConvocatoriaGenerada` | convocatoriaId, partidoId, jugadores | Al ejecutar la operación | BC-Comunicacion (notificaciones individuales) |
-| `SancionCreada` | sancionId, jugadorId, partidos, motivo | Al ejecutar la operación | BC-Comunicacion (notificar jugador y entrenador) |
-| `SancionCumplida` | sancionId, jugadorId | Al ejecutar la operación | BC-Comunicacion (confirmación de cumplimiento) |
-| `ResultadoRegistrado` | partidoId, golesLocal, golesVisitante, ganador | Al crear el registro | BC-Comunicacion (publicación de resultado) |
+| `PartidoCreado` | partidoId, rival, fecha, local | Al crear el registro | BC-Communication (anuncio a socios del club) |
+| `ConvocatoriaGenerada` | convocatoriaId, partidoId, jugadores | Al ejecutar la operación | BC-Communication (notificaciones individuales) |
+| `SancionCreada` | sancionId, jugadorId, partidos, motivo | Al ejecutar la operación | BC-Communication (notificar jugador y entrenador) |
+| `SancionCumplida` | sancionId, jugadorId | Al ejecutar la operación | BC-Communication (confirmación de cumplimiento) |
+| `ResultadoRegistrado` | partidoId, golesLocal, golesVisitante, ganador | Al crear el registro | BC-Communication (publicación de resultado) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **BC-Eventos → BC-Membresia (ACL):**
+- **BC-Events → BC-Membership (ACL):**
   - Query: Validar que jugadorId existe y está activo
   - Query: Obtener datos de jugadores para listados (nombre, foto, categoría)
 
-- **BC-Eventos → BC-Comunicacion (Event-Driven):**
+- **BC-Events → BC-Communication (Event-Driven):**
   - `ConvocatoriaGenerada` → Notificaciones individuales a jugadores convocados
   - `SancionCreada` → Alerta al jugador sancionado y al entrenador
   - `ResultadoRegistrado` → Publicación en tablón de anuncios y redes sociales
@@ -7732,9 +7732,9 @@ Gestiona el ciclo completo de competiciones deportivas en clubes: calendario de 
 
 #### Metadatos
 - **User Stories:** US-112
-- **Bounded Context:** BC-Eventos
-- **Application Service:** `FeedbackEventoService`
-- **Aggregates:** **Evento**, Valoracion (Entity)
+- **Bounded Context:** BC-Events
+- **Application Service:** `EventFeedbackService`
+- **Aggregates:** **Event**, Valoracion (Entity)
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -7757,8 +7757,8 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 
 1. Sistema ejecuta proceso diario `SolicitarValoracionesEventosFinalizados`
 2. Detecta evento "Comida popular" finalizado ayer (fecha fin: 03/02/2025)
-3. `FeedbackEventoService.solicitarValoraciones(evento_id)`:
-4. BC-Comunicacion consume evento `ValoracionesEventoSolicitadas`
+3. `EventFeedbackService.solicitarValoraciones(evento_id)`:
+4. BC-Communication consume evento `ValoracionesEventoSolicitadas`
 5. Sistema envía email personalizado a 85 asistentes:
    ```
    Asunto: ¿Cómo fue la Comida Popular? Tu opinión cuenta
@@ -7813,7 +7813,7 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
    ```
 
 8. Asistente completa valoración y pulsa "Enviar"
-9. `FeedbackEventoService.registrarValoracion(token, valoracionData)`:
+9. `EventFeedbackService.recordRating(token, ratingData)`:
 10. Sistema muestra confirmación: "¡Gracias por tu valoración!"
 11. Valoración queda almacenada en el evento
 
@@ -7865,7 +7865,7 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 
 **FA-1: Valoración anónima**
 - Si asistente marca "Enviar de forma anónima":
-  - Sistema NO vincula valoración al socio_id
+  - Sistema NO vincula valoración al member_id
   - Aparece como "Asistente anónimo" en listado
   - Útil para feedback crítico sin temor
 
@@ -7907,14 +7907,14 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `ValoracionesEventoSolicitadas` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Comunicacion (enviar emails) |
+| `ValoracionesEventoSolicitadas` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Communication (enviar emails) |
 | `ProblemaRecurrenteDetectado` | `{ ...<campos del evento> }` | Al completar la operación principal | notificar secretario/presidente por email |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
-- BC-Eventos → BC-Comunicacion: Envío de solicitudes de valoración por email
-- BC-Eventos → BC-Eventos (Inscripciones): Obtener listado de asistentes confirmados
+- BC-Events → BC-Communication: Envío de solicitudes de valoración por email
+- BC-Events → BC-Events (Inscripciones): Obtener listado de asistentes confirmados
 
 #### Poscondiciones
 - Valoración registrada vinculada al evento
@@ -7925,7 +7925,7 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 #### Notas de Implementación
 
 1. **Entity Valoracion (dentro de Evento):**
-   - Tabla `valoraciones_evento`: valoracion_id, evento_id, inscripcion_id, socio_id (nullable si anónimo)
+   - Tabla `valoraciones_evento`: valoracion_id, evento_id, inscripcion_id, member_id (nullable si anónimo)
    - Campos: puntuacion_general, org, comida, instalaciones, calidad_precio (1-5)
    - Campos texto: comentarios, sugerencias
    - Flag: es_anonimo
@@ -7941,7 +7941,7 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
    - Recordatorio a los 5 días mejora tasa en +30%
 
 4. **Anonimización (RNFT-025):**
-   - Si `es_anonimo = true` → NO almacenar socio_id
+   - Si `es_anonimo = true` → NO almacenar member_id
    - Imposible trazar valoración al socio
    - Solo se almacena que inscripcion_id valoró (para evitar duplicados)
 
@@ -7959,23 +7959,23 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 
 ---
 
-## BC-Comunicacion
+## BC-Communication
 
 ### Notificaciones, mensajería y comunicación con socios
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-039 | Envío de comunicaciones por email | US-134, US-135, US-136, US-137 | BC-Comunicacion | EmailService | Must | Media |
-| UC-040 | Envío de SMS para urgencias | US-138 | BC-Comunicacion | SmsService | Should | Baja |
-| UC-041 | Notificaciones push vía PWA | US-139 | BC-Comunicacion | PushNotificationService | Should | Media |
-| UC-042 | Gestión de plantillas de comunicación | US-140, US-141, US-142 | BC-Comunicacion | PlantillaService | Should | Media |
-| UC-043 | Segmentación de destinatarios | US-143, US-144, US-145 | BC-Comunicacion | SegmentacionService | Should | Media |
-| UC-044 | Programación de envíos | US-146, US-147 | BC-Comunicacion | ProgramacionEnvioService | Should | Baja |
-| UC-045 | Histórico y tracking de comunicaciones | US-148, US-149 | BC-Comunicacion | TrackingService | Should | Media |
-| UC-046 | Tablón de anuncios interno | US-150, US-151 | BC-Comunicacion | TablonanunciosService | Should | Baja |
-| UC-047 | Comunicaciones automáticas (Event Handlers) | US-152, US-153, US-154, US-155, US-156, US-157, US-158 | BC-Comunicacion | AutomaticNotificationService | Must | Alta |
+| UC-039 | Envío de comunicaciones por email | US-134, US-135, US-136, US-137 | BC-Communication | EmailService | Must | Media |
+| UC-040 | Envío de SMS para urgencias | US-138 | BC-Communication | SmsService | Should | Baja |
+| UC-041 | Notificaciones push vía PWA | US-139 | BC-Communication | PushNotificationService | Should | Media |
+| UC-042 | Gestión de plantillas de comunicación | US-140, US-141, US-142 | BC-Communication | TemplateService | Should | Media |
+| UC-043 | Segmentación de destinatarios | US-143, US-144, US-145 | BC-Communication | SegmentationService | Should | Media |
+| UC-044 | Programación de envíos | US-146, US-147 | BC-Communication | ScheduledSendService | Should | Baja |
+| UC-045 | Histórico y tracking de comunicaciones | US-148, US-149 | BC-Communication | TrackingService | Should | Media |
+| UC-046 | Tablón de anuncios interno | US-150, US-151 | BC-Communication | AnnouncementBoardService | Should | Baja |
+| UC-047 | Comunicaciones automáticas (Event Handlers) | US-152, US-153, US-154, US-155, US-156, US-157, US-158 | BC-Communication | AutomaticNotificationService | Must | Alta |
 
-**Total BC-Comunicacion:** 9 UCs cubriendo 25 User Stories (US-134 a US-158)
+**Total BC-Communication:** 9 UCs cubriendo 25 User Stories (US-134 a US-158)
 
 **Highlights técnicos:**
 - UC-039: SMTP con SendGrid/SES, tracking aperturas con pixel invisible
@@ -7989,9 +7989,9 @@ Solicitud de valoración post-evento a asistentes con puntuación (1-5 estrellas
 
 #### Metadatos
 - **User Stories:** US-113 (Envío masivo de emails)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** `ComunicacionService.enviarEmail()`
-- **Aggregates:** Comunicacion, Envio (Entity)
+- **Bounded Context:** BC-Communication
+- **Application Service:** `CommunicationService.sendEmail()`
+- **Aggregates:** Communication, Envio (Entity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -8025,10 +8025,10 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
 5. Secretario adjunta archivos (opcional, máximo 10 MB total)
 6. Sistema muestra previsualización con datos de un socio de ejemplo
 7. Secretario revisa previsualización y confirma envío
-8. `ComunicacionService.enviarEmail(request)`:
-   - Crea Aggregate **Comunicacion** con estado BORRADOR
-   - Consulta BC-Membresia para obtener lista de destinatarios según segmento
-   - Crea Entity **Envio** por cada destinatario
+8. `CommunicationService.sendEmail(request)`:
+   - Crea Aggregate **Communication** con estado BORRADOR
+   - Consulta BC-Membership para obtener lista de destinatarios según segmento
+   - Crea Entity **Delivery** por cada destinatario
    - Sube adjuntos a S3/MinIO
    - Cambia estado a EN_PROCESO
    - Encola job de procesamiento en Bull Queue
@@ -8046,7 +8046,7 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
 **FA-1: Programación de Envío para Fecha Futura**
 - **Cuándo:** Secretario quiere programar envío para mañana a las 9:00
 - **Qué pasa:**
-  - Sistema guarda comunicación con `estado: Programado` y `fechaProgramada`
+  - Sistema guarda comunicación con `estado: Programado` y `scheduledDate`
   - Scheduled job revisa cada minuto comunicaciones programadas
   - Cuando llega la fecha/hora, ejecuta el envío automáticamente
 
@@ -8083,8 +8083,8 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
   - Webhook de SendGrid notifica bounce
   - Sistema marca envío como `Rebotado` en Entity Envio
   - Registra tipo de bounce (hard/soft) y motivo específico
-  - Si hard bounce: emite evento `EmailRebotado` para consumidores interesados
-  - BC-Membresia puede consumir evento y decidir marcar email como inválido
+  - Si hard bounce: emite evento `EmailBounced` para consumidores interesados
+  - BC-Membership puede consumir evento y decidir marcar email como inválido
 
 **FE-3: Límite de Envíos Superado (Rate Limiting)**
 - **Cuándo:** Se supera límite del proveedor (ej: 100 emails/hora)
@@ -8107,7 +8107,7 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia (ACL):**
+- **BC-Communication → BC-Membership (ACL):**
   - Query: Obtener socios según segmento (tipo, estado, antigüedad)
   - Query: Obtener datos de socio para personalización (nombre, email, número)
 
@@ -8138,7 +8138,7 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
    - Rate limiting: 50 emails/segundo para evitar penalizaciones
 
 2. **Procesamiento Asíncrono con Bull Queue:**
-   - Cola `comunicaciones` con prioridad configurable
+   - Cola `communications` con priority configurable
    - Batch de 50 emails para optimizar rendimiento
    - Progress tracking para mostrar barra de progreso en frontend
    - Redis como backend de cola
@@ -8182,7 +8182,7 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
 9. **Privacidad y RGPD (RNF-025, RNF-034):**
    - No revelar emails de otros destinatarios (BCC obligatorio para masivos)
    - Enlace de baja en pie de email ("Dejar de recibir comunicaciones")
-   - Consulta vía ACL a BC-Membresia para verificar consentimiento de comunicaciones del socio
+   - Consulta vía ACL a BC-Membership para verificar consentimiento de comunicaciones del socio
    - Opción de exportar histórico de comunicaciones recibidas
 
 10. **Monitoreo y Alertas:**
@@ -8197,8 +8197,8 @@ Permite al secretario enviar comunicaciones masivas por email a socios con segme
 
 #### Metadatos
 - **User Stories:** US-114 (SMS urgentes)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** `ComunicacionService.enviarSMS()`
+- **Bounded Context:** BC-Communication
+- **Application Service:** `CommunicationService.sendSMS()`
 - **Aggregates:** Comunicacion (reutiliza), Envio
 - **Prioridad:** Could
 
@@ -8240,7 +8240,7 @@ Envío de SMS para comunicaciones urgentes a grupos reducidos (Junta Directiva, 
 **FE-1: Crédito SMS insuficiente**
 - En paso de creación, si crédito < SMS necesarios:
   - Sistema bloquea envío y muestra: "Crédito insuficiente. Necesitas: X SMS. Disponible: Y"
-  - Ofrece opciones: "Recargar crédito" o "Reducir destinatarios"
+  - Ofrece options: "Recargar crédito" o "Reducir destinatarios"
   - No crea comunicación hasta que haya crédito
 
 **FE-2: Proveedor SMS no disponible (Twilio caído)**
@@ -8249,7 +8249,7 @@ Envío de SMS para comunicaciones urgentes a grupos reducidos (Junta Directiva, 
   - Respuesta HTTP 503 Service Unavailable
   - Sistema reintenta envío hasta 3 veces con backoff exponencial (5s, 15s, 45s)
   - Si falla definitivamente, marca comunicación como FALLIDA
-  - Emite evento `ComunicacionFallida` → BC-Comunicacion notifica al emisor
+  - Emite evento `CommunicationFailed` → BC-Communication notifica al emisor
 
 **FE-3: Número de teléfono inválido**
 - Si un destinatario tiene teléfono con formato inválido (no internacional, letras):
@@ -8277,8 +8277,8 @@ Envío de SMS para comunicaciones urgentes a grupos reducidos (Junta Directiva, 
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia:** Consulta teléfonos móviles de destinatarios por segmento (ACL)
-- **BC-Comunicacion → Proveedor Externo (Twilio/Vonage):** Envío de SMS vía API REST
+- **BC-Communication → BC-Membership:** Consulta teléfonos móviles de destinatarios por segmento (ACL)
+- **BC-Communication → Proveedor Externo (Twilio/Vonage):** Envío de SMS vía API REST
 
 ---
 
@@ -8289,14 +8289,14 @@ Envío de SMS para comunicaciones urgentes a grupos reducidos (Junta Directiva, 
 - Crédito SMS del tenant decrementado según número de envíos
 - Comunicación registrada en histórico con canal "SMS"
 - Coste total calculado y registrado
-- Evento de dominio `SMSEnviado` emitido con crédito restante
+- Evento de dominio `SMSSent` emitido con crédito restante
 - Confirmación mostrada al usuario con resumen (enviados, coste, crédito restante)
 - Registro de auditoría de envío urgente
 
 **Fallo:**
 - SMS no enviados si crédito insuficiente (validación previa)
 - Crédito no decrementado si falla envío (transacción rollback)
-- Evento `CreditoSMSInsuficiente` emitido si saldo bajo
+- Evento `InsufficientSMSCredit` emitido si saldo bajo
 - Usuario notificado para recargar crédito o reducir destinatarios
 - Reintentos automáticos para errores temporales del proveedor (Twilio)
 - Error registrado en logs con detalle del fallo
@@ -8315,9 +8315,9 @@ Envío de SMS para comunicaciones urgentes a grupos reducidos (Junta Directiva, 
 
 #### Metadatos
 - **User Stories:** US-115 (Push notifications)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** `ComunicacionService.enviarPushNotification()`
-- **Aggregates:** Comunicacion, SuscripcionPush
+- **Bounded Context:** BC-Communication
+- **Application Service:** `CommunicationService.sendPushNotification()`
+- **Aggregates:** Communication, PushSubscription
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -8326,7 +8326,7 @@ Envío de notificaciones push a socios con PWA instalada. Sin coste adicional, e
 #### Actores
 
 - **Presidente / Secretario** (envía notificaciones push a socios)
-- **Socio** (activa/desactiva notificaciones en PWA)
+- **Member** (activa/desactiva notificaciones en PWA)
 - **Sistema** (gestiona suscripciones, envía notificaciones)
 
 #### Precondiciones
@@ -8373,7 +8373,7 @@ Envío de notificaciones push a socios con PWA instalada. Sin coste adicional, e
 **FE-1: Suscripción expirada (error 410 Gone)**
 - Durante envío, si web-push retorna 410:
   - Sistema marca suscripción como `activa = false`
-  - Registra en logs: "Suscripción expirada para socioId X"
+  - Registra en logs: "Suscripción expirada para memberId X"
   - NO intenta reenviar a esa suscripción
   - Continúa con otros destinatarios
   - Socio deberá reactivar notificaciones manualmente
@@ -8406,11 +8406,11 @@ Envío de notificaciones push a socios con PWA instalada. Sin coste adicional, e
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia:** Consulta socios por segmento (ACL read-only)
-- **BC-Comunicacion → Service Worker (PWA):** Envío de notificación vía Web Push Protocol
-- **BC-Comunicacion:** Gestión interna de SuscripcionPush (create, update, delete)
+- **BC-Communication → BC-Membership:** Consulta socios por segmento (ACL read-only)
+- **BC-Communication → Service Worker (PWA):** Envío de notificación vía Web Push Protocol
+- **BC-Communication:** Gestión interna de PushSubscription (create, update, delete)
 
-**Nota:** Push notifications son internas a BC-Comunicacion, no requieren coordinación compleja con otros BCs.
+**Nota:** Push notifications son internas a BC-Communication, no requieren coordinación compleja con otros BCs.
 
 #### Postcondiciones
 
@@ -8419,7 +8419,7 @@ Envío de notificaciones push a socios con PWA instalada. Sin coste adicional, e
 - Suscripciones expiradas marcadas como inactivas automáticamente
 - Evento `NotificacionPushEnviada` emitido con número de destinatarios alcanzados
 - Socio recibe notificación en dispositivo (si está online) o al volver online (si offline)
-- Registro de envío en tabla `comunicaciones` con estado ENVIADA
+- Registro de envío en tabla `communications` con estado ENVIADA
 
 **Fallo:**
 - Notificaciones no enviadas
@@ -8447,8 +8447,8 @@ Envío de notificaciones push a socios con PWA instalada. Sin coste adicional, e
 
 #### Metadatos
 - **User Stories:** US-116 (Tablón anuncios), US-117 (Segmentación), US-118 (Plantillas personalizadas)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** PlantillaService
+- **Bounded Context:** BC-Communication
+- **Application Service:** TemplateService
 - **Aggregates:** Plantilla
 - **Prioridad:** Should
 
@@ -8540,8 +8540,8 @@ Gestión del catálogo de plantillas de comunicación, incluyendo plantillas de 
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia:** Obtener datos de socio para previsualización (ACL)
-- **BC-Comunicacion (interno):** Uso de plantillas en UC-039 (envío emails), UC-040 (SMS), UC-047 (automáticas)
+- **BC-Communication → BC-Membership:** Obtener datos de socio para previsualización (ACL)
+- **BC-Communication (interno):** Uso de plantillas en UC-039 (envío emails), UC-040 (SMS), UC-047 (automáticas)
 
 #### Poscondiciones
 
@@ -8599,7 +8599,7 @@ Gestión del catálogo de plantillas de comunicación, incluyendo plantillas de 
 
 9. **Auditoría de Cambios en Plantillas (RNFT-025):**
    - Guardar historial de versiones de plantillas
-   - Tabla `plantilla_version` con snapshot de contenido
+   - Tabla `template_version` con snapshot de contenido
    - Permitir rollback a versión anterior si hay error
 
 10. **Testing de Plantillas:**
@@ -8613,8 +8613,8 @@ Gestión del catálogo de plantillas de comunicación, incluyendo plantillas de 
 
 #### Metadatos
 - **User Stories:** US-117 (Segmentación combinada), US-119 (Personalización)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** SegmentacionService
+- **Bounded Context:** BC-Communication
+- **Application Service:** SegmentationService
 - **Aggregates:** Comunicacion (VO: SegmentoDestinatarios)
 - **Prioridad:** Must
 
@@ -8647,11 +8647,11 @@ Permite definir segmentos de destinatarios mediante criterios combinables (tipo 
    - Antigüedad: >= 5 años
    - Sistema calcula en tiempo real: "182 destinatarios"
 
-4. **Sistema consulta BC-Membresia vía ACL** para resolver segmento:
+4. **Sistema consulta BC-Membership vía ACL** para resolver segmento:
 
 5. **Secretario guarda segmento para reutilización**:
 
-6. **Sistema devuelve lista de SocioIds resueltos:**
+6. **Sistema devuelve lista de MemberIds resueltos:**
 
 Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039 (Envío de comunicaciones), que consume el resultado de este UC.
 
@@ -8667,7 +8667,7 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
 **FA-1: Segmentación por asistencia a eventos**
 - **Cuándo:** Secretario quiere enviar comunicación solo a socios activos en eventos
 - **Qué pasa:**
-  - Sistema consulta BC-Eventos vía ACL
+  - Sistema consulta BC-Events vía ACL
   - Calcula % asistencia: (eventos asistidos / eventos elegibles) × 100
   - Filtra socios con asistencia >= 50% últimos 6 meses
 
@@ -8688,7 +8688,7 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
 
 #### Flujos de Excepción
 
-**FE-1: Timeout en consulta a BC-Membresia**
+**FE-1: Timeout en consulta a BC-Membership**
 - **Cuándo:** Query compleja tarda > 10 segundos
 - **Manejo:**
   - Sistema cancela consulta y muestra error
@@ -8717,37 +8717,37 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia:** Query de socios con filtros (ACL con query builder)
-- **BC-Comunicacion → BC-Eventos:** Consulta de asistencia a eventos para filtro avanzado (ACL)
+- **BC-Communication → BC-Membership:** Query de socios con filtros (ACL con query builder)
+- **BC-Communication → BC-Events:** Consulta de asistencia a eventos para filtro avanzado (ACL)
 
 #### Poscondiciones
 
 - **Éxito:** 
-  - Segmento resuelto con lista de SocioIds
+  - Segmento resuelto con lista de MemberIds
   - Cantidad total de destinatarios calculada
   - Segmento guardado disponible para reutilización (si se guardó)
-  - DTO con SocioIds listo para consumo por UC-039
+  - DTO con MemberIds listo para consumo por UC-039
 - **Fallo:** 
   - Segmentación no resuelta si criterios inválidos
   - Error específico sobre problema (timeout, criterios vacíos, etc.)
 
 #### Notas de Implementación
 
-1. **Anti-Corruption Layer para BC-Membresia (RNFT-058):**
-   - Interfaz `ISocioACL` con método `queryBuilder()` que devuelve query fluent
-   - Implementación en `infrastructure/acl/SocioACLImpl.ts`
-   - Aislar BC-Comunicacion de cambios en modelo de BC-Membresia
-   - DTO de transferencia: `SocioBasicoDTO` con campos mínimos (id, nombre, email, telefono, tipoSocio, estadoPago)
+1. **Anti-Corruption Layer para BC-Membership (RNFT-058):**
+   - Interfaz `IMemberACL` con método `queryBuilder()` que devuelve query fluent
+   - Implementación en `infrastructure/acl/MemberACLImpl.ts`
+   - Aislar BC-Communication de cambios en modelo de BC-Membership
+   - DTO de transferencia: `BasicMemberDTO` con campos mínimos (id, nombre, email, telefono, memberType, paymentStatus)
 
 2. **Query Builder Dinámico:**
    - Implementar patrón Builder para construir consultas SQL complejas
    - Soportar operadores: `=`, `!=`, `IN`, `NOT IN`, `>=`, `<=`
-   - Ejemplo: `where('tipoSocio', 'IN', ['Numerario', 'Aspirante']).where('estadoPago', '=', 'AlCorriente')`
+   - Ejemplo: `where('memberType', 'IN', ['Numerario', 'APPLICANT']).where('paymentStatus', '=', 'AlCorriente')`
 
 3. **Cache de Segmentos Resueltos (RNFT-018):**
    - Cache en memoria (TTL: 5 minutos) para segmentos frecuentes
    - Key: `segmento:{tenantId}:{hash(criterios)}`
-   - Invalidar al cambiar datos de socios (evento `SocioActualizado`)
+   - Invalidar al cambiar datos de socios (evento `MemberUpdated`)
 
 4. **Interfaz de Usuario para Segmentación:**
    - Filtros combinables con operador AND visual
@@ -8769,7 +8769,7 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
    - Estado pago: validar contra enum
 
 7. **Performance en Segmentos Grandes (RNFT-015):**
-   - Query optimizada con índices en: `tipo_socio`, `estado_pago`, `fecha_alta`, `estado`
+   - Query optimizada con índices en: `member_type`, `estado_pago`, `registration_date`, `estado`
    - Paginación en UI si segmento > 500 destinatarios
 
 8. **Auditoría de Segmentación (RNFT-025):**
@@ -8779,7 +8779,7 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
 
 9. **Exclusiones Permanentes:**
    - Respetar preferencias de comunicación del socio (opt-out por canal)
-   - Consultar tabla `socio_preferencias_comunicacion` antes de añadir a destinatarios
+   - Consultar tabla `member_communication_preferences` antes de añadir a destinatarios
    - Si socio tiene `email_opt_out: true`, excluir de segmento para canal Email
 
 10. **Testing de Segmentación:**
@@ -8793,8 +8793,8 @@ Nota: La creación de la Comunicacion y las entidades Envio se realiza en UC-039
 
 #### Metadatos
 - **User Stories:** US-120 (Histórico y programación)
-- **Bounded Context:** BC-Comunicacion
-- **Application Service:** ComunicacionService
+- **Bounded Context:** BC-Communication
+- **Application Service:** CommunicationService
 - **Aggregates:** Comunicacion
 - **Prioridad:** Should
 
@@ -8866,7 +8866,7 @@ Permite programar el envío de comunicaciones para una fecha y hora futura espec
 **FE-2: Job cae y se pierde ejecución programada**
 - **Cuándo:** Servidor se reinicia y job no se ejecuta en el minuto exacto programado
 - **Manejo:**
-  - Al reiniciar, job busca comunicaciones con `fechaProgramada <= ahora`
+  - Al reiniciar, job busca comunicaciones con `scheduledDate <= ahora`
   - Procesa inmediatamente comunicaciones "atrasadas" (con retraso de pocos minutos)
   - Log de advertencia con el retraso: "Comunicación programada para 09:00, enviada a las 09:03 (retraso 3 min)"
 
@@ -8888,7 +8888,7 @@ Permite programar el envío de comunicaciones para una fecha y hora futura espec
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion (interno):** Job llama a UC-039 (envío email) cuando llega fecha programada
+- **BC-Communication (interno):** Job llama a UC-039 (envío email) cuando llega fecha programada
 
 #### Poscondiciones
 
@@ -8959,7 +8959,7 @@ Permite programar el envío de comunicaciones para una fecha y hora futura espec
 
 #### Metadatos
 - **User Stories:** US-120 (Histórico), US-121 (Estadísticas apertura), US-122 (Tracking emails)
-- **Bounded Context:** BC-Comunicacion
+- **Bounded Context:** BC-Communication
 - **Application Service:** HistoricoService, TrackingService
 - **Aggregates:** Comunicacion
 - **Entities:** Envio
@@ -9001,7 +9001,7 @@ Consulta del histórico completo de comunicaciones enviadas con estadísticas de
 - **Qué pasa:**
   - SendGrid envía webhook a `/api/webhooks/sendgrid`
   - Sistema actualiza estado de Envio a Rebotado
-  - Marca email del socio como inválido en BC-Membresia
+  - Marca email del socio como inválido en BC-Membership
 
 **FA-2: Ver destinatarios específicos de una comunicación**
 - **Cuándo:** Secretario quiere saber quién recibió/abrió comunicación
@@ -9032,7 +9032,7 @@ Consulta del histórico completo de comunicaciones enviadas con estadísticas de
 **FE-3: Múltiples aperturas del mismo email**
 - **Cuándo:** Socio abre email 5 veces en diferentes días
 - **Manejo:**
-  - Solo registrar primera apertura en `fechaApertura`
+  - Solo registrar primera apertura en `openDate`
   - Opcionalmente: guardar array de aperturas para analytics avanzado
 
 #### Eventos de Dominio
@@ -9046,8 +9046,8 @@ Consulta del histórico completo de comunicaciones enviadas con estadísticas de
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → BC-Membresia:** Consultar listado de socios para análisis de inactividad (ACL)
-- **BC-Comunicacion ← SendGrid:** Webhook de eventos (bounce, spam complaint, etc.)
+- **BC-Communication → BC-Membership:** Consultar listado de socios para análisis de inactividad (ACL)
+- **BC-Communication ← SendGrid:** Webhook de eventos (bounce, spam complaint, etc.)
 
 #### Poscondiciones
 
@@ -9118,7 +9118,7 @@ Consulta del histórico completo de comunicaciones enviadas con estadísticas de
 
 #### Metadatos
 - **User Stories:** US-116 (Tablón anuncios), US-123 (Visualización), US-124 (Anuncio con imagen)
-- **Bounded Context:** BC-Comunicacion
+- **Bounded Context:** BC-Communication
 - **Application Service:** AnuncioService
 - **Aggregates:** Anuncio
 - **Prioridad:** Should
@@ -9129,7 +9129,7 @@ Sistema de tablón de anuncios visible en el portal del socio para publicar noti
 #### Actores
 - **Secretario** (publica anuncios)
 - **Presidente** (publica anuncios importantes)
-- **Socio** (visualiza anuncios y marca como leídos)
+- **Member** (visualiza anuncios y marca como leídos)
 - **Sistema** (expira anuncios automáticamente)
 
 #### Precondiciones
@@ -9173,8 +9173,8 @@ Sistema de tablón de anuncios visible en el portal del socio para publicar noti
 **FA-2: Programar publicación futura**
 - **Cuándo:** Secretario quiere que anuncio se publique automáticamente el 01/03
 - **Qué pasa:**
-  - Guardar anuncio con estado Borrador y `fechaPublicacion` futura
-  - Scheduled job diario publica anuncios cuya `fechaPublicacion <= hoy`
+  - Guardar anuncio con estado Borrador y `publicationDate` futura
+  - Scheduled job diario publica anuncios cuya `publicationDate <= hoy`
   - Similar a UC-044 (programación de envíos)
 
 **FA-3: Archivar anuncios antiguos**
@@ -9216,8 +9216,8 @@ Sistema de tablón de anuncios visible en el portal del socio para publicar noti
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion → S3/MinIO:** Upload de imágenes destacadas (Storage Service)
-- **BC-Comunicacion (interno):** Consulta desde portal del socio (N10: Portal Socio)
+- **BC-Communication → S3/MinIO:** Upload de imágenes destacadas (Storage Service)
+- **BC-Communication (interno):** Consulta desde portal del socio (N10: Portal Socio)
 
 #### Poscondiciones
 
@@ -9250,8 +9250,8 @@ Sistema de tablón de anuncios visible en el portal del socio para publicar noti
    - Límite de tamaño: 2MB por imagen
 
 4. **Sistema de Leídos/No Leídos:**
-   - Tabla intermedia `anuncio_leido` con columnas: `anuncio_id, socio_id, fecha_lectura`
-   - Query optimizada con índice en `(socio_id, anuncio_id)`
+   - Tabla intermedia `anuncio_leido` con columnas: `anuncio_id, member_id, fecha_lectura`
+   - Query optimizada con índice en `(member_id, anuncio_id)`
    - Badge "Nuevo" en anuncios no leídos en portal
 
 5. **Scheduled Job de Expiración:**
@@ -9290,13 +9290,13 @@ Sistema de tablón de anuncios visible en el portal del socio para publicar noti
 
 #### Metadatos
 - **User Stories:** US-122 (Bienvenida), US-123 (Recordatorio pago), US-124 (Aviso domiciliación), US-125 (Impago), US-126 (Convocatoria asamblea), US-127 (Inscripción evento), US-128 (Recordatorio evento)
-- **Bounded Context:** BC-Comunicacion
+- **Bounded Context:** BC-Communication
 - **Application Service:** ComunicacionAutomaticaService
-- **Aggregates:** Comunicacion, Plantilla
+- **Aggregates:** Communication, Plantilla
 - **Prioridad:** Must
 
 **Descripción:**  
-Sistema de notificaciones automáticas que escucha eventos de otros Bounded Contexts (BC-Membresia, BC-Tesoreria, BC-Eventos) y envía comunicaciones predefinidas según plantillas de sistema. Incluye workflow de morosidad con escalado automático por fases y scheduled jobs para recordatorios programados.
+Sistema de notificaciones automáticas que escucha eventos de otros Bounded Contexts (BC-Membership, BC-Treasury, BC-Events) y envía comunicaciones predefinidas según plantillas de sistema. Incluye workflow de morosidad con escalado automático por fases y scheduled jobs para recordatorios programados.
 
 #### Actores
 - **Sistema** (ejecuta notificaciones automáticamente según eventos)
@@ -9378,21 +9378,21 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
 
 | Evento (Origen) | Paso en Flujo | Handler | Acción Ejecutada |
 |-----------------|---------------|---------|------------------|
-| `SocioRegistrado` (BC-Membresia, UC-006) | Paso 1 | `BienvenidaHandler.enviarEmailBienvenida()` | Envía email de bienvenida con credenciales al nuevo socio |
-| `CargoGenerado` (BC-Tesoreria, UC-020) | Paso 4 | `RecordatorioHandler.enviarRecordatorio()` | Envía recordatorio 3 días antes del vencimiento del cargo |
-| `RemesaProgramada` (BC-Tesoreria, UC-023) | Paso 6 | `AvisoSepaHandler.notificarDomiciliacion()` | Notifica socio 2 días antes del cargo SEPA |
-| `MorosidadDetectada` (BC-Tesoreria, UC-022) | Paso 7 | `MorosidadHandler.enviarAvisoFase()` | Envía aviso de morosidad según fase del workflow configurado |
-| `InscripcionRealizada` (BC-Eventos, UC-030) | Paso 9 | `InscripcionHandler.enviarConfirmacion()` | Envía confirmación con QR y detalles del evento |
-| `EventoPublicado` (BC-Eventos, UC-028) | Paso 11 | `EventoHandler.publicarAnuncio()` | Publica anuncio del evento en tablón del portal |
+| `MemberRegistered` (BC-Membership, UC-006) | Paso 1 | `WelcomeHandler.sendWelcomeEmail()` | Envía email de bienvenida con credenciales al nuevo socio |
+| `ChargeGenerated` (BC-Treasury, UC-020) | Paso 4 | `ReminderHandler.sendReminder()` | Envía recordatorio 3 días antes del vencimiento del cargo |
+| `RemittanceScheduled` (BC-Treasury, UC-023) | Paso 6 | `SepaNoticeHandler.notifyDirectDebit()` | Notifica socio 2 días antes del cargo SEPA |
+| `DelinquencyDetected` (BC-Treasury, UC-022) | Paso 7 | `DelinquencyHandler.sendPhaseNotice()` | Envía aviso de morosidad según fase del workflow configurado |
+| `RegistrationCompleted` (BC-Events, UC-030) | Paso 9 | `RegistrationHandler.sendConfirmation()` | Envía confirmación con QR y detalles del evento |
+| `EventPublished` (BC-Events, UC-028) | Paso 11 | `EventoHandler.publicarAnuncio()` | Publica anuncio del evento en tablón del portal |
 
 #### Interacciones entre BCs
 
-- **BC-Comunicacion ← BC-Membresia:** Evento `SocioRegistrado`
-- **BC-Comunicacion ← BC-Tesoreria:** Eventos `CargoGenerado`, `RemesaProgramada`, `MorosidadDetectada`, `PagoDevuelto`
-- **BC-Comunicacion ← BC-Eventos:** Eventos `InscripcionRealizada`, `EventoPublicado`
-- **BC-Comunicacion → BC-Membresia:** Query de datos de socio y preferencias (ACL)
-- **BC-Comunicacion → BC-Tesoreria:** Query de cargos próximos a vencer (ACL)
-- **BC-Comunicacion → BC-Eventos:** Query de eventos próximos e inscritos (ACL)
+- **BC-Communication ← BC-Membership:** Evento `MemberRegistered`
+- **BC-Communication ← BC-Treasury:** Eventos `ChargeGenerated`, `RemittanceScheduled`, `DelinquencyDetected`, `PaymentReturned`
+- **BC-Communication ← BC-Events:** Eventos `RegistrationCompleted`, `EventPublished`
+- **BC-Communication → BC-Membership:** Query de datos de socio y preferencias (ACL)
+- **BC-Communication → BC-Treasury:** Query de cargos próximos a vencer (ACL)
+- **BC-Communication → BC-Events:** Query de eventos próximos e inscritos (ACL)
 
 #### Poscondiciones
 
@@ -9416,8 +9416,8 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
    - Events asíncronos: usar `@OnEvent('evento', { async: true })`
 
 2. **Deduplicación de Notificaciones (RNFT-041):**
-   - Tabla `notificacion_enviada` con columnas: `socio_id, plantilla_codigo, referencia_externa, fecha_envio`
-   - Índice único en `(socio_id, plantilla_codigo, referencia_externa)` para evitar duplicados
+   - Tabla `notificacion_enviada` con columnas: `member_id, plantilla_codigo, referencia_externa, fecha_envio`
+   - Índice único en `(member_id, plantilla_codigo, referencia_externa)` para evitar duplicados
    - TTL de 90 días: limpiar registros antiguos con scheduled job
 
 3. **Workflow de Morosidad Configurable:**
@@ -9431,13 +9431,13 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
    - Solo instancia que adquiere lock ejecuta job
 
 5. **ACL para Consultas Cross-BC (RNFT-058):**
-   - Interfaces: `ISocioACL`, `ICargoACL`, `IEventoACL` en capa de dominio
+   - Interfaces: `IMemberACL`, `IChargeACL`, `IEventACL` en capa de dominio
    - Implementaciones en infrastructure/acl
    - DTOs de transferencia: minimizar acoplamiento
    - Timeout de 10 segundos en consultas ACL
 
 6. **Preferencias de Comunicación (Opt-Out):**
-   - Tabla `socio_preferencias_comunicacion`: `{ email_opt_out, sms_opt_out, push_opt_out }`
+   - Tabla `member_communication_preferences`: `{ email_opt_out, sms_opt_out, push_opt_out }`
    - Consultar antes de enviar cualquier notificación
    - Excepciones: notificaciones críticas (fase 3 morosidad, avisos legales) ignoran opt-out
 
@@ -9453,7 +9453,7 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
 
 9. **Observabilidad de Notificaciones Automáticas (RNFT-064):**
    - Métrica Prometheus: `notificaciones_automaticas_enviadas_total{plantilla, canal, estado}`
-   - Log estructurado: incluir `plantillaCodigo, socioId, canal, resultado`
+   - Log estructurado: incluir `plantillaCodigo, memberId, canal, resultado`
    - Dashboard Grafana: tasa de éxito, latencia, notificaciones por tipo
 
 10. **Retry Logic para Event Handlers Fallidos:**
@@ -9463,22 +9463,22 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
 
 ---
 
-## BC-Documentos
+## BC-Documents
 
 ### Gestión documental: actas, repositorio, versiones
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-048 | Gestión de libro de actas digital | US-159, US-160, US-161, US-162, US-163, US-164, US-165 | BC-Documentos | ActaService | Must | Alta |
-| UC-049 | Registro de asistentes y cálculo de quórum | US-166, US-167, US-168 | BC-Documentos | QuorumService | Must | Media |
-| UC-050 | Archivo histórico y consulta de actas | US-169, US-170 | BC-Documentos | ArchivoActaService | Should | Baja |
-| UC-051 | Repositorio centralizado de documentos | US-171, US-172, US-173, US-174 | BC-Documentos | RepositorioService | Must | Media |
-| UC-052 | Subida y previsualización de documentos | US-175, US-176, US-177 | BC-Documentos | UploadService | Must | Media |
-| UC-053 | Búsqueda y filtrado de documentos | US-178, US-179, US-180 | BC-Documentos | SearchService | Should | Media |
-| UC-054 | Control de permisos y límites de almacenamiento | US-181, US-182, US-183, US-184 | BC-Documentos | StorageQuotaService | Must | Media |
-| UC-055 | Control de versiones y OCR avanzado | US-185, US-186, US-187 | BC-Documentos | VersioningService | Could | Alta |
+| UC-048 | Gestión de libro de actas digital | US-159, US-160, US-161, US-162, US-163, US-164, US-165 | BC-Documents | ActaService | Must | Alta |
+| UC-049 | Registro de asistentes y cálculo de quórum | US-166, US-167, US-168 | BC-Documents | QuorumService | Must | Media |
+| UC-050 | Archivo histórico y consulta de actas | US-169, US-170 | BC-Documents | ArchivoActaService | Should | Baja |
+| UC-051 | Repositorio centralizado de documentos | US-171, US-172, US-173, US-174 | BC-Documents | RepositorioService | Must | Media |
+| UC-052 | Subida y previsualización de documentos | US-175, US-176, US-177 | BC-Documents | UploadService | Must | Media |
+| UC-053 | Búsqueda y filtrado de documentos | US-178, US-179, US-180 | BC-Documents | SearchService | Should | Media |
+| UC-054 | Control de permisos y límites de almacenamiento | US-181, US-182, US-183, US-184 | BC-Documents | StorageQuotaService | Must | Media |
+| UC-055 | Control de versiones y OCR avanzado | US-185, US-186, US-187 | BC-Documents | VersioningService | Could | Alta |
 
-**Total BC-Documentos:** 8 UCs cubriendo 29 User Stories (US-159 a US-187)
+**Total BC-Documents:** 8 UCs cubriendo 29 User Stories (US-159 a US-187)
 
 **Highlights técnicos:**
 - UC-048: Firma digital de actas con certificado electrónico
@@ -9492,7 +9492,7 @@ Sistema de notificaciones automáticas que escucha eventos de otros Bounded Cont
 
 #### Metadatos
 - **User Stories:** US-129 (Libro de actas), US-130 (Plantillas), US-131 (Validación campos)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** ActaService
 - **Aggregates:** Acta
 - **Entities:** Asistente, Acuerdo
@@ -9592,7 +9592,7 @@ Gestión del libro de actas digital obligatorio según LO 1/2002 de asociaciones
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → BC-Membresia:** Consultar socios con derecho a voto para asistentes (ACL)
+- **BC-Documents → BC-Membership:** Consultar socios con derecho a voto para asistentes (ACL)
 - **Event:** `ActaAprobada` → Consumido por UC-050 (PDFService) para generar PDF automáticamente
 
 #### Poscondiciones
@@ -9615,7 +9615,7 @@ Gestión del libro de actas digital obligatorio según LO 1/2002 de asociaciones
    - Índice único en `(tenant_id, ejercicio, numero)`
 
 2. **Plantillas de Actas por Tipo:**
-   - Tabla `plantilla_acta` con templates por `tipo_reunion`
+   - Tabla `minutes_template` con templates por `tipo_reunion`
    - Seed data con 4 plantillas: Asamblea Ordinaria, Extraordinaria, Junta Directiva, Comisión
    - Campo `secciones_defecto: JSON` con array de secciones predefinidas
 
@@ -9665,7 +9665,7 @@ Gestión del libro de actas digital obligatorio según LO 1/2002 de asociaciones
 
 #### Metadatos
 - **User Stories:** US-132 (Registro asistentes), US-133 (Cálculo quórum)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** AsistenciaService, QuorumService
 - **Aggregates:** Acta
 - **Entities:** Asistente
@@ -9677,7 +9677,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 #### Actores
 - **Secretario** (registra asistencia antes/durante reunión)
 - **Sistema** (calcula quórum automáticamente)
-- **Socio** (asiste y opcionalmente firma digitalmente)
+- **Member** (asiste y opcionalmente firma digitalmente)
 
 #### Precondiciones
 - Acta creada en estado Borrador
@@ -9689,7 +9689,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 
 2. **Sistema muestra listado de socios con derecho a voto**:
 
-3. **Secretario marca asistentes** con opciones: Presente, Ausente, Delegación:
+3. **Secretario marca asistentes** con options: Presente, Ausente, Delegación:
 
 4. **Sistema calcula quórum automáticamente** según configuración:
 
@@ -9756,8 +9756,8 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → BC-Membresia:** Consultar socios con derecho a voto (ACL)
-- **BC-Documentos (interno):** Generar PDF de hoja de firmas
+- **BC-Documents → BC-Membership:** Consultar socios con derecho a voto (ACL)
+- **BC-Documents (interno):** Generar PDF de hoja de firmas
 
 #### Poscondiciones
 
@@ -9773,7 +9773,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 #### Notas de Implementación
 
 1. **Configuración de Quórum por Tenant:**
-   - Tabla `configuracion_quorum` con columnas: `tipo_reunion, convocatoria, formula`
+   - Tabla `quorum_config` con columnas: `tipo_reunion, convocatoria, formula`
    - Fórmulas soportadas: `50%+1`, `2/3`, `3/5`, `SIN_MINIMO`
    - Seed data con configuración estándar española (LO 1/2002)
 
@@ -9783,7 +9783,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
    - Detectar ciclos con algoritmo de grafos (DFS)
 
 3. **Consulta Cross-BC con ACL (RNFT-058):**
-   - Interfaz `ISocioACL.findConDerechoVoto(criterios)`
+   - Interfaz `IMemberACL.findConDerechoVoto(criterios)`
    - Filtrado por tipo socio, estado pago, roles
    - Timeout de 10 segundos, retry si falla
 
@@ -9807,7 +9807,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 7. **Performance:**
    - Índice en `acta_asistente (acta_id, presente)` para count rápido
    - Cache de configuración de quórum en Redis (TTL: 1 día)
-   - Consulta a BC-Membresia cacheable (TTL: 5 min para socios con derecho)
+   - Consulta a BC-Membership cacheable (TTL: 5 min para socios con derecho)
 
 8. **Testing:**
    - Test unitario: cálculo de umbral con diferentes fórmulas (50%+1, 2/3, etc.)
@@ -9830,7 +9830,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 
 #### Metadatos
 - **User Stories:** US-134 (Archivo histórico), US-135 (Exportación PDF)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** HistoricoActasService, PDFService
 - **Aggregates:** Acta, Documento
 - **Prioridad:** Must
@@ -9839,7 +9839,7 @@ Registro de asistentes a reuniones con soporte para delegaciones de voto. Cálcu
 Consulta del archivo histórico de actas aprobadas con búsqueda por texto, filtros por tipo y fecha. Exportación de actas a PDF con formato oficial (cabecera, firmas, anexos). Generación automática de PDF tras aprobación y almacenamiento en repositorio documental. Control de acceso según confidencialidad (actas de Junta Directiva solo para directivos, actas de Asamblea públicas para socios).
 
 #### Actores
-- **Socio** (consulta actas de Asamblea públicas)
+- **Member** (consulta actas de Asamblea públicas)
 - **Directivo** (consulta todas las actas incluyendo Junta Directiva)
 - **Secretario** (genera PDFs oficiales)
 - **Sistema** (genera PDF automáticamente tras aprobación)
@@ -9923,9 +9923,9 @@ Consulta del archivo histórico de actas aprobadas con búsqueda por texto, filt
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → BC-Membresia:** Consultar datos de socios para PDF (ACL)
-- **BC-Documentos → S3/MinIO:** Subir PDF generado (Storage Service)
-- **BC-Documentos (interno):** Crear registro de Documento vinculado a Acta
+- **BC-Documents → BC-Membership:** Consultar datos de socios para PDF (ACL)
+- **BC-Documents → S3/MinIO:** Subir PDF generado (Storage Service)
+- **BC-Documents (interno):** Crear registro de Documento vinculado a Acta
 
 #### Poscondiciones
 
@@ -9982,7 +9982,7 @@ Consulta del archivo histórico de actas aprobadas con búsqueda por texto, filt
 
 9. **Auditoría de Consultas (RNFT-025):**
    - Registrar en tabla `auditoria` cada consulta de acta aprobada
-   - Campos: usuario_id, acta_id, fecha_consulta, ip_origen
+   - Campos: user_id, acta_id, fecha_consulta, ip_origen
    - Útil para compliance y detectar accesos no autorizados
 
 10. **Testing:**
@@ -9997,7 +9997,7 @@ Consulta del archivo histórico de actas aprobadas con búsqueda por texto, filt
 
 #### Metadatos
 - **User Stories:** US-136 (Repositorio centralizado), US-137 (Estructura carpetas), US-138 (Metadatos)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** DocumentoService, CategoriaService
 - **Aggregates:** Documento, Categoria
 - **Prioridad:** Must
@@ -10008,7 +10008,7 @@ Repositorio centralizado multi-formato para almacenar toda la documentación de 
 #### Actores
 - **Directivo** (sube y gestiona documentos)
 - **Tesorero** (gestiona facturas y justificantes)
-- **Socio** (consulta documentos públicos)
+- **Member** (consulta documentos públicos)
 - **Sistema** (crea estructura inicial de carpetas)
 
 #### Precondiciones
@@ -10085,8 +10085,8 @@ Repositorio centralizado multi-formato para almacenar toda la documentación de 
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → S3/MinIO:** Upload/download de archivos (Storage Service)
-- **BC-Documentos (interno):** Gestión de carpetas y documentos
+- **BC-Documents → S3/MinIO:** Upload/download de archivos (Storage Service)
+- **BC-Documents (interno):** Gestión de carpetas y documentos
 
 #### Poscondiciones
 
@@ -10102,7 +10102,7 @@ Repositorio centralizado multi-formato para almacenar toda la documentación de 
 #### Notas de Implementación
 
 1. **Storage en S3/MinIO (RNFT-011):**
-   - Bucket: `documentos`
+   - Bucket: `documents`
    - Ruta: `{tenantId}/files/{uuid}_{nombreOriginal}`
    - Presigned URLs con expiración de 1 hora
    - Backup automático
@@ -10134,7 +10134,7 @@ Repositorio centralizado multi-formato para almacenar toda la documentación de 
    - Dashboard con gráfica circular: usado/disponible
 
 7. **Límites por Plan:**
-   - Tabla `tenant_configuracion` con campo `limite_almacenamiento_bytes`
+   - Tabla `tenant_configuracion` con campo `storage_limit_bytes`
    - Plan Básico: 5 GB, Plan Premium: 20 GB, Plan Enterprise: 100 GB
    - Verificar antes de cada upload
 
@@ -10160,7 +10160,7 @@ Repositorio centralizado multi-formato para almacenar toda la documentación de 
 
 #### Metadatos
 - **User Stories:** US-139 (Subida multi-formato), US-140 (Previsualización)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** DocumentoService, PrevisualizacionService
 - **Aggregates:** Documento
 - **Prioridad:** Must
@@ -10170,7 +10170,7 @@ Subida de documentos con soporte multi-formato (PDF, Office, imágenes) y valida
 
 #### Actores
 - **Directivo** (sube documentos de cualquier formato)
-- **Usuario** (previsualiza documentos antes de descargar)
+- **User** (previsualiza documentos antes de descargar)
 
 #### Precondiciones
 - Usuario con permiso `documentos:read`
@@ -10245,8 +10245,8 @@ Subida de documentos con soporte multi-formato (PDF, Office, imágenes) y valida
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → S3/MinIO:** Descarga de archivo original, upload de thumbnails
-- **BC-Documentos (interno):** Generación de thumbnails con Sharp/pdf-thumbnail
+- **BC-Documents → S3/MinIO:** Descarga de archivo original, upload de thumbnails
+- **BC-Documents (interno):** Generación de thumbnails con Sharp/pdf-thumbnail
 
 #### Poscondiciones
 
@@ -10303,7 +10303,7 @@ Subida de documentos con soporte multi-formato (PDF, Office, imágenes) y valida
 
 #### Metadatos
 - **User Stories:** US-141
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** BusquedaDocumentosService
 - **Aggregates:** Documento, Categoria
 - **Prioridad:** Must
@@ -10397,8 +10397,8 @@ Sistema de búsqueda multi-criterio para localizar documentos rápidamente. Perm
 
 #### Interacciones entre BCs
 
-- **BC-Documentos (interno):** Acceso a repositorios Documento y Categoria
-- **BC-Identidad:** Consulta roles de usuario para filtrar categorías accesibles
+- **BC-Documents (interno):** Acceso a repositorios Documento y Categoria
+- **BC-Identity:** Consulta roles de usuario para filtrar categorías accesibles
 
 #### Poscondiciones
 
@@ -10474,9 +10474,9 @@ Sistema de búsqueda multi-criterio para localizar documentos rápidamente. Perm
 
 #### Metadatos
 - **User Stories:** US-142, US-143
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** PermisosDocumentosService, AlmacenamientoService
-- **Aggregates:** Categoria, Documento, Tenant (BC-Identidad)
+- **Aggregates:** Categoria, Documento, Tenant (BC-Identity)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -10489,7 +10489,7 @@ Sistema de control de acceso basado en roles para proteger documentos confidenci
 
 #### Precondiciones
 - Estructura de categorías/carpetas creada
-- Roles de usuarios definidos en BC-Identidad
+- Roles de usuarios definidos en BC-Identity
 - Límite de almacenamiento configurado por plan de tenant
 
 #### Flujo Normal
@@ -10507,7 +10507,7 @@ Sistema de control de acceso basado en roles para proteger documentos confidenci
    - Tesorero: Lectura + Escritura
    - Secretario: Lectura
    - Socio: Sin acceso
-6. Sistema valida que los roles existen en BC-Identidad
+6. Sistema valida que los roles existen en BC-Identity
 7. Sistema aplica permisos inmediatamente
 8. Sistema invalida cache de permisos para forzar recálculo
 9. Usuarios ven solo documentos de categorías permitidas desde ese momento
@@ -10550,12 +10550,12 @@ Sistema de control de acceso basado en roles para proteger documentos confidenci
 - **Cuándo:** Almacenamiento al 90%+ o bloqueado
 - **Qué pasa:** 
   - Dashboard muestra botón "Ampliar plan" junto a alerta
-  - Botón redirige a sección de gestión de suscripción (fuera de BC-Documentos)
-  - Usuario completa proceso de upgrade en BC-Identidad/Tesorería
-  - Tras upgrade, BC-Documentos recibe evento `PlanAmpliado` (emitido por BC-Identidad)
-  - BC-Documentos invalida cache de límites y recalcula uso disponible
+  - Botón redirige a sección de gestión de suscripción (fuera de BC-Documents)
+  - Usuario completa proceso de upgrade en BC-Identity/Tesorería
+  - Tras upgrade, BC-Documents recibe evento `PlanAmpliado` (emitido por BC-Identity)
+  - BC-Documents invalida cache de límites y recalcula uso disponible
   
-**Nota:** El proceso de upgrade (selección de plan, pasarela de pago, actualización de Tenant.plan) es responsabilidad de BC-Identidad y BC-Tesorería, **no** de BC-Documentos. Este UC solo muestra la necesidad y consume el resultado vía evento.
+**Nota:** El proceso de upgrade (selección de plan, pasarela de pago, actualización de Tenant.plan) es responsabilidad de BC-Identity y BC-Tesorería, **no** de BC-Documents. Este UC solo muestra la necesidad y consume el resultado vía evento.
 
 **FA-3: Limpieza masiva de documentos antiguos**
 - **Cuándo:** Administrador necesita liberar espacio urgentemente
@@ -10600,9 +10600,9 @@ Sistema de control de acceso basado en roles para proteger documentos confidenci
 
 #### Interacciones entre BCs
 
-- **BC-Documentos → BC-Identidad:** Consulta roles de usuarios, configuración de tenant
-- **BC-Documentos → BC-Comunicacion:** Envío de alertas de almacenamiento por email
-- **BC-Identidad → BC-Documentos (evento):** `PlanAmpliado` para actualizar cache de límites
+- **BC-Documents → BC-Identity:** Consulta roles de usuarios, configuración de tenant
+- **BC-Documents → BC-Communication:** Envío de alertas de almacenamiento por email
+- **BC-Identity → BC-Documents (evento):** `PlanAmpliado` para actualizar cache de límites
 
 #### Poscondiciones
 
@@ -10685,7 +10685,7 @@ Sistema de control de acceso basado en roles para proteger documentos confidenci
 
 #### Metadatos
 - **User Stories:** US-144 (Versionado), US-145 (OCR)
-- **Bounded Context:** BC-Documentos
+- **Bounded Context:** BC-Documents
 - **Application Service:** VersionadoService, OcrService
 - **Aggregates:** Documento
 - **Prioridad:** Could (extensión futura)
@@ -10747,7 +10747,7 @@ Funcionalidades avanzadas para gestión documental: versionado de documentos con
 20. Tesorero revisa datos extraídos en interfaz
 21. Tesorero corrige campos con baja confianza o errores
 22. Tesorero confirma datos
-23. Sistema crea gasto automáticamente en BC-Tesoreria con datos confirmados
+23. Sistema crea gasto automáticamente en BC-Treasury con datos confirmados
 24. Documento queda vinculado al asiento contable como justificante
 25. Sistema muestra confirmación: "Gasto creado a partir de factura procesada con OCR"
 
@@ -10802,11 +10802,11 @@ Funcionalidades avanzadas para gestión documental: versionado de documentos con
 
 #### Interacciones entre BCs
 
-- **BC-Documentos (interno):** Gestión de versiones en repositorio
-- **BC-Documentos → S3/MinIO:** Descarga de archivos para OCR
-- **BC-Documentos → BC-Tesoreria:** Creación automática de gasto tras confirmar OCR de factura
-- **BC-Documentos → BC-Comunicacion:** Notificaciones de OCR completado
-- **BC-Documentos → Google Cloud Vision / Tesseract:** Procesamiento OCR
+- **BC-Documents (interno):** Gestión de versiones en repositorio
+- **BC-Documents → S3/MinIO:** Descarga de archivos para OCR
+- **BC-Documents → BC-Treasury:** Creación automática de gasto tras confirmar OCR de factura
+- **BC-Documents → BC-Communication:** Notificaciones de OCR completado
+- **BC-Documents → Google Cloud Vision / Tesseract:** Procesamiento OCR
 
 #### Poscondiciones
 
@@ -10900,7 +10900,7 @@ Funcionalidades avanzadas para gestión documental: versionado de documentos con
 
 #### Metadatos
 - **User Stories:** US-148, US-149, US-150, US-151
-- **Bounded Context:** Transversal (BC-Membresia + BC-Identidad)
+- **Bounded Context:** Transversal (BC-Membership + BC-Identity)
 - **Application Service:** ImportacionService
 - **Aggregates:** Socio
 - **Prioridad:** Must
@@ -10985,8 +10985,8 @@ Sistema completo de importación de listados de socios desde archivos Excel/CSV 
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Membresia:** Creación masiva de socios
-- **Transversal → BC-Identidad:** Validación de permisos
+- **Transversal → BC-Membership:** Creación masiva de socios
+- **Transversal → BC-Identity:** Validación de permisos
 
 #### Poscondiciones
 
@@ -11058,9 +11058,9 @@ Sistema completo de importación de listados de socios desde archivos Excel/CSV 
 
 #### Metadatos
 - **User Stories:** US-152
-- **Bounded Context:** Transversal (BC-Tesoreria + BC-Membresia)
+- **Bounded Context:** Transversal (BC-Treasury + BC-Membership)
 - **Application Service:** ImportacionPagosService
-- **Aggregates:** CuentaSocio, Movimiento
+- **Aggregates:** MemberAccount, Movimiento
 - **Prioridad:** Should
 
 **Descripción:**  
@@ -11112,7 +11112,7 @@ Importación de histórico de pagos previos de socios, útil para migración des
 
 2. **Recálculo de Estados:**
    - Tras importación, ejecutar scheduled job de recálculo de morosidad
-   - Actualizar fechas de último pago en `cuenta_socio`
+   - Actualizar fechas de último pago en `member_account`
 
 3. **Validación:**
    - Fecha de pago no puede ser futura
@@ -11125,7 +11125,7 @@ Importación de histórico de pagos previos de socios, útil para migración des
 
 #### Metadatos
 - **User Stories:** US-153, US-159
-- **Bounded Context:** Transversal (BC-Membresia principal)
+- **Bounded Context:** Transversal (BC-Membership principal)
 - **Application Service:** ExportacionService
 - **Aggregates:** Socio
 - **Prioridad:** Must
@@ -11195,8 +11195,8 @@ Exportación flexible de listados de socios con selección de campos, filtros, p
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Membresia:** Consulta de socios con filtros (ACL read-only)
-- **Transversal → BC-Tesoreria:** Consulta de IBANs si campo solicitado (requiere permisos)
+- **Transversal → BC-Membership:** Consulta de socios con filtros (ACL read-only)
+- **Transversal → BC-Treasury:** Consulta de IBANs si campo solicitado (requiere permisos)
 - **Transversal → S3/MinIO:** Almacenamiento de archivo generado
 
 **Nota:** Este UC actúa como orquestador de lectura cross-BC sin lógica de dominio.
@@ -11240,11 +11240,11 @@ Exportación flexible de listados de socios con selección de campos, filtros, p
 
 #### Metadatos
 **User Stories:** US-118, US-119
-**Bounded Context:** Transversal (orquesta BC-Tesoreria + BC-Membresia)  
+**Bounded Context:** Transversal (orquesta BC-Treasury + BC-Membership)  
 **Application Service:** `EconomicReportExportService`  
 **Aggregates:**
-  - BC-Tesoreria: **CuentaSocio** (saldos), **Movimiento** (transacciones), **RemesaSepa** (cobros domiciliados)
-  - BC-Membresia: **Socio** (para estadísticas de morosidad)
+  - BC-Treasury: **MemberAccount** (saldos), **Transaction** (transacciones), **SepaRemittance** (cobros domiciliados)
+  - BC-Membership: **Member** (para estadísticas de morosidad)
 **Prioridad:** Should
 
 **Descripción:**
@@ -11263,7 +11263,7 @@ Este UC da soporte a las necesidades de rendición de cuentas ante asambleas, au
 #### Precondiciones
 - Usuario autenticado con permisos `tesoreria:export` o superior
 - Tenant tiene al menos un ejercicio fiscal configurado con movimientos registrados
-- Datos de tesorería disponibles en BC-Tesoreria para el rango de fechas solicitado
+- Datos de tesorería disponibles en BC-Treasury para el rango de fechas solicitado
 - Servicio de generación PDF operativo (Puppeteer instalado)
 
 #### Flujo Normal
@@ -11271,8 +11271,8 @@ Este UC da soporte a las necesidades de rendición de cuentas ante asambleas, au
 1. Tesorero solicita exportación de informe económico especificando ejercicio(s), categorías y tipo de gráficos
 2. Sistema valida permisos `tesoreria:export` mediante `PermissionsGuard`
 3. Sistema valida parámetros del DTO (fechas coherentes, ejercicios existentes, categorías válidas)
-4. Sistema recupera datos agregados de BC-Tesoreria: movimientos, cargos, remesas, suscripciones
-5. Sistema recupera estadísticas de socios morosos desde BC-Membresia
+4. Sistema recupera datos agregados de BC-Treasury: movimientos, cargos, remesas, suscripciones
+5. Sistema recupera estadísticas de socios morosos desde BC-Membership
 6. Sistema calcula métricas: balance, ingresos/gastos por categoría, evolución mensual, ratios
 7. Sistema genera gráficos en formato SVG/Canvas con datos calculados
 8. Sistema renderiza plantilla HTML con gráficos embebidos y tabla de datos
@@ -11328,16 +11328,16 @@ Este UC da soporte a las necesidades de rendición de cuentas ante asambleas, au
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `EconomicReportGenerated` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Comunicacion (envío email con enlace descarga), BC-Auditoria (registro operación) |
+| `EconomicReportGenerated` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Communication (envío email con enlace descarga), BC-Auditoria (registro operación) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Tesoreria:** Consulta agregada de Movimientos, Cargos, Remesas por ejercicio (ACL)
-- **Transversal → BC-Membresia:** Consulta conteo de socios morosos (ACL)
+- **Transversal → BC-Treasury:** Consulta agregada de Movimientos, Cargos, Remesas por ejercicio (ACL)
+- **Transversal → BC-Membership:** Consulta conteo de socios morosos (ACL)
 - **Transversal → S3/MinIO:** Almacenamiento de PDF generado
-- **Transversal → BC-Comunicacion:** Notificación con enlace de descarga (vía evento `EconomicReportGenerated`)
+- **Transversal → BC-Communication:** Notificación con enlace de descarga (vía evento `EconomicReportGenerated`)
 
 **Nota:** Operación de solo lectura con agregación de datos. No modifica estado de ningún BC.
 
@@ -11367,8 +11367,8 @@ Este UC da soporte a las necesidades de rendición de cuentas ante asambleas, au
 - **RNF-050 (Skeleton screens):** Frontend muestra skeleton durante generación, polling de estado cada 3s para jobs asíncronos
 - **RNFT-026 (RGPD):** Parámetro `anonymize` para compartir informes externos sin datos personales, soft-delete de exports tras TTL
 - **Librerías:** `puppeteer` (PDF generation), `@nestjs/event-emitter` (domain events), `aws-sdk` o `minio` (object storage)
-- **Performance:** Query agregado con `groupBy` reduce overhead vs N queries, índices en `(tenantId, ejercicioId, fecha)` para filtros temporales
-- **Seguridad:** Validación de ejercicioIds existentes antes de queries, rate limiting en controller (max 10 exports/hora por usuario)
+- **Performance:** Query agregado con `groupBy` reduce overhead vs N queries, índices en `(tenantId, fiscalYearId, fecha)` para filtros temporales
+- **Seguridad:** Validación de fiscalYearIds existentes antes de queries, rate limiting en controller (max 10 exports/hora por usuario)
 
 ---
 
@@ -11376,11 +11376,11 @@ Este UC da soporte a las necesidades de rendición de cuentas ante asambleas, au
 
 #### Metadatos
 **User Stories:** US-156
-**Bounded Context:** Transversal (BC-Tesoreria)  
+**Bounded Context:** Transversal (BC-Treasury)  
 **Application Service:** `AeatModelo182ExportService`  
 **Aggregates:**
-  - BC-Tesoreria: **Movimiento** (donaciones con importe), **EjercicioContable** (validar estado cerrado)
-  - BC-Membresia: **Socio** (NIF/CIF de donantes, validación formato)
+  - BC-Treasury: **Transaction** (donaciones con importe), **AccountingYear** (validar estado cerrado)
+  - BC-Membership: **Member** (NIF/CIF de donantes, validación formato)
   - BC-Cumplimiento: **AlertaFiscal** (registro obligación tributaria presentada)
 **Prioridad:** Could
 
@@ -11401,7 +11401,7 @@ Este UC es crítico para el cumplimiento normativo de asociaciones que reciben d
 - Usuario autenticado con permisos `tesoreria:export-fiscal` o `admin:full`
 - Tenant configurado con NIF de la entidad y razón social correctos
 - Ejercicio fiscal cerrado con movimientos de tipo `DONATIVO` registrados
-- Donantes tienen NIF/CIF/NIE válido almacenado en BC-Membresia
+- Donantes tienen NIF/CIF/NIE válido almacenado en BC-Membership
 - Librería de validación XSD disponible (libxmljs2 o similar)
 
 #### Flujo Normal
@@ -11437,7 +11437,7 @@ Este UC es crítico para el cumplimiento normativo de asociaciones que reciben d
 **[FA-3]: Generación de certificados individuales para donantes**
 - Paso 13: Si parámetro `generarCertificados: true`
 - Sistema genera PDF individual por cada donante con resumen anual de donaciones
-- PDFs listos para envío mediante BC-Comunicacion (email certificado)
+- PDFs listos para envío mediante BC-Communication (email certificado)
 
 #### Flujos de Excepción
 
@@ -11469,14 +11469,14 @@ Este UC es crítico para el cumplimiento normativo de asociaciones que reciben d
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `Modelo182Generated` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Comunicacion (envío de certificados a donantes), BC-Auditoria (registro fiscal) |
+| `Modelo182Generated` | `{ ...<campos del evento> }` | Al completar la operación principal | BC-Communication (envío de certificados a donantes), BC-Auditoria (registro fiscal) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Tesoreria:** Consulta de Movimientos tipo DONATIVO del ejercicio cerrado
-- **Transversal → BC-Membresia:** Consulta de NIFs de donantes (validación formato mod 23)
+- **Transversal → BC-Treasury:** Consulta de Movimientos tipo DONATIVO del ejercicio cerrado
+- **Transversal → BC-Membership:** Consulta de NIFs de donantes (validación formato mod 23)
 - **Transversal → BC-Cumplimiento:** Registro de presentación Modelo 182 (auditoría fiscal)
 - **Transversal → S3/MinIO:** Almacenamiento de XML generado con retención indefinida
 - **Transversal → AEAT (externo):** Usuario sube XML manualmente al portal AEAT (fuera del sistema)
@@ -11504,7 +11504,7 @@ Este UC es crítico para el cumplimiento normativo de asociaciones que reciben d
 - **RNF-009 (Seguridad archivos):** XML almacenado con flag `fiscalDeclaration: true` para auditoría especial, retention 7 años por normativa fiscal
 - **RNFT-029 (Encriptación datos fiscales):** NIFs hasheados en logs, XML sin cifrar pero con acceso restringido vía presigned URL temporal
 - **Librerías:** `xmlbuilder2` (construcción XML), `libxmljs2` (validación XSD), `crypto` nativo (hash SHA-256)
-- **Performance:** Query agregado por socio reduce procesamiento, índice compuesto `(tenantId, ejercicioId, tipo, importe)` optimiza filtro donaciones
+- **Performance:** Query agregado por socio reduce procesamiento, índice compuesto `(tenantId, fiscalYearId, tipo, importe)` optimiza filtro donaciones
 - **Seguridad:** Validación algoritmo mod-23 para NIFs previene datos incorrectos, rate limiting estricto (1 export/ejercicio/día) evita abuso
 
 ---
@@ -11513,11 +11513,11 @@ Este UC es crítico para el cumplimiento normativo de asociaciones que reciben d
 
 #### Metadatos
 **User Stories:** US-121
-**Bounded Context:** Transversal (BC-Eventos)  
+**Bounded Context:** Transversal (BC-Events)  
 **Application Service:** `EventListExportService`  
 **Aggregates:**
-  - BC-Eventos: **Evento**, *Inscripcion* (lista de inscritos con estado)
-  - BC-Membresia: **Socio** (datos personales de inscritos vía ACL)
+  - BC-Events: **Event**, *Inscripcion* (lista de inscritos con estado)
+  - BC-Membership: **Member** (datos personales de inscritos vía ACL)
 **Prioridad:** Should
 
 **Descripción:**
@@ -11546,9 +11546,9 @@ Este UC es especialmente útil para eventos multitudinarios (comidas de hermanda
 1. Organizador solicita exportación de listado especificando evento y formato (Excel/CSV)
 2. Sistema valida permisos `eventos:export` o verifica que usuario es organizador del evento
 3. Sistema valida que el evento existe y tiene inscripciones
-4. Sistema recupera todas las inscripciones del evento desde BC-Eventos
-5. Sistema enriquece datos con información de socios desde BC-Membresia (si aplica)
-6. Sistema genera códigos QR únicos por inscripción (formato: `EVT-{eventoId}-{inscripcionId}`)
+4. Sistema recupera todas las inscripciones del evento desde BC-Events
+5. Sistema enriquece datos con información de socios desde BC-Membership (si aplica)
+6. Sistema genera códigos QR únicos por inscripción (formato: `EVT-{eventId}-{registrationId}`)
 7. Sistema convierte QR a formato base64 para embedding en Excel
 8. Sistema agrupa comandas por tipo de menú y calcula totales
 9. Sistema crea workbook Excel con 4 pestañas: (1) Inscritos, (2) Control Acceso QR, (3) Comandas, (4) Estadísticas
@@ -11568,7 +11568,7 @@ Este UC es especialmente útil para eventos multitudinarios (comidas de hermanda
 - Códigos QR se exportan como URLs de imagen hospedadas
 
 **[FA-2]: Filtrado de inscritos por estado**
-- Paso 4: Si se proporciona parámetro `estadoInscripcion` (CONFIRMADA, PENDIENTE, CANCELADA)
+- Paso 4: Si se proporciona parámetro `registrationStatus` (CONFIRMED, PENDING, CANCELLED)
 - Sistema filtra inscripciones por estado antes de generar listado
 - Título del archivo incluye sufijo con estado filtrado
 
@@ -11615,10 +11615,10 @@ Este UC es especialmente útil para eventos multitudinarios (comidas de hermanda
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Eventos:** Consulta de Inscripciones por eventoId con datos de comanda
-- **Transversal → BC-Membresia:** Enriquecimiento con datos de Socio (nombre, email, teléfono) vía ACL
+- **Transversal → BC-Events:** Consulta de Inscripciones por eventId con datos de comanda
+- **Transversal → BC-Membership:** Enriquecimiento con datos de Socio (nombre, email, teléfono) vía ACL
 - **Transversal → S3/MinIO:** Almacenamiento de Excel/CSV generado con TTL 48h
-- **Transversal → BC-Comunicacion:** (opcional) Envío de listado por email si solicitado
+- **Transversal → BC-Communication:** (opcional) Envío de listado por email si solicitado
 
 **Nota:** Lectura cross-BC sin modificación de estado. QR codes generados on-the-fly, no almacenados.
 
@@ -11641,8 +11641,8 @@ Este UC es especialmente útil para eventos multitudinarios (comidas de hermanda
 - **RNF-009 (Seguridad archivos):** Validación granular de permisos (global `eventos:export` o rol `organizador` específico del evento), URLs firmadas S3 2h
 - **RNFT-045 (Accesibilidad):** Excel con alto contraste en encabezados, filtros automáticos y anchos de columna optimizados para lectura
 - **Librerías:** `exceljs` (v4.x, generación Excel compleja), `qrcode` (v1.x, QR codes), `@nestjs/event-emitter` (eventos)
-- **Performance:** Query `include` optimizado para evitar N+1, índices en `(tenantId, eventoId, estado)` para filtros rápidos
-- **Seguridad:** Rate limiting 20 exports/evento/día, QR codes con formato único `EVT-{eventoId}-{inscripcionId}` para prevenir falsificaciones
+- **Performance:** Query `include` optimizado para evitar N+1, índices en `(tenantId, eventId, estado)` para filtros rápidos
+- **Seguridad:** Rate limiting 20 exports/evento/día, QR codes con formato único `EVT-{eventId}-{registrationId}` para prevenir falsificaciones
 
 ---
 
@@ -11650,11 +11650,11 @@ Este UC es especialmente útil para eventos multitudinarios (comidas de hermanda
 
 #### Metadatos
 **User Stories:** US-122
-**Bounded Context:** Transversal (BC-Comunicacion)  
+**Bounded Context:** Transversal (BC-Communication)  
 **Application Service:** `CommunicationHistoryExportService`  
 **Aggregates:**
-  - BC-Comunicacion: **Comunicacion**, *Envio* (registros de envío individuales)
-  - BC-Membresia: **Socio** (para filtrado por destinatario vía ACL)
+  - BC-Communication: **Communication**, *Delivery* (registros de envío individuales)
+  - BC-Membership: **Member** (para filtrado por destinatario vía ACL)
 **Prioridad:** Could
 
 **Descripción:**
@@ -11683,7 +11683,7 @@ El sistema permite filtros avanzados por rango de fechas, tipo de comunicación 
 2. Sistema valida permisos `comunicacion:audit` mediante `PermissionsGuard`
 3. Sistema valida parámetros del DTO (fechas coherentes, rango ≤2 años)
 4. Sistema consulta tabla `Comunicacion` aplicando filtros con paginación interna (chunks de 5000)
-5. Sistema enriquece cada registro con eventos de tracking (apertura, click, rebote) desde tabla `ComunicacionEvento`
+5. Sistema enriquece cada registro con eventos de tracking (apertura, click, rebote) desde tabla `CommunicationEvent`
 6. Sistema calcula métricas agregadas: tasa apertura, tasa click, tasa rebote, tiempo medio apertura
 7. Sistema crea workbook Excel con 2 pestañas: (1) Detalle Comunicaciones, (2) Métricas Agregadas
 8. Sistema aplica formato condicional: verde para entregado, rojo para rebotado, amarillo para pendiente
@@ -11719,7 +11719,7 @@ El sistema permite filtros avanzados por rango de fechas, tipo de comunicación 
 #### Flujos de Excepción
 
 **[FE-1]: Rango de fechas excesivo**
-- Paso 3: Si la diferencia entre `fechaInicio` y `fechaFin` supera 730 días (2 años)
+- Paso 3: Si la diferencia entre `startDate` y `endDate` supera 730 días (2 años)
 - Sistema lanza `DateRangeTooLargeException`
 - Respuesta HTTP 422 Unprocessable Entity
 - Mensaje: "El rango de fechas no puede superar 2 años (performance)"
@@ -11746,15 +11746,15 @@ El sistema permite filtros avanzados por rango de fechas, tipo de comunicación 
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `CommunicationHistoryExported` | `{ exportId: string, tenantId: string, usuarioId: string, archivoUrl: string, checksum: string, totalRegistros: number, fechaInicio: Date, fechaFin: Date, timestamp: Date }` | Tras almacenar archivo en Object Storage (paso 11) | BC-Comunicacion (UC-047: notificar con enlace descarga) |
-| `ExportacionFallida` | `{ exportId: string, tenantId: string, usuarioId: string, motivoFallo: string, errorCode: string, timestamp: Date }` | Al capturar excepción en cualquier paso del proceso | Sistema de Alertas, BC-Comunicacion (UC-047: notificar error) |
+| `CommunicationHistoryExported` | `{ exportId: string, tenantId: string, usuarioId: string, archivoUrl: string, checksum: string, totalRegistros: number, startDate: Date, endDate: Date, timestamp: Date }` | Tras almacenar archivo en Object Storage (paso 11) | BC-Communication (UC-047: notificar con enlace descarga) |
+| `ExportFailed` | `{ exportId: string, tenantId: string, usuarioId: string, motivoFallo: string, errorCode: string, timestamp: Date }` | Al capturar excepción en cualquier paso del proceso | Sistema de Alertas, BC-Communication (UC-047: notificar error) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Comunicacion:** Consulta paginada de tabla `Comunicacion` con joins a `ComunicacionEvento`
-- **Transversal → BC-Membresia:** (opcional) Filtrado por socioId específico si petición RGPD Art. 15
+- **Transversal → BC-Communication:** Consulta paginada de tabla `Comunicacion` con joins a `CommunicationEvent`
+- **Transversal → BC-Membership:** (opcional) Filtrado por memberId específico si petición RGPD Art. 15
 - **Transversal → S3/MinIO:** Almacenamiento de Excel generado con retención 90 días (auditoría)
 
 **Nota:** Export con datos sensibles (emails personales). Acceso restringido a rol `comunicacion:audit`.
@@ -11791,7 +11791,7 @@ El sistema permite filtros avanzados por rango de fechas, tipo de comunicación 
 #### Metadatos
 **User Stories:** US-160  
 **Bounded Context:** Transversal (Infraestructura)  
-**Application Service:** `BackupService.generarBackupCompleto()`  
+**Application Service:** `BackupService.generateFullBackup()`  
 **Aggregates:** N/A (operación de infraestructura)  
 **Prioridad:** Should Have
 
@@ -11959,7 +11959,7 @@ Implementa política de retención configurable (30 días por defecto) para gest
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
 | UC-064 | Dashboard principal y KPIs | US-203, US-204, US-205, US-206, US-207, US-208, US-209 | Transversal | DashboardService | Must | Alta |
 | UC-065 | Gráficos de evolución | US-210, US-211 | Transversal | DashboardAnalyticsService | Should | Alta |
-| UC-066 | Informes para Asamblea General | US-212, US-213 | Transversal | AsambleaReportingService | Must | Alta |
+| UC-066 | Informes para Asamblea General | US-212, US-213 | Transversal | AssemblyReportingService | Must | Alta |
 | UC-067 | Certificados y memorias personalizables | US-214, US-215 | Transversal | CertificadoService | Could | Media |
 
 **Total Transversal Reporting:** 4 UCs cubriendo 13 User Stories (US-203 a US-215)
@@ -11979,10 +11979,10 @@ Implementa política de retención configurable (30 días por defecto) para gest
 - **Bounded Context:** Transversal (lectura de todos los BCs)
 - **Application Service:** DashboardService
 - **Aggregates:**
-  - BC-Membresia: **Socio** (conteo por estado, distribución por tipo)
-  - BC-Tesoreria: **CuentaSocio**, **Movimiento** (ratios económicos, recaudación)
-  - BC-Eventos: **Evento**, *Inscripcion* (participación, próximos eventos)
-  - BC-Comunicacion: **Comunicacion** (métricas de engagement)
+  - BC-Membership: **Member** (conteo por estado, distribución por tipo)
+  - BC-Treasury: **MemberAccount**, **Transaction** (ratios económicos, recaudación)
+  - BC-Events: **Event**, *Inscripcion* (participación, próximos eventos)
+  - BC-Communication: **Communication** (métricas de engagement)
 - **Prioridad:** Must
 
 **Descripción:**  
@@ -11999,7 +11999,7 @@ Dashboard con métricas clave en tiempo real: socios activos, recaudación, pró
 
 1. Construir widgets según roles
 2. Widgets comunes a todos
-3. Ordenar por prioridad
+3. Ordenar por priority
 
 #### Flujos Alternativos
 
@@ -12016,7 +12016,7 @@ Dashboard con métricas clave en tiempo real: socios activos, recaudación, pró
 #### Flujos de Excepción
 
 **FE-1: Error en consulta de BC específico**
-- Si BC-Tesoreria no responde (timeout, BD caída):
+- Si BC-Treasury no responde (timeout, BD caída):
   - Sistema muestra widget con mensaje: "Datos económicos temporalmente no disponibles"
   - Carga resto de widgets normalmente (fallos aislados no bloquean dashboard completo)
   - Registra error en logs para debugging
@@ -12047,10 +12047,10 @@ Dashboard con métricas clave en tiempo real: socios activos, recaudación, pró
 
 #### Interacciones entre BCs
 
-- **Dashboard → BC-Membresia:** Consulta conteos de socios por estado, tipo (ACL read-only)
-- **Dashboard → BC-Tesoreria:** Consulta métricas económicas (recaudación, morosidad, saldos) (ACL)
-- **Dashboard → BC-Eventos:** Consulta próximos eventos e inscripciones (ACL)
-- **Dashboard → BC-Comunicacion:** Consulta métricas de comunicación (envíos, aperturas) (ACL)
+- **Dashboard → BC-Membership:** Consulta conteos de socios por estado, tipo (ACL read-only)
+- **Dashboard → BC-Treasury:** Consulta métricas económicas (recaudación, morosidad, saldos) (ACL)
+- **Dashboard → BC-Events:** Consulta próximos eventos e inscripciones (ACL)
+- **Dashboard → BC-Communication:** Consulta métricas de comunicación (envíos, aperturas) (ACL)
 
 **Nota:** Dashboard es capa de presentación pura (BFF). Toda lógica de negocio reside en BCs. Dashboard solo orquesta consultas y presenta datos.
 
@@ -12095,12 +12095,12 @@ Dashboard con métricas clave en tiempo real: socios activos, recaudación, pró
 
 #### Metadatos
 - **User Stories:** US-165, US-166
-- **Bounded Context:** Transversal (BC-Tesoreria + BC-Membresia + BC-Eventos)  
+- **Bounded Context:** Transversal (BC-Treasury + BC-Membership + BC-Events)  
 - **Application Service:** `DashboardAnalyticsService`  
 - **Aggregates:**
-  - BC-Membresia: **Socio** (evolución altas/bajas)
-  - BC-Tesoreria: **Movimiento** (ingresos/gastos históricos)
-  - BC-Eventos: *Inscripcion* (tendencias de asistencia)
+  - BC-Membership: **Member** (evolución altas/bajas)
+  - BC-Treasury: **Transaction** (ingresos/gastos históricos)
+  - BC-Events: *Inscripcion* (tendencias de asistencia)
 - **Prioridad:** Should
 
 **Descripción:**
@@ -12209,7 +12209,7 @@ Este caso de uso permite a directivos visualizar gráficos interactivos con dato
 
 **Consideraciones de Performance:**
 - Cache Redis con TTL 5 min reduce carga en BD
-- Queries con `groupBy` optimizadas con índices en `fechaPago`, `fechaEmision`, `tipoEvento`
+- Queries con `groupBy` optimizadas con índices en `paymentDate`, `issueDate`, `tipoEvento`
 - Queries ejecutadas en paralelo con `Promise.all`
 - Recharts cargado con `React.lazy()` para reducir bundle inicial (RNFT-024)
 - Para tenants con >100k registros, considerar pre-agregación diaria en tabla `analytics_snapshots`
@@ -12221,12 +12221,12 @@ Este caso de uso permite a directivos visualizar gráficos interactivos con dato
 #### Metadatos
 - **User Stories:** US-168, US-169
 - **Bounded Context:** Transversal (todos los BCs)  
-- **Application Service:** `AsambleaReportingService`
+- **Application Service:** `AssemblyReportingService`
 - **Aggregates:**
-  - BC-Membresia: **Socio**, **Ejercicio** (censo)
-  - BC-Tesoreria: **Movimiento**, **EjercicioContable** (cierre económico)
-  - BC-Eventos: **Evento** (memoria de actividades)
-  - BC-Documentos: **Acta** (actas previas)
+  - BC-Membership: **Member**, **FiscalYear** (censo)
+  - BC-Treasury: **Transaction**, **AccountingYear** (cierre económico)
+  - BC-Events: **Event** (memoria de actividades)
+  - BC-Documents: **Acta** (actas previas)
 - **Prioridad:** Must
 
 **Descripción:**
@@ -12239,7 +12239,7 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
 - **Secretario:** Aporta datos de actas y socios, puede generar secciones individuales
 
 #### Precondiciones
-- Ejercicio completado y cerrado (estado `cerrado`)
+- Ejercicio completado y cerrado (estado `CLOSED`)
 - Datos económicos validados por tesorero (flag `cuentas_aprobadas = true`)
 - Acta de Asamblea del ejercicio anterior aprobada (para sección de lectura)
 - Permisos `informes:asamblea:generate` (solo directivos)
@@ -12258,8 +12258,8 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
    - ✓ Anexos (listado nominal de socios, inventario de bienes)
 3. Presidente selecciona ejercicio (por defecto: último cerrado)
 4. Sistema valida precondiciones y muestra resumen de datos a incluir
-5. `AsambleaReportingService.generarMemoriaAnual(tenantId, ejercicioId, opciones)`
-   - Consulta datos agregados de BC-Membresia, BC-Tesoreria, BC-Eventos, BC-Documentos
+5. `AssemblyReportingService.generateAnnualReport(tenantId, fiscalYearId, options)`
+   - Consulta datos agregados de BC-Membership, BC-Treasury, BC-Events, BC-Documents
    - Genera estadísticas, tablas y gráficos para cada sección
    - Renderiza plantilla HTML con Handlebars (datos + branding del tenant)
    - Convierte HTML a PDF con Puppeteer (A4, márgenes 2cm, numeración páginas)
@@ -12270,7 +12270,7 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
    - Pie de página: "Memoria Anual [Ejercicio] - [Entidad] - Pág. X/Y"
 7. Sistema almacena PDF en Object Storage (S3) con path `tenants/{tenant_id}/informes/memoria-{ejercicio}.pdf`
 8. Sistema registra generación en auditoría con hash SHA-256 del PDF (integridad)
-9. Sistema muestra previsualización del PDF en navegador con opciones:
+9. Sistema muestra previsualización del PDF en navegador con options:
    - Descargar
    - Enviar por email a toda la Junta
    - Publicar en portal del socio (tras aprobación en Asamblea)
@@ -12299,7 +12299,7 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
 #### Flujos de Excepción
 
 **FE-1: Ejercicio no cerrado**
-- En paso 5, si `ejercicio.estado != 'cerrado'`:
+- En paso 5, si `fiscalYear.status != 'cerrado'`:
   - Sistema muestra advertencia: "El ejercicio [X] aún no está cerrado. Los datos pueden cambiar."
   - Permite generar borrador con marca de agua "BORRADOR - NO OFICIAL"
   - Bloquea publicación en portal hasta cierre formal
@@ -12326,7 +12326,7 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `InformeAsambleaGenerado` | `{ informeId: UUID, tenantId: UUID, ejercicioId: UUID, tipo: string, archivoUrl: string, generadoPor: UUID, timestamp: Date }` | Tras almacenar PDF en Object Storage (final del flujo) | BC-Documentos (archivar), BC-Comunicacion (notificar Junta), Sistema de Auditoría |
+| `AssemblyReportGenerated` | `{ informeId: UUID, tenantId: UUID, fiscalYearId: UUID, tipo: string, archivoUrl: string, generadoPor: UUID, timestamp: Date }` | Tras almacenar PDF en Object Storage (final del flujo) | BC-Documents (archivar), BC-Communication (notificar Junta), Sistema de Auditoría |
 
 *Este UC no consume eventos de otros BCs*
 
@@ -12338,7 +12338,7 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
 - Informe incluye datos de todos los BCs (censo, cierre económico, actividades, actas)
 - Firma digital del presidente/secretario embebida (si aplica)
 - Usuario notificado con enlace de descarga (expiración 7 días)
-- Evento de dominio `InformeAsambleaGenerado` emitido
+- Evento de dominio `AssemblyReportGenerated` emitido
 - Registro de auditoría de generación oficial
 
 **Fallo:**
@@ -12382,12 +12382,12 @@ Este caso de uso genera el documento PDF completo de memoria anual para presenta
 
 #### Metadatos
 - **User Stories:** US-170, US-171, US-172
-- **Bounded Context:** Transversal (BC-Eventos + BC-Documentos + BC-Membresia + BC-Tesoreria)  
-- **Application Service:** `CertificadosService`  
+- **Bounded Context:** Transversal (BC-Events + BC-Documents + BC-Membership + BC-Treasury)  
+- **Application Service:** `CertificateService`  
 - **Aggregates:**
-  - BC-Membresia: **Socio** (datos personales)
-  - BC-Tesoreria: **CuentaSocio** (estado de pagos)
-  - BC-Eventos: *Inscripcion* (histórico de participación)
+  - BC-Membership: **Member** (datos personales)
+  - BC-Treasury: **MemberAccount** (estado de pagos)
+  - BC-Events: *Inscripcion* (histórico de participación)
 - **Prioridad:** Could
 
 **Descripción:**
@@ -12418,10 +12418,10 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
    - Certificado de representación legal (solo presidente)
 3. Actor selecciona tipo y proporciona parámetros específicos (ej: evento, socio destinatario)
 4. Sistema valida precondiciones del certificado:
-   - **Al corriente:** Verifica `cuenta_socio.saldoPendiente = 0` y no hay cargos vencidos
+   - **Al corriente:** Verifica `member_account.pendingBalance = 0` y no hay cargos vencidos
    - **Asistencia:** Verifica inscripción con asistencia confirmada
    - **Junta:** Verifica cargos directivos activos
-5. `CertificadosService.generarCertificado(tenantId, tipo, parametros, userId)`
+5. `CertificateService.generateCertificate(tenantId, tipo, parameters, userId)`
    - Recupera plantilla Handlebars según tipo y branding del tenant
    - Extrae datos necesarios de BCs correspondientes (Socio, Evento, Cuenta, etc.)
    - Genera código único de verificación (UUID v4) y QR con URL pública
@@ -12430,7 +12430,7 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
    - Inserta firma digital embebida (imagen PNG del sello oficial del tenant)
 6. Sistema almacena certificado en S3 con path `tenants/{tenant_id}/certificados/{tipo}/{uuid}.pdf`
 7. Sistema registra en tabla `certificados_emitidos`:
-   - uuid, tipo, socioId, parametros (JSON), fechaEmision, emitioPor
+   - uuid, tipo, memberId, parameters (JSON), issueDate, emitioPor
    - hash SHA-256 del PDF para verificación de integridad
 8. Sistema emite evento `CertificadoEmitido`
 9. Actor descarga PDF o lo recibe por email
@@ -12493,12 +12493,12 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
 
 #### Interacciones entre BCs
 
-- **Transversal → BC-Membresia:** Consulta datos de Socio (nombre, número, estado) para certificado
-- **Transversal → BC-Tesoreria:** Verificación de saldo de CuentaSocio (para certificado "al corriente")
-- **Transversal → BC-Eventos:** Consulta de Inscripcion con asistencia confirmada (para certificado asistencia)
-- **Transversal → BC-Identidad:** Consulta cargos directivos activos (para certificado Junta)
-- **Transversal → BC-Documentos:** Almacenamiento de PDF generado como Documento oficial
-- **Transversal → BC-Comunicacion:** (opcional) Envío de certificado por email si solicitado
+- **Transversal → BC-Membership:** Consulta datos de Socio (nombre, número, estado) para certificado
+- **Transversal → BC-Treasury:** Verificación de saldo de MemberAccount (para certificado "al corriente")
+- **Transversal → BC-Events:** Consulta de Inscripcion con asistencia confirmada (para certificado asistencia)
+- **Transversal → BC-Identity:** Consulta cargos directivos activos (para certificado Junta)
+- **Transversal → BC-Documents:** Almacenamiento de PDF generado como Documento oficial
+- **Transversal → BC-Communication:** (opcional) Envío de certificado por email si solicitado
 
 **Nota:** Sistema de plantillas Handlebars permite generar certificados sin lógica hardcodeada. Cada tipo de certificado tiene su plantilla con placeholders específicos.
 
@@ -12521,7 +12521,7 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
 - Certificado de composición de Junta
 
 **Consideraciones de Seguridad:**
-- Validación `userId === socioId` para certificados propios
+- Validación `userId === memberId` para certificados propios
 - Código QR único con hash SHA-256 para verificación externa
 - Endpoint público `/verify/:uuid` sin autenticación
 
@@ -12553,15 +12553,15 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
 | UC-068 | Acceso al portal y autenticación | US-216, US-217, US-218 | Transversal | PortalAuthService | Must | Media |
-| UC-069 | Consulta de datos personales y cuotas | US-219, US-220, US-221, US-222, US-223 | Transversal | PortalConsultaService | Must | Baja |
-| UC-070 | Inscripción a eventos desde portal | US-224, US-225 | Transversal | PortalEventoInscripcionService | Should | Alta |
-| UC-071 | Descarga de documentos personales | US-226, US-227 | Transversal | PortalDocumentosPersonalesService | Should | Alta |
+| UC-069 | Consulta de datos personales y cuotas | US-219, US-220, US-221, US-222, US-223 | Transversal | PortalQueryService | Must | Baja |
+| UC-070 | Inscripción a eventos desde portal | US-224, US-225 | Transversal | PortalEventRegistrationService | Should | Alta |
+| UC-071 | Descarga de documentos personales | US-226, US-227 | Transversal | PortalPersonalDocumentsService | Should | Alta |
 
 **Total Transversal Portal Socio:** 4 UCs cubriendo 12 User Stories (US-216 a US-227)
 
 **Highlights técnicos:**
-- UC-068: JWT con claims `{ userId, socioId, tenantId }`, refresh tokens
-- UC-069: Validación crítica `userId === socioId` en TODAS las operaciones
+- UC-068: JWT con claims `{ userId, memberId, tenantId }`, refresh tokens
+- UC-069: Validación crítica `userId === memberId` en TODAS las operaciones
 - UC-070: Integración pasarela pago (UC-025), webhooks, QR confirmación
 - UC-071: QR carnet cifrado AES-256-GCM, URLs S3 firmadas 5 min
 
@@ -12571,18 +12571,18 @@ Este caso de uso permite generar certificados PDF personalizables mediante siste
 
 #### Metadatos
 - **User Stories:** US-173, US-174, US-175
-- **Bounded Context:** Transversal (BC-Identidad para autenticación)
-- **Application Service:** PortalSocioService.autenticarSocio()
+- **Bounded Context:** Transversal (BC-Identity para autenticación)
+- **Application Service:** PortalMemberService.authenticateMember()
 - **Aggregates:**
-  - BC-Identidad: Usuario (credenciales, sesiones)
-  - BC-Membresia: Socio (verificar estado activo)
+  - BC-Identity: Usuario (credenciales, sesiones)
+  - BC-Membership: Socio (verificar estado activo)
 - **Prioridad:** Must
 
 **Descripción:**  
 Portal web progresivo (PWA) para que socios consulten su información sin contactar a la directiva. Autenticación con email/contraseña o enlace mágico (magic link). Diseño responsive adaptado a móviles.
 
 #### Actores
-- **Socio** (accede a su información)
+- **Member** (accede a su información)
 
 #### Precondiciones
 - Socio registrado en el sistema con email válido
@@ -12648,9 +12648,9 @@ Portal web progresivo (PWA) para que socios consulten su información sin contac
 
 #### Interacciones entre BCs
 
-- **BC-Identidad → BC-Membresia:** Verificación de estado de Socio (debe ser ACTIVO)
-- **BC-Identidad → BC-Comunicacion:** Envío de email con magic link (vía evento o directa)
-- **BC-Identidad:** Generación y validación de tokens JWT internamente
+- **BC-Identity → BC-Membership:** Verificación de estado de Socio (debe ser ACTIVO)
+- **BC-Identity → BC-Communication:** Envío de email con magic link (vía evento o directa)
+- **BC-Identity:** Generación y validación de tokens JWT internamente
 **Nota:** Portal de Socio usa autenticación simplificada (solo rol `socio`). No requiere selector de tenant como panel administrativo.
 
 #### Eventos de Dominio
@@ -12659,7 +12659,7 @@ Portal web progresivo (PWA) para que socios consulten su información sin contac
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `MagicLinkGenerado` | usuarioId, token, email | Al generar el documento/elemento | BC-Comunicacion (envío email) |
+| `MagicLinkGenerado` | usuarioId, token, email | Al generar el documento/elemento | BC-Communication (envío email) |
 
 *Este UC no consume eventos de otros BCs*
 
@@ -12667,7 +12667,7 @@ Portal web progresivo (PWA) para que socios consulten su información sin contac
 
 **Éxito:**
 - Sesión de socio creada en Portal con JWT válido
-- JWT contiene claims: `sub` (userId), `tenant_id`, `socioId`, `rol`
+- JWT contiene claims: `sub` (userId), `tenant_id`, `memberId`, `rol`
 - Socio puede acceder a su información personal y funcionalidades del portal
 - Magic link consumido y marcado como usado (un solo uso)
 - Evento de dominio `SocioAutenticado` emitido con datos de auditoría
@@ -12714,32 +12714,32 @@ Portal web progresivo (PWA) para que socios consulten su información sin contac
 
 #### Metadatos
 - **User Stories:** US-176, US-177, US-178, US-179, US-180
-- **Bounded Context:** Transversal (BC-Membresia + BC-Tesoreria)
-- **Application Service:** PortalSocioService.consultarDatosSocio()
+- **Bounded Context:** Transversal (BC-Membership + BC-Treasury)
+- **Application Service:** PortalMemberService.getMemberData()
 - **Aggregates:**
-  - BC-Membresia: Socio (datos personales, historial)
-  - BC-Tesoreria: CuentaSocio (saldo, cuotas pendientes)
-  - BC-Membresia: Carnet (carnet digital)
+  - BC-Membership: Socio (datos personales, historial)
+  - BC-Treasury: MemberAccount (saldo, cuotas pendientes)
+  - BC-Membership: Carnet (carnet digital)
 - **Prioridad:** Must
 
 **Descripción:**  
 Socios consultan y actualizan sus datos personales, ven estado de cuotas y descargan recibos. Reduce carga de consultas a la junta directiva.
 
 #### Actores
-- **Socio** (consulta su información)
+- **Member** (consulta su información)
 
 #### Precondiciones
 - Socio autenticado en portal con JWT válido
 - Socio con estado `ACTIVA`, `BAJA_TEMPORAL` o `BAJA_VOLUNTARIA` (acceso a datos históricos)
-- CuentaSocio creada en BC-Tesoreria para consulta de cuotas
+- MemberAccount creada en BC-Treasury para consulta de cuotas
 
 #### Flujo Normal
 
 1. Socio accede a sección "Mis datos" desde el menú principal del portal
-2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `socioId`
-3. Sistema invoca `PortalConsultaService.obtenerMisDatos(socioId)`:
-   - Validación CRÍTICA: `userId === socioId` (prevenir acceso a datos de otros socios)
-   - Recupera entidad `Socio` desde BC-Membresia mediante repositorio
+2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `memberId`
+3. Sistema invoca `PortalQueryService.getMyData(memberId)`:
+   - Validación CRÍTICA: `userId === memberId` (prevenir acceso a datos de otros socios)
+   - Recupera entidad `Socio` desde BC-Membership mediante repositorio
    - Extrae datos personales completos del aggregate
    - Censura parcialmente DNI (muestra solo últimos 4 dígitos: `12345***A`)
    - Identifica campos editables por el socio: email, teléfono, dirección
@@ -12749,12 +12749,12 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
    - Datos de membresía: fecha de alta, tipo de socio, estado actual
    - Indicadores visuales: campos editables con icono de lápiz, campos bloqueados con icono de candado
 5. Socio navega a pestaña "Mis cuotas" desde la misma vista
-6. Sistema invoca `PortalConsultaService.obtenerEstadoCuotas(socioId)`:
-   - Recupera entidad `CuentaSocio` desde BC-Tesoreria mediante `socioId` como criterio de búsqueda
-   - Obtiene ejercicio actual mediante `EjercicioService.obtenerActual()` (BC-Membresia)
+6. Sistema invoca `PortalQueryService.getFeeStatus(memberId)`:
+   - Recupera entidad `MemberAccount` desde BC-Treasury mediante `memberId` como criterio de búsqueda
+   - Obtiene ejercicio actual mediante `FiscalYearService.getCurrent()` (BC-Membership)
    - Consulta todos los cargos asociados a la cuenta en el ejercicio actual
    - Recupera movimientos de pago vinculados a esos cargos
-   - Calcula estado de pago actual: `AL_CORRIENTE`, `PENDIENTE`, `MOROSO`
+   - Calcula estado de pago actual: `AL_CORRIENTE`, `PENDING`, `MOROSO`
    - Calcula saldo pendiente acumulado (suma de cargos no cobrados)
 7. Sistema construye DTO con información consolidada:
    - Estado general de pago (indicador visual: ✅ al corriente, ⚠️ pendiente, ❌ moroso)
@@ -12766,7 +12766,7 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
    - Tabla histórica de cuotas con filtros por ejercicio
    - Badge visual por cuota: "Pagado" (verde), "Pendiente" (amarillo), "Vencido" (rojo)
    - Botón "Descargar recibo" en cada cuota pagada
-9. Si socio tiene carnet activo (verificar en BC-Membresia):
+9. Si socio tiene carnet activo (verificar en BC-Membership):
    - Sistema muestra sección adicional "Mi carnet digital"
    - Renderiza preview del carnet con foto, datos y código QR
    - Opciones: "Descargar PDF", "Añadir a wallet móvil"
@@ -12805,16 +12805,16 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
 #### Flujos de Excepción
 
 **FE-1: Socio intenta acceder a datos de otro socio**
-- Si socio manipula URL con `socioId` diferente:
-  - Sistema valida que `JWT.socioId === requested_socioId`
+- Si socio manipula URL con `memberId` diferente:
+  - Sistema valida que `JWT.memberId === requested_memberId`
   - Si no coincide, lanza `ForbiddenException`
   - Respuesta HTTP 403 Forbidden
   - Registra intento en auditoría (posible ataque)
 
-**FE-2: Error al consultar estado de cuotas (BC-Tesoreria caído)**
-- Si BC-Tesoreria no responde:
+**FE-2: Error al consultar estado de cuotas (BC-Treasury caído)**
+- Si BC-Treasury no responde:
   - Sistema muestra: "Estado de cuotas temporalmente no disponible"
-  - Muestra solo datos personales (disponibles en BC-Membresia)
+  - Muestra solo datos personales (disponibles en BC-Membership)
   - Opción: "Reintentar" o "Contactar con tesorería"
 
 **FE-3: Socio sin cuotas configuradas (recién dado de alta)**
@@ -12836,15 +12836,15 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
 
 #### Interacciones entre BCs
 
-- **Portal → BC-Membresia:** Consulta de datos de Socio (GET)
-- **Portal → BC-Tesoreria:** Consulta de CuentaSocio y Cargos pendientes (GET)
-- **Portal → BC-Membresia:** Actualización de datos personales (PUT) - validación previa
+- **Portal → BC-Membership:** Consulta de datos de Socio (GET)
+- **Portal → BC-Treasury:** Consulta de MemberAccount y Cargos pendientes (GET)
+- **Portal → BC-Membership:** Actualización de datos personales (PUT) - validación previa
 
 #### Postcondiciones
 
 **Éxito:**
 - Datos personales del socio consultados y devueltos
-- Estado de cuotas (pendientes/pagadas) consultado desde BC-Tesoreria
+- Estado de cuotas (pendientes/pagadas) consultado desde BC-Treasury
 - Carnet digital disponible para descarga si socio tiene carnet activo
 - Recibos de pagos disponibles para descarga individual
 - Registro de acceso en auditoría (datos sensibles)
@@ -12852,7 +12852,7 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
 
 **Fallo:**
 - Usuario notificado de error en consulta (timeout, BD no disponible)
-- Validación `userId === socioId` rechaza acceso a datos de otros socios
+- Validación `userId === memberId` rechaza acceso a datos de otros socios
 - Carnet no disponible si socio sin carnet activo o ejercicio no vigente
 - Recibo no disponible si pago no encontrado o socio incorrecto
 - Error registrado en logs con detalle de consulta fallida
@@ -12879,11 +12879,11 @@ Socios consultan y actualizan sus datos personales, ven estado de cuotas y desca
 
 #### Metadatos
 - **User Stories:** US-181, US-182, US-183
-- **Bounded Context:** Transversal (BC-Eventos + BC-Tesoreria)
-- **Application Service:** PortalSocioService.inscribirseEvento()
+- **Bounded Context:** Transversal (BC-Events + BC-Treasury)
+- **Application Service:** PortalMemberService.registerForEvent()
 - **Aggregates:**
-  - BC-Eventos: Evento (consulta), Inscripcion (crear/cancelar)
-  - BC-Tesoreria: Cargo (si evento tiene coste)
+  - BC-Events: Evento (consulta), Inscripcion (crear/cancelar)
+  - BC-Treasury: Cargo (si evento tiene coste)
 - **Prioridad:** Should
 
 **Descripción:**
@@ -12900,14 +12900,14 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 #### Precondiciones
 - Socio autenticado en portal con JWT válido
 - Socio con estado `ACTIVO` o `BAJA_TEMPORAL` (no `BAJA_DEFINITIVA`)
-- Evento con inscripción abierta (`fecha_actual >= configInscripcion.fechaApertura AND fecha_actual <= configInscripcion.fechaCierre`)
+- Evento con inscripción abierta (`fecha_actual >= configInscripcion.openDate AND fecha_actual <= configInscripcion.closeDate`)
 - Evento con plazas disponibles (`inscripciones.count < aforo`) o aforo ilimitado (`aforo = null`)
 
 #### Flujo Normal
 
 1. Socio accede a sección "Eventos" del portal
-2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `socioId`
-3. Sistema recupera listado de eventos con inscripción abierta de BC-Eventos, filtrados por `tenantId`
+2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `memberId`
+3. Sistema recupera listado de eventos con inscripción abierta de BC-Events, filtrados por `tenantId`
 4. Frontend muestra catálogo de eventos en formato cards con información resumida:
    - Nombre evento, fecha/hora, ubicación
    - Plazas disponibles (ej: "120/200" o "Ilimitadas")
@@ -12917,31 +12917,31 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 6. Sistema muestra modal con información completa del evento y formulario de inscripción
 7. Socio completa campos adicionales si el evento los requiere (ej: menú, alergias, acompañantes)
 8. Socio pulsa "Confirmar inscripción"
-9. `PortalEventoInscripcionService.iniciarInscripcion(tenantId, eventoId, socioId, userId, datosInscripcion)` ejecuta:
-   - Validación CRÍTICA: `userId === socioId` (seguridad self-service)
+9. `PortalEventRegistrationService.startRegistration(tenantId, eventId, memberId, userId, registrationData)` ejecuta:
+   - Validación CRÍTICA: `userId === memberId` (seguridad self-service)
    - Verifica estado del socio (debe estar ACTIVO o BAJA_TEMPORAL)
    - Verifica cupo disponible con lock optimista
    - Verifica que socio no esté ya inscrito
-   - Si evento es gratuito (`precioInscripcion === 0`): crea inscripción directa con estado CONFIRMADA (ir a paso 13)
-   - Si evento requiere pago: crea pre-inscripción con estado PENDIENTE_PAGO y continúa
+   - Si evento es gratuito (`registrationPrice === 0`): crea inscripción directa con estado CONFIRMED (ir a paso 13)
+   - Si evento requiere pago: crea pre-inscripción con estado PENDING_PAGO y continúa
 10. Sistema invoca `PaymentService.createPaymentIntent()` (reutiliza UC-025):
     - Crea intención de pago en Stripe/Redsys
-    - Genera cargo pendiente en BC-Tesoreria vinculado a la inscripción
+    - Genera cargo pendiente en BC-Treasury vinculado a la inscripción
     - Retorna `clientSecret` para procesar pago en frontend
 11. Frontend renderiza modal de pasarela de pago con soporte 3DS2:
     - Integra Stripe Elements o TPV virtual Redsys
     - Maneja autenticación Strong Customer Authentication (SCA)
 12. Usuario completa pago y pasarela procesa transacción:
     - Webhook de pasarela notifica resultado al backend (ver UC-025)
-    - `PaymentWebhookHandler` valida firma, confirma pago, emite evento `PagoConfirmado`
-    - `PortalEventoInscripcionService` escucha evento, actualiza inscripción a estado CONFIRMADA
-13. Sistema emite Domain Event `InscripcionRealizada`:
-    - Payload: `{ inscripcionId, eventoId, socioId, fechaInscripcion, precioInscripcion, estadoPago }`
-    - Consumidores: BC-Comunicacion (email confirmación), BC-Tesoreria (registrar cobro si pago inmediato)
-14. `ComunicacionService` genera email automático con:
+    - `PaymentWebhookHandler` valida firma, confirma pago, emite evento `PaymentConfirmed`
+    - `PortalEventRegistrationService` escucha evento, actualiza inscripción a estado CONFIRMED
+13. Sistema emite Domain Event `RegistrationCompleted`:
+    - Payload: `{ registrationId, eventId, memberId, registrationDate, registrationPrice, paymentStatus }`
+    - Consumidores: BC-Communication (email confirmación), BC-Treasury (registrar cobro si pago inmediato)
+14. `CommunicationService` genera email automático con:
     - Confirmación de inscripción
     - Detalles del evento (fecha, hora, ubicación)
-    - Código QR único para check-in (payload: `{ inscripcionId, socioId, tenantId, hash }`)
+    - Código QR único para check-in (payload: `{ registrationId, memberId, tenantId, hash }`)
     - Instrucciones para cancelación si aplica
 15. Frontend muestra confirmación: "Inscripción completada. Revise su email para ver el código QR"
 16. Sistema registra operación en auditoría con timestamp, IP y user agent
@@ -12949,9 +12949,9 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 #### Flujos Alternativos
 
 **FA-1: Inscripción a evento gratuito (sin pago)**
-- Paso 9: Si `evento.precioInscripcion === 0`:
+- Paso 9: Si `evento.registrationPrice === 0`:
   - Sistema omite pasos 10-12 (pasarela de pago)
-  - Crea inscripción directamente con estado CONFIRMADA
+  - Crea inscripción directamente con estado CONFIRMED
   - Continúa en paso 13 (emitir evento, enviar email)
 
 **FA-2: Evento con aforo completo durante inscripción**
@@ -12965,15 +12965,15 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 - Si evento con aforo completo tiene lista de espera habilitada:
   - Sistema permite crear inscripción con estado EN_LISTA_ESPERA
   - Socio recibe email: "Estás en lista de espera. Te notificaremos si se libera plaza"
-  - Cuando otro socio cancela → evento `PlazaLiberada` activa workflow automático
+  - Cuando otro socio cancela → evento `SlotReleased` activa workflow automático
 
 **FA-4: Cancelación de inscripción**
 - Socio accede a "Mis inscripciones" en portal
 - Pulsa "Cancelar inscripción" (solo si `fecha_evento > hoy + plazo_cancelacion`)
 - Sistema:
-  - Cambia estado inscripción a CANCELADA
+  - Cambia estado inscripción a CANCELLED
   - Si hubo pago: genera reembolso o crédito según política
-  - Emite evento `InscripcionCancelada` → libera plaza, notifica lista de espera
+  - Emite evento `RegistrationCancelled` → libera plaza, notifica lista de espera
 
 #### Flujos de Excepción
 
@@ -12983,28 +12983,28 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 - Frontend: "No tiene permisos para inscribirse a este evento"
 
 **FE-2: Socio ya inscrito al evento**
-- Paso 9: Sistema consulta `inscripciones` del evento
-- Si existe inscripción activa con mismo `socioId`:
+- Paso 9: Sistema consulta `registrations` del evento
+- Si existe inscripción activa con mismo `memberId`:
   - Lanza `InscripcionDuplicadaException` (HTTP 409)
   - Frontend: "Ya estás inscrito a este evento. Consulta 'Mis inscripciones'"
 
 **FE-3: Error en pasarela de pago**
 - Paso 12: Si pago rechazado (tarjeta sin fondos, 3DS fallido, etc.):
   - Webhook recibe `payment_intent.payment_failed`
-  - Sistema mantiene inscripción en PENDIENTE_PAGO
+  - Sistema mantiene inscripción en PENDING_PAGO
   - Envía email: "El pago no pudo procesarse. Intenta nuevamente o contacta con tesorería"
   - Frontend muestra error específico de pasarela
 
 **FE-4: Socio con estado BAJA_DEFINITIVA**
-- Paso 9: Sistema valida `socio.estadoActual NOT IN ('BAJA_DEFINITIVA', 'BAJA_DISCIPLINARIA')`
+- Paso 9: Sistema valida `socio.currentStatus NOT IN ('BAJA_DEFINITIVA', 'BAJA_DISCIPLINARIA')`
 - Si estado inválido:
   - Lanza `SocioInactivoException` (HTTP 403)
   - Frontend: "No puedes inscribirte a eventos estando dado de baja"
 
-**FE-5: Validación userId != socioId (intento de suplantación)**
-- Paso 9: Si `userId !== socioId` (socio intenta inscribir a otro):
+**FE-5: Validación userId != memberId (intento de suplantación)**
+- Paso 9: Si `userId !== memberId` (socio intenta inscribir a otro):
   - Lanza `ForbiddenException` (HTTP 403)
-  - Log de seguridad: `ALERTA: userId ${userId} intentó inscribir a socioId ${socioId}`
+  - Log de seguridad: `ALERTA: userId ${userId} intentó inscribir a memberId ${memberId}`
   - Frontend: "No puede inscribir a otros socios"
 
 #### Eventos de Dominio
@@ -13013,27 +13013,27 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 
 | Evento | Payload | Cuándo se emite | Consumidores potenciales |
 |--------|---------|-----------------|--------------------------|
-| `InscripcionRealizada` | `{ inscripcionId: UUID, eventoId: UUID, socioId: UUID, tenantId: UUID, plazasReservadas: number, importeTotal: number, metodoPago: string, timestamp: Date }` | Tras crear inscripción exitosamente y procesar pago (final del flujo) | BC-Tesoreria (UC-020: crear cargo), BC-Comunicacion (UC-047: email confirmación) |
+| `RegistrationCompleted` | `{ registrationId: UUID, eventId: UUID, memberId: UUID, tenantId: UUID, plazasReservadas: number, totalAmount: number, paymentMethod: string, timestamp: Date }` | Tras crear inscripción exitosamente y procesar pago (final del flujo) | BC-Treasury (UC-020: crear cargo), BC-Communication (UC-047: email confirmación) |
 
 *Este UC no consume eventos de otros BCs*
 
 #### Interacciones entre BCs
 
-- **Portal → BC-Eventos:** Consulta de eventos disponibles y plazas (GET)
-- **Portal → BC-Eventos:** Crear Inscripcion (POST)
-- **BC-Eventos → BC-Tesoreria:** Crear Cargo si evento tiene coste (Domain Event)
-- **BC-Eventos → BC-Comunicacion:** Enviar confirmación/cancelación (Domain Event)
+- **Portal → BC-Events:** Consulta de eventos disponibles y plazas (GET)
+- **Portal → BC-Events:** Crear Inscripcion (POST)
+- **BC-Events → BC-Treasury:** Crear Cargo si evento tiene coste (Domain Event)
+- **BC-Events → BC-Communication:** Enviar confirmación/cancelación (Domain Event)
 
 #### Postcondiciones
 
 **Éxito:**
-- Inscripción creada en BC-Eventos con estado Confirmada/Pendiente Pago
+- Inscripción creada en BC-Events con estado Confirmada/Pendiente Pago
 - Plazas de aforo decrementadas con lock optimista (race condition evitada)
-- Cargo generado en BC-Tesoreria si evento tiene coste
+- Cargo generado en BC-Treasury si evento tiene coste
 - Pago procesado vía pasarela (Stripe/Redsys) si requiere pago online
 - Email de confirmación enviado con código QR para check-in
-- Código QR cifrado con AES-256-GCM (payload: inscripcionId, socioId, eventoId)
-- Evento de dominio `InscripcionRealizada` emitido
+- Código QR cifrado con AES-256-GCM (payload: registrationId, memberId, eventId)
+- Evento de dominio `RegistrationCompleted` emitido
 - Registro de auditoría de inscripción
 
 **Fallo:**
@@ -13055,7 +13055,7 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 **RNF Relacionados:**
 - RNFT-016: Validación de aforo en tiempo real
 - RNFT-024: Gestión de concurrencia (evitar sobreventa)
-- RNF-013: Segregación datos (validación userId === socioId)
+- RNF-013: Segregación datos (validación userId === memberId)
 - RNFT-015: Lock optimista en control de aforo
 
 **Casos especiales:**
@@ -13065,7 +13065,7 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 
 **Seguridad:**
 - Rate limiting 10 req/min por socio
-- Validación estricta userId === socioId
+- Validación estricta userId === memberId
 - Logging de auditoría con IP y timestamp
 
 **Librerías:**
@@ -13075,8 +13075,8 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 
 ##### Aspectos de Seguridad (CRÍTICO)
 
-- ❌ **NUNCA confiar en socioId de path/query params** → Extraer de JWT (`req.user.socioId`)
-- ✅ **Validar userId == socioId** en Application Service (doble check tras SocioGuard)
+- ❌ **NUNCA confiar en memberId de path/query params** → Extraer de JWT (`req.user.memberId`)
+- ✅ **Validar userId == memberId** en Application Service (doble check tras SocioGuard)
 - ✅ **Validar tenantId del evento** == tenantId del socio para prevenir cross-tenant access
 - ✅ **Validar firma de webhooks** de pasarela (Stripe signature, Redsys SHA256)
 - ✅ **Lock optimista** en transacciones de inscripción para prevenir overbooking
@@ -13089,18 +13089,18 @@ Este caso de uso materializa la filosofía self-service del portal del socio, re
 
 #### Metadatos
 - **User Stories:** US-184, US-185, US-186, US-187
-- **Bounded Context:** Transversal (BC-Documentos + BC-Membresia + BC-Tesoreria)
-- **Application Service:** PortalSocioService.descargarDocumento()
+- **Bounded Context:** Transversal (BC-Documents + BC-Membership + BC-Treasury)
+- **Application Service:** PortalMemberService.downloadDocument()
 - **Aggregates:**
-  - BC-Documentos: Documento (consulta y descarga)
-  - BC-Membresia: Carnet (descarga carnet digital)
+  - BC-Documents: Documento (consulta y descarga)
+  - BC-Membership: Carnet (descarga carnet digital)
 - **Prioridad:** Should
 
 **Descripción:**
 
 Permite a los socios descargar documentación personal digitalizada desde el portal: carnet digital con código QR único y cifrado, recibos de cuotas pagadas, certificados anuales de pagos para deducciones fiscales (Ley 49/2002 de mecenazgo), y documentos vinculados a su expediente personal. El sistema genera archivos bajo demanda con seguridad máxima, garantizando que cada socio solo pueda acceder a sus propios documentos mediante validaciones estrictas de identidad basadas en JWT.
 
-Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo payload `{ socioId, tenantId, ejercicioId, expiresAt }` verificable mediante clave secreta del tenant. Los recibos se generan dinámicamente con PDFKit cumpliendo requisitos fiscales españoles (Ley General Tributaria). Todos los archivos sensibles se almacenan en Object Storage con URLs firmadas de corta duración (5 minutos) para prevenir acceso no autorizado.
+Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo payload `{ memberId, tenantId, fiscalYearId, expiresAt }` verificable mediante clave secreta del tenant. Los recibos se generan dinámicamente con PDFKit cumpliendo requisitos fiscales españoles (Ley General Tributaria). Todos los archivos sensibles se almacenan en Object Storage con URLs firmadas de corta duración (5 minutos) para prevenir acceso no autorizado.
 
 #### Actores
 
@@ -13111,12 +13111,12 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 - Socio autenticado en portal con JWT válido
 - Socio con estado `ACTIVO`, `BAJA_TEMPORAL` o `BAJA_VOLUNTARIA` (histórico accesible)
 - Para carnet digital: ejercicio activo con carnet emitido para el socio
-- Para recibos: pagos registrados en BC-Tesoreria vinculados al socio
+- Para recibos: pagos registrados en BC-Treasury vinculados al socio
 
 #### Flujo Normal
 
 1. Socio accede a sección "Mis Documentos" del portal
-2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `socioId`
+2. Sistema valida autenticación JWT y extrae `userId`, `tenantId`, `memberId`
 3. Sistema consulta documentos personales disponibles:
    - Carnet digital del ejercicio activo (si existe)
    - Recibos de cuotas pagadas (últimos 5 años)
@@ -13131,8 +13131,8 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 **Descarga de carnet digital (US-179):**
 
 5. Socio pulsa "Descargar Carnet Digital"
-6. `PortalDocumentosPersonalesService.generarCarnetDigital(tenantId, socioId, userId)` ejecuta:
-   - Validación CRÍTICA: `userId === socioId`
+6. `PortalPersonalDocumentsService.generateDigitalCard(tenantId, memberId, userId)` ejecuta:
+   - Validación CRÍTICA: `userId === memberId`
    - Recupera datos del socio (nombre, apellidos, foto, número socio, tipo)
    - Recupera ejercicio activo y verifica que socio tenga carnet emitido
    - Recupera configuración de branding del tenant (logo, colores)
@@ -13143,19 +13143,19 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
    - QR: Código cifrado (centro inferior, 150x150px)
    - Pie: "Válido hasta: 31/12/2025" (fecha fin ejercicio)
 9. Sistema sube PDF a Object Storage (MinIO/S3):
-   - Path: `tenants/{tenantId}/carnets/{socioId}/{ejercicioId}.pdf`
+   - Path: `tenants/{tenantId}/carnets/{memberId}/{fiscalYearId}.pdf`
    - Genera URL firmada con expiración 5 minutos
 10. Sistema retorna `{ downloadUrl: signed_url, expiresIn: 300 }`
 11. Frontend descarga archivo automáticamente mediante `<a download>`
-12. Sistema registra acceso en auditoría: `{ accion: 'DESCARGA_CARNET', socioId, timestamp, ip }`
+12. Sistema registra acceso en auditoría: `{ accion: 'DESCARGA_CARNET', memberId, timestamp, ip }`
 
 **Descarga de recibos (US-178):**
 
 13. Socio pulsa "Descargar Recibo" junto a pago específico
-14. `PortalDocumentosPersonalesService.generarRecibo(tenantId, pagoId, socioId, userId)` ejecuta:
-    - Validación CRÍTICA: `userId === socioId`
-    - Recupera pago de BC-Tesoreria con cargo vinculado
-    - Valida que `pago.cuentaSocio.socioId === socioId` (seguridad)
+14. `PortalPersonalDocumentsService.generateReceipt(tenantId, paymentId, memberId, userId)` ejecuta:
+    - Validación CRÍTICA: `userId === memberId`
+    - Recupera pago de BC-Treasury con cargo vinculado
+    - Valida que `payment.memberAccount.memberId === memberId` (seguridad)
     - Recupera datos fiscales del tenant (CIF, razón social, dirección)
 15. Sistema genera PDF del recibo con formato fiscal:
     - Cabecera: Datos tenant (nombre, CIF, dirección)
@@ -13172,8 +13172,8 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 **Descarga de certificado anual (US-178):**
 
 18. Socio pulsa "Certificado Anual 2024"
-19. `PortalDocumentosPersonalesService.generarCertificadoAnual(tenantId, ejercicioId, socioId, userId)` ejecuta:
-    - Validación CRÍTICA: `userId === socioId`
+19. `PortalPersonalDocumentsService.generateAnnualCertificate(tenantId, fiscalYearId, memberId, userId)` ejecuta:
+    - Validación CRÍTICA: `userId === memberId`
     - Recupera TODOS los pagos del socio en el ejercicio especificado
     - Calcula total pagado en el ejercicio
 20. Sistema genera PDF de certificado fiscal:
@@ -13219,13 +13219,13 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 #### Flujos de Excepción
 
 **FE-1: Socio intenta descargar carnet de otro socio**
-- Paso 6: Sistema valida `userId !== socioId`
+- Paso 6: Sistema valida `userId !== memberId`
 - Lanza `ForbiddenException` (HTTP 403)
-- Log de seguridad: `ALERTA: userId ${userId} intentó descargar carnet de socioId ${socioId}`
+- Log de seguridad: `ALERTA: userId ${userId} intentó descargar carnet de memberId ${memberId}`
 - Frontend: "No puede acceder a documentos de otros socios"
 
 **FE-2: Socio intenta descargar recibo de otro socio**
-- Paso 14: Sistema valida `pago.cuentaSocio.socioId !== socioId`
+- Paso 14: Sistema valida `payment.memberAccount.memberId !== memberId`
 - Lanza `ForbiddenException` (HTTP 403)
 - Log de seguridad con detalles del intento
 - Frontend: "Recibo no encontrado"
@@ -13257,9 +13257,9 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 
 #### Interacciones entre BCs
 
-- **Portal → BC-Documentos:** Consulta de documentos del socio con permisos (GET)
-- **Portal → BC-Documentos:** Generar signed URL de S3 para descarga (GET)
-- **Portal → BC-Membresia:** Generar carnet digital on-demand (GET)
+- **Portal → BC-Documents:** Consulta de documentos del socio con permisos (GET)
+- **Portal → BC-Documents:** Generar signed URL de S3 para descarga (GET)
+- **Portal → BC-Membership:** Generar carnet digital on-demand (GET)
 
 #### Postcondiciones
 
@@ -13268,13 +13268,13 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 - Archivo almacenado en Object Storage con ruta segura
 - Signed URL generada con expiración de 5 minutos para descarga
 - Carnet digital incluye código QR cifrado con AES-256-GCM
-- QR payload incluye: `socioId`, `tenantId`, `carnetId`, `expiresAt`
+- QR payload incluye: `memberId`, `tenantId`, `carnetId`, `expiresAt`
 - Documento PDF compatible con PDF/A si es oficial
 - Registro de auditoría de descarga (documento, socio, timestamp)
 - Apple Wallet / Google Pay pass generado si solicitado (formato pkpass/json)
 
 **Fallo:**
-- Descarga rechazada si validación `userId !== socioId` falla (ForbiddenException)
+- Descarga rechazada si validación `userId !== memberId` falla (ForbiddenException)
 - Documento no generado si socio no tiene derecho (ej: sin carnet activo)
 - Recibo no disponible si pago no encontrado o pertenece a otro socio
 - Certificado rechazado si socio no cumple requisitos (ej: no al corriente)
@@ -13292,7 +13292,7 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 **RNF Relacionados:**
 - RNFT-022: Pre-visualización en navegador (PDF, imágenes)
 - RNFT-009: Documentos cifrados en S3
-- RNF-013: Segregación datos (validación userId === socioId)
+- RNF-013: Segregación datos (validación userId === memberId)
 - RNFT-064: Logging con Sentry
 
 **Tipos de documentos:**
@@ -13305,7 +13305,7 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 - QR codes cifrados con AES-256-GCM
 - URLs firmadas S3/MinIO (expiración 5 minutos)
 - Rate limiting 20 req/min por socio
-- Validación estricta userId === socioId
+- Validación estricta userId === memberId
 
 **Librerías:**
 - `pdfkit` (generación PDF)
@@ -13319,13 +13319,13 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 
 ##### Aspectos de Seguridad (CRÍTICO)
 
-- ❌ **NUNCA confiar en socioId de path/query params** → Extraer de JWT (`req.user.socioId`)
-- ✅ **Validar userId == socioId** en Application Service antes de cualquier operación
+- ❌ **NUNCA confiar en memberId de path/query params** → Extraer de JWT (`req.user.memberId`)
+- ✅ **Validar userId == memberId** en Application Service antes de cualquier operación
 - ✅ **URLs S3 firmadas** con expiración 5 minutos, regenerar si caduca en frontend
-- ✅ **QR codes cifrados** con AES-256-GCM, payload incluye `{ socioId, tenantId, expiresAt, carnetId }`, verificable con clave secreta tenant
-- ✅ **Validar propiedad de recursos:** Al descargar recibo, verificar `pago.cuentaSocio.socioId === socioId`
+- ✅ **QR codes cifrados** con AES-256-GCM, payload incluye `{ memberId, tenantId, expiresAt, carnetId }`, verificable con clave secreta tenant
+- ✅ **Validar propiedad de recursos:** Al descargar recibo, verificar `payment.memberAccount.memberId === memberId`
 - ✅ **Rate limiting** estricto: 20 req/min por socio en endpoints de generación (prevenir abuso)
-- ✅ **Logging de auditoría** completo: cada descarga registra `{ socioId, tipoDocumento, timestamp, ip, userAgent }`
+- ✅ **Logging de auditoría** completo: cada descarga registra `{ memberId, tipoDocumento, timestamp, ip, userAgent }`
 - ✅ **Protección de claves secretas:** `tenant.secretKey` NUNCA expuesta en APIs, almacenada cifrada en BD, rotar periódicamente
 - ✅ **Validación de tenantId:** En verificación de QR, asegurar que `payload.tenantId === tenantId` solicitante (prevenir cross-tenant attacks)
 
@@ -13337,11 +13337,11 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 
 | UC | Nombre UC | User Stories | BC | Application Service | Prioridad | Complejidad |
 |----|-----------|--------------|-----|---------------------|-----------|-------------|
-| UC-072 | Gestión RGPD y consentimientos | US-188, US-189, US-194 | BC-Cumplimiento | CumplimientoService | Must | Alta |
-| UC-073 | Ejercicio de derechos ARCO | US-190, US-191, US-192, US-193 | BC-Cumplimiento | CumplimientoService | Must | Alta |
-| UC-074 | Cumplimiento Ley de Asociaciones | US-195, US-196, US-197, US-198 | BC-Cumplimiento | CumplimientoService | Must | Media |
-| UC-075 | Alertas legales automáticas | US-199, US-200 | BC-Cumplimiento | CumplimientoService | Should | Media |
-| UC-076 | Alertas fiscales y tributarias | US-201, US-202 | BC-Cumplimiento | CumplimientoService | Should | Media |
+| UC-072 | Gestión RGPD y consents | US-188, US-189, US-194 | BC-Cumplimiento | ComplianceService | Must | Alta |
+| UC-073 | Ejercicio de derechos ARCO | US-190, US-191, US-192, US-193 | BC-Cumplimiento | ComplianceService | Must | Alta |
+| UC-074 | Cumplimiento Ley de Asociaciones | US-195, US-196, US-197, US-198 | BC-Cumplimiento | ComplianceService | Must | Media |
+| UC-075 | Alertas legales automáticas | US-199, US-200 | BC-Cumplimiento | ComplianceService | Should | Media |
+| UC-076 | Alertas fiscales y tributarias | US-201, US-202 | BC-Cumplimiento | ComplianceService | Should | Media |
 
 **Total Transversal Cumplimiento:** 5 UCs cubriendo 15 User Stories (US-188 a US-202)
 
@@ -13352,27 +13352,27 @@ Los carnets digitales incluyen código QR cifrado con AES-256-GCM conteniendo pa
 #### Metadatos
 - **User Stories:** US-188, US-189, US-194  
 - **Bounded Context:** BC-Cumplimiento  
-- **Application Service:** `CumplimientoService.gestionarConsentimientos()`  
+- **Application Service:** `ComplianceService.gestionarConsentimientos()`  
 - **Aggregates:** **Consentimiento**, **BaseLegal**  
 - **Prioridad:** Must Have
 
 **Descripción:**
 
-Sistema de registro y gestión de consentimientos RGPD para tratamiento de datos personales conforme al Reglamento (UE) 2016/679. Permite documentar bases legales para cada finalidad de tratamiento (consentimiento explícito, ejecución de contrato, interés legítimo, obligación legal), registrar consentimientos otorgados por los socios con timestamp y evidencia de aceptación, y mantener histórico inmutable de cambios.
+Sistema de registro y gestión de consents RGPD para tratamiento de datos personales conforme al Reglamento (UE) 2016/679. Permite documentar bases legales para cada finalidad de tratamiento (consentimiento explícito, ejecución de contrato, interés legítimo, obligación legal), registrar consents otorgados por los socios con timestamp y evidencia de aceptación, y mantener histórico inmutable de cambios.
 
-El sistema garantiza que cada tratamiento de datos tenga una base legal válida documentada, facilita el ejercicio de derechos de los interesados (especialmente revocación de consentimientos), y proporciona trazabilidad completa para auditorías de la Agencia Española de Protección de Datos (AEPD). Los consentimientos se almacenan en aggregate dedicado con versionado automático para cumplir el principio de accountability del RGPD.
+El sistema garantiza que cada tratamiento de datos tenga una base legal válida documentada, facilita el ejercicio de derechos de los interesados (especialmente revocación de consents), y proporciona trazabilidad completa para auditorías de la Agencia Española de Protección de Datos (AEPD). Los consents se almacenan en aggregate dedicado con versionado automático para cumplir el principio de accountability del RGPD.
 
 #### Actores
 
 - **Administrador:** Configura bases legales y finalidades de tratamiento
-- **Socio:** Otorga o revoca consentimientos desde formularios o portal
-- **Sistema:** Registra consentimientos con timestamp y evidencia técnica
+- **Socio:** Otorga o revoca consents desde formularios o portal
+- **Sistema:** Registra consents con timestamp y evidencia técnica
 
 #### Precondiciones
 
 - Tenant configurado con finalidades de tratamiento definidas
 - Socio registrado en el sistema (al menos datos básicos)
-- Formulario de consentimientos accesible (alta de socio o portal)
+- Formulario de consents accesible (alta de socio o portal)
 
 #### Flujo Normal
 
@@ -13402,9 +13402,9 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
    - Administrador puede añadir finalidades personalizadas con base legal correspondiente
    - Sistema valida coherencia: si base legal es "Consentimiento", debe tener texto legal
 
-2. **Registro de consentimientos al alta de socio:**
+2. **Registro de consents al alta de socio:**
    - Socio completa formulario de alta con datos personales
-   - Sistema presenta pantalla de consentimientos:
+   - Sistema presenta pantalla de consents:
      ```
      ┌─ Información sobre Protección de Datos ────────────────┐
      │                                                         │
@@ -13427,21 +13427,21 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
      │ [Aceptar]                                [Rechazar]    │
      └─────────────────────────────────────────────────────────┘
      ```
-   - Socio marca checkboxes de consentimientos opcionales
+   - Socio marca checkboxes de consents opcionales
    - Socio pulsa "Aceptar"
 
-3. **Registro de consentimientos en sistema:**
-   - `CumplimientoService.registrarConsentimientos(socioId, consentimientos, metadata)`
+3. **Registro de consents en sistema:**
+   - `ComplianceService.recordConsents(memberId, consents, metadata)`
    - Para cada finalidad de tratamiento:
-   - Sistema almacena en tabla `consentimientos` con trazabilidad completa
+   - Sistema almacena en tabla `consents` con trazabilidad completa
    - Tabla es INSERT-only (inmutable), nunca UPDATE/DELETE
    - Sistema emite evento `ConsentimientoOtorgado` o `ConsentimientoNoOtorgado`
 
-4. **Gestión de consentimientos desde portal del socio:**
+4. **Gestión de consents desde portal del socio:**
    - Socio accede a "Mi Perfil > Privacidad y Consentimientos"
-   - Sistema muestra consentimientos actuales:
+   - Sistema muestra consents actuales:
      ```
-     Estado actual de tus consentimientos:
+     Estado actual de tus consents:
      
      ✓ Gestión de cuotas y cobros (OBLIGATORIO)
        Otorgado el: 15/01/2025 10:30
@@ -13459,36 +13459,36 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
    - Socio confirma
 
 5. **Revocación de consentimiento:**
-   - `CumplimientoService.revocarConsentimiento(socioId, finalidadId, motivo)`
-   - Sistema crea nuevo registro con estado `REVOCADO`:
+   - `ComplianceService.revokeConsent(memberId, purposeId, motivo)`
+   - Sistema crea nuevo registro con estado `REVOKED`:
    - Sistema emite evento `ConsentimientoRevocado`
-   - BC-Comunicacion escucha evento y marca socio como opt-out para comunicaciones comerciales
+   - BC-Communication escucha evento y marca socio como opt-out para comunicaciones comerciales
    - Sistema confirma: "Consentimiento revocado correctamente"
 
-6. **Consulta de histórico de consentimientos:**
+6. **Consulta de histórico de consents:**
    - Administrador o DPO accede a "RGPD > Historial de Consentimientos"
    - Filtra por socio, finalidad o rango de fechas
    - Sistema muestra timeline inmutable:
      ```
      Juan García (DNI: 12345678A)
      
-     [2026-02-04 14:25] REVOCADO - Comunicaciones comerciales
+     [2026-02-04 14:25] REVOKED - Comunicaciones comerciales
                          Método: Portal del socio
                          IP: 192.168.1.100
                          Motivo: "No deseo recibir más emails"
      
-     [2025-01-15 10:30] OTORGADO - Comunicaciones comerciales
+     [2025-01-15 10:30] GRANTED - Comunicaciones comerciales
                          Método: Formulario de alta
                          IP: 192.168.1.50
                          Versión texto legal: v1.2
      ```
-   - Sistema muestra confirmación: "Historial de consentimientos consultado. Se han registrado todos los accesos para auditoría RGPD"
+   - Sistema muestra confirmación: "Historial de consents consultado. Se han registrado todos los accesos para auditoría RGPD"
 
 #### Flujos Alternativos
 
 **FA-1: Otorgamiento posterior de consentimiento no otorgado al alta**
-- Socio puede otorgar consentimientos rechazados inicialmente
-- Sistema crea nuevo registro con estado `OTORGADO`
+- Socio puede otorgar consents rechazados inicialmente
+- Sistema crea nuevo registro con estado `GRANTED`
 - Útil si socio cambia de opinión sobre publicación de fotografías
 
 **FA-2: Actualización de textos legales (nuevo versionado)**
@@ -13498,7 +13498,7 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
 - Sistema puede solicitar re-consentimiento si cambios sustanciales (configurable)
 
 **FA-3: Validación de consentimiento obligatorio**
-- Si socio intenta completar alta sin aceptar consentimientos obligatorios:
+- Si socio intenta completar alta sin aceptar consents obligatorios:
   - Sistema bloquea: "Debe aceptar los tratamientos obligatorios para ser socio"
   - Marca checkboxes obligatorios como deshabilitados (siempre activos)
 
@@ -13529,8 +13529,8 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
 
 #### Interacciones entre BCs
 
-- BC-Cumplimiento → BC-Membresia: Consulta datos de socio (nombre, email) para notificaciones
-- BC-Cumplimiento → BC-Comunicacion: Notifica cambios en consentimientos para ajustar políticas de envío
+- BC-Cumplimiento → BC-Membership: Consulta datos de socio (nombre, email) para notificaciones
+- BC-Cumplimiento → BC-Communication: Notifica cambios en consents para ajustar políticas de envío
 
 #### Postcondiciones
 
@@ -13548,14 +13548,14 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
 #### Notas de Implementación
 
 - **RNFT-025 a RNFT-030:** Cumplimiento RGPD completo, bases legales documentadas, histórico inmutable
-- **Tabla `consentimientos`:** INSERT-only, nunca UPDATE/DELETE, índice compuesto `(socio_id, finalidad_id, timestamp DESC)`
+- **Tabla `consents`:** INSERT-only, nunca UPDATE/DELETE, índice compuesto `(member_id, finalidad_id, timestamp DESC)`
 - **Evidencia técnica:** Capturar IP, user agent, timestamp UTC, método de registro, versión texto legal
 - **Versionado de textos legales:** Campo `version` en tabla `finalidades_tratamiento`, cambios generan nueva versión
-- **Auditoría:** Trigger de PostgreSQL para registrar en `audit_log` cualquier operación en tabla `consentimientos`
+- **Auditoría:** Trigger de PostgreSQL para registrar en `audit_log` cualquier operación en tabla `consents`
 - **Re-consentimiento:** Scheduled job mensual para detectar textos legales con cambios sustanciales y solicitar nueva aceptación
-- **Exportación RGPD:** Incluir historial completo de consentimientos en export de datos personales (UC-073)
+- **Exportación RGPD:** Incluir historial completo de consents en export de datos personales (UC-073)
 - **Librerías:** `class-validator` para validación, `@nestjs/event-emitter` para Domain Events
-- **Performance:** Índice parcial en `consentimientos` para consultas de estado actual: `WHERE estado IN ('OTORGADO', 'REVOCADO')`
+- **Performance:** Índice parcial en `consents` para consultas de estado actual: `WHERE estado IN ('GRANTED', 'REVOKED')`
 
 ---
 
@@ -13564,7 +13564,7 @@ El sistema garantiza que cada tratamiento de datos tenga una base legal válida 
 #### Metadatos
 - **User Stories:** US-190, US-191, US-192, US-193  
 - **Bounded Context:** BC-Cumplimiento  
-- **Application Service:** `CumplimientoService.procesarSolicitudARCO()`  
+- **Application Service:** `ComplianceService.processARCORequest()`  
 - **Aggregates:** **SolicitudARCO**, **RegistroTratamiento**  
 - **Prioridad:** Must Have
 
@@ -13612,7 +13612,7 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
    - Socio selecciona "Acceso", indica motivo, envía solicitud
 
 2. Sistema registra solicitud:
-   - `CumplimientoService.crearSolicitudARCO(data)`
+   - `ComplianceService.createARCORequest(data)`
    - Crea aggregate **SolicitudARCO**:
    - Sistema emite evento `SolicitudARCORecibida`
    - Sistema envía notificación al administrador/DPO:
@@ -13656,11 +13656,11 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
 
 7. **CASO: Derecho de ACCESO (US-190)**
    - Administrador pulsa "Procesar derecho de Acceso"
-   - `CumplimientoService.ejecutarDerechoAcceso(solicitudId)`
+   - `ComplianceService.executeAccessRight(requestId)`
    - Sistema recopila TODOS los datos personales del socio en BCs:
    - Sistema genera dos archivos:
-     - **JSON estructurado:** `datos_personales_12345678A.json` (legible por máquina)
-     - **PDF legible:** `datos_personales_12345678A.pdf` (formato visual con secciones)
+     - **JSON estructurado:** `personal_data_12345678A.json` (legible por máquina)
+     - **PDF legible:** `personal_data_12345678A.pdf` (formato visual con secciones)
    - Sistema sube archivos a Object Storage con URL firmada temporal (7 días)
    - Sistema actualiza solicitud:
 
@@ -13680,8 +13680,8 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
      [Aprobar cambios]  [Rechazar con justificación]
      ```
    - Administrador revisa y aprueba cambios
-   - `CumplimientoService.ejecutarRectificacion(solicitudId, cambiosAprobados)`
-   - Sistema actualiza datos en BC-Membresia:
+   - `ComplianceService.executeRectification(requestId, approvedChanges)`
+   - Sistema actualiza datos en BC-Membership:
    - Sistema emite evento `DatosRectificados`
 
 9. **CASO: Derecho de CANCELACIÓN/SUPRESIÓN (US-192)**
@@ -13705,7 +13705,7 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
      [Confirmar supresión]  [Cancelar]
      ```
    - Administrador confirma
-   - `CumplimientoService.ejecutarCancelacion(solicitudId)`
+   - `ComplianceService.executeCancellation(requestId)`
    - Sistema ejecuta proceso de anonimización:
    - Sistema emite evento `DerechoCanceladoEjercido`
 
@@ -13722,8 +13722,8 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
       [Aplicar bloqueos]
       ```
     - Administrador aplica bloqueos seleccionados
-    - `CumplimientoService.ejecutarOposicion(solicitudId, tratamientosBloqueados)`
-    - Sistema revoca consentimientos correspondientes (ver UC-072)
+    - `ComplianceService.executeOpposition(requestId, blockedProcessing)`
+    - Sistema revoca consents correspondientes (ver UC-072)
     - Sistema marca tratamientos como bloqueados en `RegistroTratamiento`
 
 **Parte 4: Respuesta al solicitante**
@@ -13742,8 +13742,8 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
       JSON y PDF. Los archivos estarán disponibles para descarga
       durante 7 días en los siguientes enlaces:
       
-      - datos_personales_12345678A.json: [enlace firmado]
-      - datos_personales_12345678A.pdf: [enlace firmado]
+      - personal_data_12345678A.json: [enlace firmado]
+      - personal_data_12345678A.pdf: [enlace firmado]
       
       Plazo de respuesta: Dentro de plazo legal (tramitado en 5 días)
       
@@ -13760,7 +13760,7 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
 
 12. Sistema actualiza estado final:
     - `solicitud.estado = 'COMPLETADA'`
-    - `solicitud.fechaRespuesta = new Date()`
+    - `request.responseDate = new Date()`
     - Sistema emite evento `SolicitudARCOCompletada`
 
 #### Flujos Alternativos
@@ -13813,14 +13813,14 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
   - Sistema captura excepción, registra en Sentry
   - Genera export parcial con nota:
     ```
-    ⚠ Export parcial: No se pudieron recopilar datos de BC-Eventos
+    ⚠ Export parcial: No se pudieron recopilar datos de BC-Events
        (error técnico en proceso)
     ```
   - Alerta a administrador para investigación
   - Permite completar solicitud con export parcial o reintentar
 
 **FE-4: Socio con deudas pendientes solicita cancelación**
-- Sistema detecta cargos pendientes en BC-Tesoreria
+- Sistema detecta cargos pendientes en BC-Treasury
 - Advierte a administrador:
   ```
   ⚠ El socio tiene deudas pendientes por 120,00 €
@@ -13840,11 +13840,11 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
 
 #### Interacciones entre BCs
 
-- BC-Cumplimiento → BC-Membresia: Consulta y actualización de datos de socio
-- BC-Cumplimiento → BC-Tesoreria: Consulta historial financiero, anonimización contable
-- BC-Cumplimiento → BC-Eventos: Consulta inscripciones, eliminación de registros
-- BC-Cumplimiento → BC-Comunicacion: Consulta historial envíos, generación de respuestas formales
-- BC-Cumplimiento → BC-Documentos: Consulta documentos vinculados al socio
+- BC-Cumplimiento → BC-Membership: Consulta y actualización de datos de socio
+- BC-Cumplimiento → BC-Treasury: Consulta historial financiero, anonimización contable
+- BC-Cumplimiento → BC-Events: Consulta inscripciones, eliminación de registros
+- BC-Cumplimiento → BC-Communication: Consulta historial envíos, generación de respuestas formales
+- BC-Cumplimiento → BC-Documents: Consulta documentos vinculados al socio
 
 #### Postcondiciones
 
@@ -13881,7 +13881,7 @@ Cada derecho tiene un flujo específico: Acceso genera export completo de datos 
 #### Metadatos
 - **User Stories:** US-195, US-196, US-197, US-198  
 - **Bounded Context:** BC-Cumplimiento  
-- **Application Service:** `CumplimientoService.generarCertificacionesLegales()`  
+- **Application Service:** `ComplianceService.generateLegalCertifications()`  
 - **Aggregates:** **CertificacionLegal**, **RegistroAsociados**  
 - **Prioridad:** Must Have (US-195)
 
@@ -13908,7 +13908,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 **Parte 1: Libro Registro de Asociados (US-195)**
 
 1. Secretario accede a "Cumplimiento > Certificaciones Legales"
-2. Sistema muestra opciones:
+2. Sistema muestra options:
    ```
    Certificaciones Legales - Ley de Asociaciones
    
@@ -13927,7 +13927,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
         [Generar acta con formato legal...]
    ```
 3. Secretario pulsa "Generar libro completo"
-4. Sistema solicita opciones de generación:
+4. Sistema solicita options de generación:
    ```
    Opciones del Libro Registro:
    
@@ -13945,9 +13945,9 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
    
    [Generar]
    ```
-5. Secretario configura opciones y genera
-6. `CumplimientoService.generarLibroRegistro(opciones)`
-   - Sistema recupera datos de BC-Membresia:
+5. Secretario configura options y genera
+6. `ComplianceService.generateRegistryBook(options)`
+   - Sistema recupera datos de BC-Membership:
    - Sistema genera PDF con formato legal:
      ```
      ┌─────────────────────────────────────────────────────────┐
@@ -14089,7 +14089,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 
 **Parte 4: Acta de Asamblea con Formato Legal (US-198)**
 
-21. Secretario accede a BC-Documentos para crear acta
+21. Secretario accede a BC-Documents para crear acta
 22. Sistema ofrece plantilla legal automática (ver UC-048)
 23. Incluye campos obligatorios según Ley de Asociaciones:
     - Fecha, hora y lugar de celebración
@@ -14103,7 +14103,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 
 **FA-1: Libro Registro del ejercicio actual**
 - Secretario genera solo socios del ejercicio activo
-- Sistema filtra por `fecha_alta >= ejercicio.fecha_inicio`
+- Sistema filtra por `registration_date >= fiscalYear.start_date`
 - Útil para auditorías anuales
 
 **FA-2: Envío electrónico al Registro de Asociaciones**
@@ -14134,7 +14134,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 **FE-3: Error en firma digital**
 - Si falla aplicación de firma digital (certificado caducado):
   - Sistema genera PDF sin firma
-  - Marca como `estadoFirma: 'PENDIENTE_FIRMA'`
+  - Marca como `signatureStatus: 'PENDING_FIRMA'`
   - Permite firmar posteriormente con herramienta externa
 
 #### Eventos de Dominio
@@ -14145,9 +14145,9 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 
 #### Interacciones entre BCs
 
-- BC-Cumplimiento → BC-Membresia: Consulta listado completo de socios con fechas de alta/baja
-- BC-Cumplimiento → BC-Identidad: Consulta composición de Junta Directiva actual
-- BC-Cumplimiento → BC-Documentos: Almacena certificaciones generadas
+- BC-Cumplimiento → BC-Membership: Consulta listado completo de socios con fechas de alta/baja
+- BC-Cumplimiento → BC-Identity: Consulta composición de Junta Directiva actual
+- BC-Cumplimiento → BC-Documents: Almacena certificaciones generadas
 
 #### Postcondiciones
 
@@ -14170,7 +14170,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 - **Plantillas:** Sistema de templates con variables dinámicas (Handlebars)
 - **Numeración correlativa:** Garantizar unicidad y orden de páginas en libro registro
 - **Librerías:** `pdfkit` (generación PDF), `pdf-lib` (firma digital), `handlebars` (plantillas)
-- **Almacenamiento:** Object Storage con URLs firmadas temporales, copia en BC-Documentos para histórico
+- **Almacenamiento:** Object Storage con URLs firmadas temporales, copia en BC-Documents para histórico
 - **Auditoría:** Registro completo de certificaciones generadas en tabla `certificaciones_legales`
 - **Personalización:** Adaptar modelos oficiales según CCAA (Aragón, Cataluña, Madrid, etc.)
 - **Performance:** Cache de plantillas en memoria, generación asíncrona con Bull Queue si >1000 socios
@@ -14183,7 +14183,7 @@ El sistema mantiene el Libro Registro de Asociados actualizado automáticamente 
 #### Metadatos
 - **User Stories:** US-199, US-200  
 - **Bounded Context:** BC-Cumplimiento  
-- **Application Service:** `CumplimientoService.gestionarAlertasLegales()`  
+- **Application Service:** `ComplianceService.gestionarAlertasLegales()`  
 - **Aggregates:** **AlertaLegal**, **VencimientoLegal**  
 - **Prioridad:** Should Have
 
@@ -14261,7 +14261,7 @@ El sistema ejecuta scheduled jobs diarios para revisar fechas de vencimiento en 
 5. Sistema evalúa cada vencimiento:
 6. Sistema crea alerta si procede:
 7. Sistema emite evento `AlertaLegalGenerada`
-8. BC-Comunicacion escucha evento y envía notificaciones:
+8. BC-Communication escucha evento y envía notificaciones:
 
 **Parte 3: Gestión de alertas por el administrador**
 
@@ -14321,7 +14321,7 @@ El sistema ejecuta scheduled jobs diarios para revisar fechas de vencimiento en 
     ```
 14. Sistema actualiza alerta:
     - `estado = 'EN_TRAMITE'`
-    - `fechaGestion = new Date()`
+    - `managementDate = new Date()`
     - `gestionadoPor = administradorId`
     - `comentarioGestion = comentario`
 15. Sistema deja de enviar recordatorios pero mantiene alerta visible
@@ -14339,7 +14339,7 @@ El sistema ejecuta scheduled jobs diarios para revisar fechas de vencimiento en 
     ```
 18. Sistema:
     - Actualiza `alerta.estado = 'RESUELTA'`
-    - Actualiza `vencimiento.fechaVencimiento = nuevaFecha`
+    - Actualiza `vencimiento.dueDate = nuevaFecha`
     - Crea nuevo ciclo de alertas para próximo año
     - Emite evento `AlertaLegalResuelta`
 
@@ -14391,9 +14391,9 @@ El sistema ejecuta scheduled jobs diarios para revisar fechas de vencimiento en 
 
 #### Interacciones entre BCs
 
-- BC-Cumplimiento → BC-Comunicacion: Envío de alertas por email y notificaciones in-app
-- BC-Cumplimiento → BC-Membresia: Consulta socios con certificados médicos próximos a caducar
-- BC-Cumplimiento → BC-Tesoreria: Alertas de vencimientos con coste económico (seguros, licencias)
+- BC-Cumplimiento → BC-Communication: Envío de alertas por email y notificaciones in-app
+- BC-Cumplimiento → BC-Membership: Consulta socios con certificados médicos próximos a caducar
+- BC-Cumplimiento → BC-Treasury: Alertas de vencimientos con coste económico (seguros, licencias)
 
 #### Postcondiciones
 
@@ -14427,7 +14427,7 @@ El sistema ejecuta scheduled jobs diarios para revisar fechas de vencimiento en 
 #### Metadatos
 - **User Stories:** US-201, US-202  
 - **Bounded Context:** BC-Cumplimiento  
-- **Application Service:** `CumplimientoService.gestionarAlertasFiscales()`  
+- **Application Service:** `ComplianceService.gestionarAlertasFiscales()`  
 - **Aggregates:** **AlertaFiscal**, **ObligacionTributaria**  
 - **Prioridad:** Should Have
 
@@ -14505,7 +14505,7 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
    
    Pasos recomendados:
    1. Revisar operaciones con proveedores en 2025
-   2. Exportar datos desde BC-Tesoreria
+   2. Exportar datos desde BC-Treasury
    3. Cumplimentar Modelo 347 en Sede Electrónica AEAT
    4. Presentar telemáticamente con certificado digital
    5. Conservar justificante de presentación
@@ -14544,7 +14544,7 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
     ```
 11. Tesorero pulsa "Exportar datos" para Modelo 347
 12. Sistema genera export específico para la declaración:
-    - `BC-Tesoreria` recopila todas las operaciones del ejercicio anterior
+    - `BC-Treasury` recopila todas las operaciones del ejercicio anterior
     - Filtra operaciones > 3.005,06€ por proveedor
     - Genera Excel con formato compatible con importación AEAT
     - Columnas: NIF proveedor, Nombre, Importe trimestral, Importe anual, Tipo operación
@@ -14563,7 +14563,7 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
     ```
 15. Sistema ejecuta cierre de obligación:
     - Actualiza `obligacion.estado = 'CUMPLIDA'`
-    - Almacena justificante en BC-Documentos
+    - Almacena justificante en BC-Documents
     - Cierra alertas activas relacionadas
     - Emite evento `ObligacionFiscalCumplida`
     - Genera próxima obligación para siguiente ejercicio/período
@@ -14591,7 +14591,7 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
 #### Flujos de Excepción
 
 **FE-1: Plazo fiscal vencido sin presentación**
-- Si `fechaLimite < hoy AND estado != 'CUMPLIDA'`:
+- Si `deadline < hoy AND estado != 'CUMPLIDA'`:
   - Sistema marca obligación como `INCUMPLIDA`
   - Genera alerta crítica a Tesorero + Presidente
   - Calcula recargo estimado según días de retraso (5%-20%)
@@ -14618,9 +14618,9 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
 
 #### Interacciones entre BCs
 
-- BC-Cumplimiento → BC-Tesoreria: Export de datos contables para declaraciones fiscales
-- BC-Cumplimiento → BC-Comunicacion: Envío de alertas y recordatorios
-- BC-Cumplimiento → BC-Documentos: Almacenamiento de justificantes de presentación
+- BC-Cumplimiento → BC-Treasury: Export de datos contables para declaraciones fiscales
+- BC-Cumplimiento → BC-Communication: Envío de alertas y recordatorios
+- BC-Cumplimiento → BC-Documents: Almacenamiento de justificantes de presentación
 
 #### Postcondiciones
 
@@ -14644,7 +14644,7 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
 - **Calendario fiscal:** Tabla maestra `obligaciones_fiscales_template` mantenida por equipo de soporte
 - **Librerías:** `@nestjs/schedule`, `date-fns`, `date-holidays` (festivos que afectan plazos)
 - **Integración AEAT:** Enlaces directos a Sede Electrónica por modelo fiscal
-- **Exports específicos:** Funciones dedicadas en BC-Tesoreria para generar datos en formato requerido por AEAT
+- **Exports específicos:** Funciones dedicadas en BC-Treasury para generar datos en formato requerido por AEAT
 - **Auditoría:** Tabla `historial_obligaciones_fiscales` con todos los estados y transiciones
 - **Personalización:** Calendario fiscal adaptado por CCAA (Aragón, Cataluña, País Vasco con Hacienda Foral)
 - **Performance:** Índice `(tenant_id, ejercicio, estado)` para queries de obligaciones pendientes
@@ -14670,12 +14670,12 @@ El sistema mantiene un calendario fiscal actualizado según normativa vigente (A
 
 | Bounded Context | UCs | User Stories | % del total UCs |
 |-----------------|-----|--------------|-----------------|
-| BC-Identidad | 5 | 8 | 6.6% |
-| BC-Membresia | 10 | 34 | 13.2% |
-| BC-Tesoreria | 11 | 40 | 14.5% |
-| BC-Eventos | 11 | 36 | 14.5% |
-| BC-Comunicacion | 9 | 25 | 11.8% |
-| BC-Documentos | 8 | 29 | 10.5% |
+| BC-Identity | 5 | 8 | 6.6% |
+| BC-Membership | 10 | 34 | 13.2% |
+| BC-Treasury | 11 | 40 | 14.5% |
+| BC-Events | 11 | 36 | 14.5% |
+| BC-Communication | 9 | 25 | 11.8% |
+| BC-Documents | 8 | 29 | 10.5% |
 | Transversal Import/Export | 8 | 15 | 10.5% |
 | Transversal Reporting | 4 | 13 | 5.3% |
 | Transversal Portal Socio | 4 | 12 | 5.3% |
@@ -14734,7 +14734,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
 
 ### Excepciones y Fusiones
 
-- **UC-016 fusionado con UC-015:** La generación masiva de carnets comparte el 80% del código con generación individual. Se implementa como flag `batch: boolean` en `CarnetService.generarCarnets()`.
+- **UC-016 fusionado con UC-015:** La generación masiva de carnets comparte el 80% del código con generación individual. Se implementa como flag `batch: boolean` en `MemberCardService.generateCards()`.
 
 ---
 
@@ -14764,10 +14764,10 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
      - 72 correcciones: Salto después de `*Este UC no consume eventos de otros BCs*`
      - Script `corregir_saltos_linea.py`: 145 correcciones aplicadas
    - **4 UCs con inconsistencia "Ninguno" vs Postcondiciones corregidos:**
-     - UC-002: Añadido evento `UsuarioAutenticado` (autenticación multi-tenant)
+     - UC-002: Añadido evento `UserAuthenticated` (autenticación multi-tenant)
      - UC-065: Añadido evento `DashboardVisualized` (analytics de uso)
-     - UC-066: Añadido evento `InformeAsambleaGenerado` (documento oficial Asamblea)
-     - UC-070: Añadido evento `InscripcionRealizada` (inscripción a evento desde portal)
+     - UC-066: Añadido evento `AssemblyReportGenerated` (documento oficial Asamblea)
+     - UC-070: Añadido evento `RegistrationCompleted` (inscripción a evento desde portal)
      - Eventos recuperados desde Postcondiciones que no estaban en tabla de Eventos de Dominio
 4. **Artefactos de análisis y reparación creados:**
    - **Análisis:** `MATRIZ_TRAZABILIDAD_EVENTOS.md` (135 eventos únicos), `analizar_eventos.py`
@@ -14895,10 +14895,10 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
 **Estado:** ✅ N11 Cumplimiento Normativo 100% completado
 **Cambios principales:**
 1. **Nuevos Casos de Uso Transversales N11 (5 UCs):**
-   - ✅ **UC-072:** Gestión RGPD y consentimientos (US-188, US-189, US-194) - ~3,500 líneas
+   - ✅ **UC-072:** Gestión RGPD y consents (US-188, US-189, US-194) - ~3,500 líneas
      - Sistema de registro de bases legales (consentimiento, contrato, interés legítimo, obligación)
-     - Registro de consentimientos con timestamp, IP, user-agent y evidencia inmutable
-     - Versionado automático de consentimientos con histórico completo
+     - Registro de consents con timestamp, IP, user-agent y evidencia inmutable
+     - Versionado automático de consents con histórico completo
      - Flujos de revocación con propagación a todos los tratamientos dependientes
      - Tabla de auditoría inmutable para accountability RGPD/AEPD
    - ✅ **UC-073:** Ejercicio de derechos ARCO (US-190, US-191, US-192, US-193) - ~4,200 líneas
@@ -14918,7 +14918,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
      - Scheduled job diario para verificar vencimientos de obligaciones legales
      - Alertas escalonadas: 30, 15, 7 días antes de expiración
      - Monitorización: seguros RC, licencias federativas, registro DPO AEPD
-     - Notificaciones multi-canal (email, dashboard) con prioridad según urgencia
+     - Notificaciones multi-canal (email, dashboard) con priority según urgencia
      - Dashboard de obligaciones con semáforo de estado (verde/amarillo/rojo)
    - ✅ **UC-076:** Alertas fiscales y tributarias (US-201, US-202) - ~3,500 líneas
      - Scheduled job semanal para verificar plazos tributarios
@@ -14964,15 +14964,15 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
 **Estado:** ✅ Documentación N2-N10 100% completa (v2.0), N11 pendiente
 **Cambios principales:**
 1. **Casos de Uso Completados (71/71 - scope N2-N10):**
-    - ✅ BC-Identidad: 5 UCs (100%)
-    - ✅ BC-Membresia: 10 UCs (100%) 
+    - ✅ BC-Identity: 5 UCs (100%)
+    - ✅ BC-Membership: 10 UCs (100%) 
        - Añadido UC-016 (nota fusión)   
-    - ✅ BC-Tesoreria: 11 UCs (100%) 
+    - ✅ BC-Treasury: 11 UCs (100%) 
        - Añadidos UC-025, UC-026, UC-027
-    - ✅ BC-Eventos: 11 UCs (100%) 
+    - ✅ BC-Events: 11 UCs (100%) 
        - Añadido UC-038   
-    - ✅ BC-Comunicacion: 9 UCs (100%)
-    - ✅ BC-Documentos: 8 UCs (100%)
+    - ✅ BC-Communication: 9 UCs (100%)
+    - ✅ BC-Documents: 8 UCs (100%)
     - ✅ Transversal Import/Export: 8 UCs (100%) 
         - Añadidos UC-059 a UC-063
     - ✅ Transversal Reporting: 4 UCs (100%) 
@@ -15017,7 +15017,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
    - AI/ML: Sentiment analysis en feedback eventos
    - Object Storage: S3/MinIO para archivos grandes
    - Reporting: Generación PDF con Puppeteer + gráficos SVG
-   - Multi-tenant: Validaciones de seguridad userId === socioId
+   - Multi-tenant: Validaciones de seguridad userId === memberId
    - RGPD: Anonimización y soft-delete en exports
 6. **Métricas Finales v2.0:**
    - Total líneas documento: ~29,000
@@ -15054,7 +15054,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Mapeo flexible de columnas con sugerencias automáticas por similitud de nombres
   - Plantillas de mapeo reutilizables guardadas en BD
   - Validación exhaustiva: campos obligatorios, formatos (DNI, email), duplicados por DNI/email
-  - Detección de duplicados con opciones: Ignorar, Sobrescribir, Crear nuevo
+  - Detección de duplicados con options: Ignorar, Sobrescribir, Crear nuevo
   - Preview de primeras 10 filas antes de importación
   - Informe de validación con % éxito, descargable para corrección
   - Transacción atómica: rollback completo si falla alguna operación
@@ -15099,8 +15099,8 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
 - 🎯 **Siguiente objetivo:** Completar documentación detallada de UC-059 a UC-063 y UC-065 a UC-067, UC-070 a UC-071 (8 UCs restantes con descripción breve)
 
 ### **v1.6 (06 Febrero 2026):**
-- ✅ **BC-Documentos 100% COMPLETADO** (8/8 UCs documentados, 100%)
-- ✅ Documentados últimos 3 casos de uso de BC-Documentos:
+- ✅ **BC-Documents 100% COMPLETADO** (8/8 UCs documentados, 100%)
+- ✅ Documentados últimos 3 casos de uso de BC-Documents:
   - UC-053: Búsqueda y filtrado de documentos (US-141) - ~550 líneas
   - UC-054: Control de permisos y límites de almacenamiento (US-142, US-143) - ~650 líneas
   - UC-055: Control de versiones y OCR avanzado (US-144, US-145, US-146) - ~850 líneas
@@ -15130,19 +15130,19 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - **OCR para facturas:** Procesamiento asíncrono con Bull Queue al subir a carpeta "Facturas"
   - Integración Tesseract (OCR básico 75-85% confianza) o Google Cloud Vision API (90-98% confianza)
   - Extracción automática: proveedor, CIF, nº factura, fecha, base imponible, IVA, total (cada campo con confianza)
-  - Tesorero revisa datos extraídos, corrige si necesario, confirma → crea gasto automático en BC-Tesoreria
+  - Tesorero revisa datos extraídos, corrige si necesario, confirma → crea gasto automático en BC-Treasury
   - Notificación automática al completar OCR para revisión
   - **Búsqueda full-text:** Indexación de contenido de PDFs con `pdf-parse`, campo `contenido_texto: TEXT`
   - PostgreSQL: índice GIN en `to_tsvector('spanish', contenido_texto)` para búsqueda con `ts_headline()` para extractos resaltados
   - Alternativa Elasticsearch: indexación en cluster, búsqueda potente con fuzzy matching, aggregations para facetas
   - Worker asíncrono para indexación: no bloquear subida, procesar en background
 - ✅ Total casos de uso documentados: 48/71 (67.6% del proyecto)
-- ✅ BCs completados: BC-Identidad (100%), BC-Membresia (100%), BC-Tesoreria (100%), BC-Eventos (100%), BC-Comunicacion (100%), **BC-Documentos (100%)**
+- ✅ BCs completados: BC-Identity (100%), BC-Membership (100%), BC-Treasury (100%), BC-Events (100%), BC-Communication (100%), **BC-Documents (100%)**
 - 🎯 **Siguiente objetivo:** Casos de uso transversales N8-N10 (Import/Export, Reporting, Portal Socio) - 23 UCs restantes
 
 ### **v1.5 (06 Febrero 2026):**
-- ✅ **BC-Comunicacion 100% COMPLETADO** (9/9 UCs documentados, 100%)
-- ✅ Documentados 6 casos de uso finales de BC-Comunicacion:
+- ✅ **BC-Communication 100% COMPLETADO** (9/9 UCs documentados, 100%)
+- ✅ Documentados 6 casos de uso finales de BC-Communication:
   - UC-042: Gestión de plantillas (US-116, US-117, US-118) - ~500 líneas
   - UC-043: Segmentación de destinatarios (US-119) - ~350 líneas
   - UC-044: Programación de envíos (US-120) - ~300 líneas
@@ -15159,7 +15159,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
 - ✅ **UC-043 Highlights (Segmentación):**
   - Query builder dinámico para criterios combinables (tipo socio, estado pago, antigüedad, roles)
   - Segmentos guardados reutilizables con recálculo dinámico
-  - ACL a BC-Membresia con timeout de 10 segundos
+  - ACL a BC-Membership con timeout de 10 segundos
   - Preview de destinatarios en tiempo real con debounce
   - Exclusión manual de socios específicos
 - ✅ **UC-044 Highlights (Programación):**
@@ -15183,7 +15183,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Scheduled job diario a medianoche para expirar anuncios vencidos
   - Archivo histórico de anuncios expirados para consulta
 - ✅ **UC-047 Highlights (Comunicaciones Automáticas):**
-  - Event Handlers con @OnEvent para eventos de BC-Membresia, BC-Tesoreria, BC-Eventos
+  - Event Handlers con @OnEvent para eventos de BC-Membership, BC-Treasury, BC-Events
   - Workflow de morosidad con escalado automático por fases (30, 60, 90 días)
   - Scheduled jobs para recordatorios programados: pago (7 días antes), eventos (2 días antes)
   - Deduplicación con tabla notificacion_enviada para evitar spam (TTL 24h)
@@ -15192,11 +15192,11 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - 8+ plantillas de sistema automáticas: BIENVENIDA, RECORDATORIO_PAGO, AVISO_DOMICILIACION, AVISO_IMPAGO_FASE1/2/3, CONFIRMACION_INSCRIPCION, RECORDATORIO_EVENTO
   - Retry logic con backoff exponencial (1min, 5min, 15min) para envíos fallidos
 - ✅ Total casos de uso documentados: 45/71 (63.4% del proyecto)
-- ✅ BCs completados: BC-Identidad (100%), BC-Membresia (100%), BC-Tesoreria (100%), BC-Eventos (100%), BC-Comunicacion (100%)
-- 🎯 **Siguiente objetivo:** BC-Documentos UC-048 a UC-055 (8 UCs pendientes)
+- ✅ BCs completados: BC-Identity (100%), BC-Membership (100%), BC-Treasury (100%), BC-Events (100%), BC-Communication (100%)
+- 🎯 **Siguiente objetivo:** BC-Documents UC-048 a UC-055 (8 UCs pendientes)
 
 ### **v1.4 (06 Febrero 2026):**
-- ✅ **BC-Eventos 100% COMPLETADO** (11/11 UCs documentados, 100%)
+- ✅ **BC-Events 100% COMPLETADO** (11/11 UCs documentados, 100%)
 - ✅ Documentados 4 casos de uso específicos finales:
   - UC-034: Eventos específicos: Procesiones (Cofradías) - US-102, US-103, US-104
   - UC-035: Eventos específicos: Cuadrillas costaleros - US-105, US-106
@@ -15207,7 +15207,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Generación automática de papeletas de sitio por orden de antigüedad estricta
   - Reserva de insignias y varas con aprobación de Junta Directiva
   - Publicación programada de listas en fecha tradicional (Viernes de Dolores)
-  - Integración con BC-Membresia vía ACL para consultar antigüedad de hermanos
+  - Integración con BC-Membership vía ACL para consultar antigüedad de hermanos
   - QR único por papeleta firmado con JWT para check-in el día de la procesión
 - ✅ **UC-035 Highlights (Cuadrillas Costaleros):**
   - Igualá digital: registro de altura, posición preferida y experiencia
@@ -15226,12 +15226,12 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Registro de resultados, goleadores y estadísticas de temporada
   - Generación de acta de partido en PDF con todos los datos oficiales
   - Domain Service para aplicar sanciones automáticas (doble amarilla, acumulación)
-- ✅ **Nota sobre UC-038:** No existe. US-112 (resultados deportivos) documentada en UC-037, US-113 pertenece a BC-Comunicacion
+- ✅ **Nota sobre UC-038:** No existe. US-112 (resultados deportivos) documentada en UC-037, US-113 pertenece a BC-Communication
 - ✅ Total casos de uso documentados: 37/71 (52.1% del proyecto)
-- 🎯 **Siguiente objetivo:** BC-Comunicacion UC-039 a UC-047 (9 UCs pendientes)
+- 🎯 **Siguiente objetivo:** BC-Communication UC-039 a UC-047 (9 UCs pendientes)
 
 ### **v1.3 (06 Febrero 2026):**
-- ✅ **BC-Eventos: 3 casos de uso adicionales documentados** (6/11 UCs, 55%)
+- ✅ **BC-Events: 3 casos de uso adicionales documentados** (6/11 UCs, 55%)
 - ✅ Documentados casos de uso:
   - UC-031: Control de aforo y listas de espera (US-088, US-089, US-090, US-091)
   - UC-032: Check-in y control de asistencia (US-094, US-095, US-096, US-097, US-098)
@@ -15243,7 +15243,7 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Scheduled jobs para cierre automático de inscripciones y liberación de plazas
   - Optimistic locking robusto con retry exponencial
 - ✅ **UC-032 Highlights:**
-  - Check-in por QR con validación de carnet digital (integración BC-Membresia)
+  - Check-in por QR con validación de carnet digital (integración BC-Membership)
   - Check-in manual con lista offline-first (PWA + Service Workers)
   - Control entrada/salida para eventos con duración (formaciones subvencionadas)
   - Exportación de listados oficiales a PDF para justificación de subvenciones
@@ -15255,57 +15255,57 @@ Las User Stories se consolidaron en Casos de Uso siguiendo estos criterios:
   - Tracking de cambios de última hora con diff automático
   - Precio diferenciado por menú (adulto, infantil, vegetariano)
 - ✅ Total casos de uso documentados: 32/71 (45.1% del proyecto)
-- 🎯 **Siguiente objetivo:** BC-Comunicacion UC-039 a UC-047 (9 UCs pendientes)
+- 🎯 **Siguiente objetivo:** BC-Communication UC-039 a UC-047 (9 UCs pendientes)
 
 ### **v2.6 (10 Febrero 2026):**
 - ✅ **Sincronización completa de eventos de dominio con KB-005 v1.4**
 - ✅ Agregados 5 eventos faltantes a tablas de eventos de UCs:
-  - UC-001: Agregado `UsuarioCreado` (emitido en paso 4: creación admin inicial)
-  - UC-002: Agregados `AutenticacionFallida` y `UsuarioBloqueado` (flujos excepcionales FE-1 y FE-2)
-  - UC-012: Agregado `SolicitudAltaAprobada` (fase 6: aprobación jura e imposición medalla)
-  - UC-028: Agregado `EventoCancelado` (transición manual a estado cancelado)
+  - UC-001: Agregado `UserCreated` (emitido en paso 4: creación admin inicial)
+  - UC-002: Agregados `AuthenticationFailed` y `UserBlocked` (flujos excepcionales FE-1 y FE-2)
+  - UC-012: Agregado `RegistrationRequestApproved` (fase 6: aprobación jura e imposición medalla)
+  - UC-028: Agregado `EventCancelled` (transición manual a estado cancelado)
 - ✅ Correcciones de nomenclatura aplicadas (alineadas con KB-005 v1.4):
-  - `CarnetEmitido` → `CarnetGenerado` (UC-015)
-  - `SolicitudAltaCreada` → `SolicitudAltaIniciada` (UC-012)
+  - `CarnetEmitido` → `MemberCardGenerated` (UC-015)
+  - `SolicitudAltaCreada` → `RegistrationRequestStarted` (UC-012)
 - ✅ Validación experta completada: 13/13 eventos validados contra flujos documentados
 - ✅ Cobertura de eventos: 100% de eventos en KB-005 documentados en UCs
 - 📊 Total eventos en UCs: 166 (163 previos + 3 nuevos únicos agregados)
 
 ### **v2.5 (Febrero 2026):**
-- ✅ **BC-Eventos: Primeros 3 casos de uso documentados** (3/11 UCs)
+- ✅ **BC-Events: Primeros 3 casos de uso documentados** (3/11 UCs)
 - ✅ Documentados casos de uso:
   - UC-028: Registro y configuración de eventos (US-083, US-084)
   - UC-029: Calendario y sincronización (US-085, US-086)
   - UC-030: Inscripciones online (US-087, US-092, US-093)
 - ✅ Añadidas ~1.200 líneas de documentación técnica detallada
-- ✅ Incluye integración completa con BC-Tesoreria (cargos, pagos, reembolsos)
+- ✅ Incluye integración completa con BC-Treasury (cargos, pagos, reembolsos)
 - ✅ Implementación de optimistic locking para evitar double-booking (RNFT-019)
 - ✅ Generación y sincronización de calendarios iCal/CalDAV (US-086)
 - ✅ Formularios dinámicos con campos personalizados (US-093)
 - ✅ Total casos de uso documentados: 29/71 (40.8% del proyecto)
-- 🎯 **Siguiente objetivo:** BC-Eventos UC-031 a UC-033 (control aforo, check-in, eventos específicos)
+- 🎯 **Siguiente objetivo:** BC-Events UC-031 a UC-033 (control aforo, check-in, eventos específicos)
 
 ### **v1.1 (06 Febrero 2026):**
-- ✅ **BC-Tesoreria 100% COMPLETADO** (11/11 UCs documentados)
+- ✅ **BC-Treasury 100% COMPLETADO** (11/11 UCs documentados)
 - ✅ Documentados 3 casos de uso adicionales:
   - UC-025: Pasarela de pago online (US-068, US-069, US-070, US-071)
   - UC-026: Registro contable (US-072, US-073, US-074, US-075, US-076, US-077)
   - UC-027: Caja por turnos para peñas (US-078, US-079, US-080, US-081, US-082)
-- ✅ Corrección importante: Total UCs de BC-Tesoreria es 11, no 18
+- ✅ Corrección importante: Total UCs de BC-Treasury es 11, no 18
   - Razón: Todas las 40 US se agrupan correctamente en 11 casos de uso cohesivos
   - UC-025 incluye US-071 (comisiones pasarela)
   - UC-026 incluye 6 US (contabilidad + fiscalidad completa)
   - UC-027 incluye 5 US (ciclo completo de caja por turnos)
 - ✅ Total casos de uso documentados: 11/71 (15%)
-- 🎯 **Siguiente objetivo:** BC-Membresia (UC-009 a UC-015, 7 UCs pendientes)
+- 🎯 **Siguiente objetivo:** BC-Membership (UC-009 a UC-015, 7 UCs pendientes)
 
 ### **v1.0 (Febrero 2026):**
 - ✅ Generación inicial del documento
 - ✅ 71 casos de uso derivados de 202 user stories
 - ✅ 8 casos de uso documentados en detalle:
-  - BC-Identidad: UC-001 a UC-005 (5 UCs, 100% completado)
-  - BC-Membresia: UC-006 a UC-008 (3 UCs, parcial: 3/10 = 30%)
-  - BC-Tesoreria: UC-017 a UC-024 (8 UCs iniciales)
+  - BC-Identity: UC-001 a UC-005 (5 UCs, 100% completado)
+  - BC-Membership: UC-006 a UC-008 (3 UCs, parcial: 3/10 = 30%)
+  - BC-Treasury: UC-017 a UC-024 (8 UCs iniciales)
 - ✅ Estructura completa con índice y convenciones
 - ✅ Matriz de trazabilidad UC → US → BC
 

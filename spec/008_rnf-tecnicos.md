@@ -197,21 +197,21 @@ export class PermissionsGuard implements CanActivate {
 **Uso en controllers:**
 
 ```typescript
-// socios.controller.ts
-@Controller('socios')
+// members.controller.ts
+@Controller('members')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
-export class SociosController {
-  
+export class MembersController {
+
   @Get()
-  @RequirePermissions('membresia.socio.read')
+  @RequirePermissions('membership:members:read')
   findAll() { ... }
-  
+
   @Post()
-  @RequirePermissions('membresia.socio.create')
+  @RequirePermissions('membership:members:create')
   create() { ... }
-  
+
   @Delete(':id')
-  @RequirePermissions('membresia.socio.delete')
+  @RequirePermissions('membership:members:delete')
   remove() { ... }
 }
 ```
@@ -219,24 +219,24 @@ export class SociosController {
 **Estructura de permisos:**
 
 ```
-{bounded_context}.{aggregate}.{operation}
+{module}:{resource}:{action}
 
 Ejemplos:
-- membresia.socio.read
-- membresia.socio.create
-- tesoreria.remesa.generate
-- identidad.usuario.manage
+- membership:members:read
+- membership:members:create
+- treasury:remittances:generate
+- identity:users:manage
 ```
 
 **Roles predefinidos por tenant:**
 
 | Rol | Permisos |
 |-----|----------|
-| `admin` | Todos (`*.*.*`) |
-| `tesorero` | `tesoreria.*.*`, `membresia.socio.read` |
-| `secretario` | `membresia.*.*`, `comunicacion.*.*` |
-| `vocal` | `*.*.read`, `eventos.inscripcion.create` |
-| `socio` | Portal socio únicamente |
+| `admin` | Todos (`*:*:*`) |
+| `treasurer` | `treasury:*:*`, `membership:members:read` |
+| `secretary` | `membership:*:*`, `communication:*:*` |
+| `board_member` | `*:*:read`, `events:registrations:create` |
+| `member` | Portal socio únicamente |
 
 ---
 
@@ -385,13 +385,13 @@ async validatePassword(password: string, hash: string): Promise<boolean> {
 
 ```typescript
 // prisma/schema.prisma - campo cifrado a nivel aplicación
-model CuentaSocio {
+model MemberAccount {
   id            String   @id @default(uuid())
   ibanEncrypted String   // Cifrado con AES-256
   ibanHash      String   // Para búsquedas (SHA-256 truncado)
 }
 
-// cuenta-socio.service.ts
+// member-account.service.ts
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 
 const ALGORITHM = 'aes-256-gcm';
@@ -431,7 +431,7 @@ encrypt(text: string): { encrypted: string; iv: string; tag: string } {
 prisma.$use(async (params, next) => {
   const result = await next(params);
   
-  const auditableModels = ['Socio', 'CuentaSocio', 'Movimiento', 'Usuario'];
+  const auditableModels = ['Member', 'MemberAccount', 'Transaction', 'User'];
   const auditableActions = ['create', 'update', 'delete'];
   
   if (auditableModels.includes(params.model) && 
@@ -575,13 +575,13 @@ export default defineConfig({
 
 ```typescript
 // routes.tsx
-const SociosPage = lazy(() => import('./pages/Socios'));
-const TesoreriaPage = lazy(() => import('./pages/Tesoreria'));
+const MembersPage = lazy(() => import('./pages/Members'));
+const TreasuryPage = lazy(() => import('./pages/Treasury'));
 
 <Routes>
-  <Route path="/socios" element={
+  <Route path="/members" element={
     <Suspense fallback={<PageSkeleton />}>
-      <SociosPage />
+      <MembersPage />
     </Suspense>
   } />
 </Routes>
@@ -640,10 +640,10 @@ const prisma = new PrismaClient({
 });
 
 // Queries optimizadas con select específico
-const socios = await prisma.socio.findMany({
+const members = await prisma.member.findMany({
   select: {
     id: true,
-    nombre: true,
+    name: true,
     email: true,
     // NO incluir relaciones innecesarias
   },
@@ -699,29 +699,29 @@ Sentry.setContext('database', {
 **Procesamiento batch con Prisma:**
 
 ```typescript
-// remesa.service.ts
-async generateRemesa(socioIds: string[]): Promise<Remesa> {
+// remittance.service.ts
+async generateRemittance(memberIds: string[]): Promise<SepaRemittance> {
   const BATCH_SIZE = 100;
   const results = [];
-  
-  for (let i = 0; i < socioIds.length; i += BATCH_SIZE) {
-    const batch = socioIds.slice(i, i + BATCH_SIZE);
-    
+
+  for (let i = 0; i < memberIds.length; i += BATCH_SIZE) {
+    const batch = memberIds.slice(i, i + BATCH_SIZE);
+
     const batchResults = await this.prisma.$transaction(
-      batch.map(id => 
-        this.prisma.movimiento.create({
-          data: { socioId: id, tipo: 'CUOTA', ... }
+      batch.map(id =>
+        this.prisma.transaction.create({
+          data: { memberId: id, type: 'FEE', ... }
         })
       )
     );
-    
+
     results.push(...batchResults);
-    
+
     // Reportar progreso
-    await this.progressService.update(i / socioIds.length * 100);
+    await this.progressService.update(i / memberIds.length * 100);
   }
-  
-  return this.buildRemesaXml(results);
+
+  return this.buildRemittanceXml(results);
 }
 ```
 
@@ -729,9 +729,9 @@ async generateRemesa(socioIds: string[]): Promise<Remesa> {
 
 | Operación | Volumen | Tiempo máximo |
 |-----------|---------|---------------|
-| Remesa SEPA | 500 socios | < 30s |
+| Remesa SEPA | 500 members | < 30s |
 | Importación CSV | 500 registros | < 60s |
-| Generación cuotas | 500 socios | < 30s |
+| Generación cuotas | 500 members | < 30s |
 | Exportación Excel | 1000 registros | < 15s |
 
 **Procesamiento asíncrono con Bull (para operaciones > 30s):**
@@ -742,7 +742,7 @@ async generateRemesa(socioIds: string[]): Promise<Remesa> {
 export class MassiveOperationsProcessor {
   @Process('generate-remesa')
   async handleRemesa(job: Job<RemesaJobData>) {
-    const { tenantId, ejercicioId } = job.data;
+    const { tenantId, fiscalYearId } = job.data;
     // Proceso largo con reportes de progreso
     await job.progress(50);
     // ...
@@ -759,17 +759,17 @@ export class MassiveOperationsProcessor {
 **Índices PostgreSQL:**
 
 ```prisma
-model Socio {
+model Member {
   id        String @id @default(uuid())
-  nombre    String
-  apellidos String
+  name      String
+  surnames  String
   dni       String @unique
   email     String
-  estado    EstadoSocio
+  status    MemberStatus
   tenantId  String
-  
-  @@index([tenantId, estado])
-  @@index([tenantId, nombre, apellidos])
+
+  @@index([tenantId, status])
+  @@index([tenantId, name, surnames])
   @@index([dni])
 }
 ```
@@ -781,18 +781,18 @@ model Socio {
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 -- Índice para búsqueda fuzzy
-CREATE INDEX idx_socio_nombre_trgm ON "Socio" 
-  USING gin (nombre gin_trgm_ops);
+CREATE INDEX idx_member_name_trgm ON "Member"
+  USING gin (name gin_trgm_ops);
 ```
 
 ```typescript
-// socio.repository.ts
-async searchByName(tenantId: string, query: string): Promise<Socio[]> {
+// member.repository.ts
+async searchByName(tenantId: string, query: string): Promise<Member[]> {
   return this.prisma.$queryRaw`
-    SELECT * FROM "Socio"
+    SELECT * FROM "Member"
     WHERE "tenantId" = ${tenantId}
-    AND similarity(nombre || ' ' || apellidos, ${query}) > 0.3
-    ORDER BY similarity(nombre || ' ' || apellidos, ${query}) DESC
+    AND similarity(name || ' ' || surnames, ${query}) > 0.3
+    ORDER BY similarity(name || ' ' || surnames, ${query}) DESC
     LIMIT 20
   `;
 }
@@ -833,25 +833,25 @@ export const queryClient = new QueryClient({
 
 | Dato | staleTime | gcTime | Invalidación |
 |------|-----------|--------|--------------|
-| Listado socios | 5 min | 30 min | Mutation |
-| Detalle socio | 10 min | 60 min | Mutation |
+| Listado members | 5 min | 30 min | Mutation |
+| Detalle member | 10 min | 60 min | Mutation |
 | Tipos de cuota | 1 hora | 24 horas | Manual |
 | Configuración tenant | 1 hora | 24 horas | Manual |
 
 **Prefetching para navegación:**
 
 ```typescript
-// SociosList.tsx
-const prefetchSocio = (id: string) => {
+// MembersList.tsx
+const prefetchMember = (id: string) => {
   queryClient.prefetchQuery({
-    queryKey: ['socio', id],
-    queryFn: () => fetchSocio(id),
+    queryKey: ['member', id],
+    queryFn: () => fetchMember(id),
   });
 };
 
 // On hover
-<Link onMouseEnter={() => prefetchSocio(socio.id)}>
-  {socio.nombre}
+<Link onMouseEnter={() => prefetchMember(member.id)}>
+  {member.name}
 </Link>
 ```
 
@@ -864,8 +864,8 @@ const prefetchSocio = (id: string) => {
 **Implementación con Mantine Skeleton:**
 
 ```typescript
-// SocioCard.skeleton.tsx
-export const SocioCardSkeleton = () => (
+// MemberCard.skeleton.tsx
+export const MemberCardSkeleton = () => (
   <Card>
     <Group>
       <Skeleton height={50} circle />
@@ -878,13 +878,13 @@ export const SocioCardSkeleton = () => (
   </Card>
 );
 
-// SociosList.tsx
-const { data, isLoading } = useQuery(['socios'], fetchSocios);
+// MembersList.tsx
+const { data, isLoading } = useQuery(['members'], fetchMembers);
 
 if (isLoading) {
   return (
     <Stack>
-      {Array(5).fill(0).map((_, i) => <SocioCardSkeleton key={i} />)}
+      {Array(5).fill(0).map((_, i) => <MemberCardSkeleton key={i} />)}
     </Stack>
   );
 }
@@ -1139,7 +1139,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Associated - Portal del Socio',
+        name: 'Associated - Member Portal',
         short_name: 'Associated',
         theme_color: '#228be6',
         icons: [
@@ -1201,17 +1201,17 @@ SwaggerModule.setup('api/docs', app, document);
 **Decoradores en controllers:**
 
 ```typescript
-@ApiTags('Socios')
+@ApiTags('Members')
 @ApiBearerAuth()
 @ApiHeader({ name: 'X-Tenant-Id', required: true })
-@Controller('socios')
-export class SociosController {
-  
+@Controller('members')
+export class MembersController {
+
   @Get()
-  @ApiOperation({ summary: 'Listar socios del tenant' })
-  @ApiResponse({ status: 200, type: [SocioDto] })
+  @ApiOperation({ summary: 'Listar members del tenant' })
+  @ApiResponse({ status: 200, type: [MemberDto] })
   @ApiQuery({ name: 'page', required: false, type: Number })
-  findAll(@Query() query: ListSociosQuery) { ... }
+  findAll(@Query() query: ListMembersQuery) { ... }
 }
 ```
 
@@ -1322,25 +1322,25 @@ afterAll(async () => {
 **Test de repositorio:**
 
 ```typescript
-// socio.repository.integration.spec.ts
-describe('SocioRepository (Integration)', () => {
-  let repository: SocioRepository;
+// member.repository.integration.spec.ts
+describe('MemberRepository (Integration)', () => {
+  let repository: MemberRepository;
   let prisma: PrismaClient;
 
   beforeAll(async () => {
     prisma = new PrismaClient();
-    repository = new SocioRepository(prisma);
+    repository = new MemberRepository(prisma);
   });
 
-  it('should create and retrieve a socio', async () => {
-    const socio = await repository.create({
-      nombre: 'Juan',
-      apellidos: 'García',
+  it('should create and retrieve a member', async () => {
+    const member = await repository.create({
+      name: 'Juan',
+      surnames: 'García',
       email: 'juan@test.com',
     });
 
-    const found = await repository.findById(socio.id);
-    expect(found.nombre).toBe('Juan');
+    const found = await repository.findById(member.id);
+    expect(found.name).toBe('Juan');
   });
 });
 ```
@@ -1377,35 +1377,35 @@ export default defineConfig({
 **Test de flujo crítico:**
 
 ```typescript
-// e2e/alta-socio.spec.ts
-test('Alta de socio completa', async ({ page }) => {
+// e2e/member-registration.spec.ts
+test('Member registration complete', async ({ page }) => {
   // Login
   await page.goto('/login');
   await page.fill('[name="email"]', 'admin@test.com');
   await page.fill('[name="password"]', 'password123');
   await page.click('button[type="submit"]');
-  
-  // Navegar a socios
-  await page.click('text=Socios');
-  await page.click('text=Nuevo Socio');
-  
+
+  // Navegar a members
+  await page.click('text=Members');
+  await page.click('text=New Member');
+
   // Rellenar formulario
-  await page.fill('[name="nombre"]', 'Test');
-  await page.fill('[name="apellidos"]', 'User');
+  await page.fill('[name="name"]', 'Test');
+  await page.fill('[name="surnames"]', 'User');
   await page.fill('[name="email"]', 'test@example.com');
   await page.fill('[name="dni"]', '12345678A');
-  
+
   // Guardar
-  await page.click('text=Guardar');
-  
+  await page.click('text=Save');
+
   // Verificar
-  await expect(page.locator('text=Socio creado correctamente')).toBeVisible();
+  await expect(page.locator('text=Member created successfully')).toBeVisible();
 });
 ```
 
 **Flujos críticos cubiertos:**
 - Login/logout
-- Alta de socio
+- Alta de member
 - Registro de pago
 - Generación de remesa SEPA
 

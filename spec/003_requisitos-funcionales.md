@@ -395,7 +395,7 @@
 
 **Problema que resuelve:** Las altas llegan por múltiples canales (WhatsApp, email, presencial) y se gestionan de forma desorganizada.
 
-**Nota:** Si existe cuota de inscripción, se genera como SuscripcionCuota tipo UNICA. Para la cuota periódica, el socio selecciona un PlanCuota disponible para su tipo de socio (ver N4RF06).
+**Nota:** Si existe cuota de inscripción, se genera como FeeSubscription tipo ONE_TIME. Para la cuota periódica, el socio selecciona un FeePlan disponible para su tipo de socio (ver N4RF06).
 
 ---
 
@@ -673,7 +673,7 @@
 
 **Qué es:** Funcionalidad para crear cargos puntuales directamente a uno o varios socios sin necesidad de configurar un plan de cuota ni una suscripción.
 
-**Problema que resuelve:** Existen cobros puntuales (derramas urgentes, penalizaciones, ajustes) que no encajan en la estructura de planes de cuota. Crear un PlanCuota para cada caso puntual genera sobrecarga de configuración.
+**Problema que resuelve:** Existen cargos puntuales (derramas urgentes, penalizaciones, ajustes) que no encajan en la estructura de planes de cuota. Crear un FeePlan para cada caso puntual genera sobrecarga de configuración.
 
 **Campos específicos:**
 - Socio(s) destinatario(s): selección individual o masiva

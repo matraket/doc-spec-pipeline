@@ -12,12 +12,12 @@
 ## Índice
 
 0. [Resumen General](#resumen-general)
-1. [BC-Identidad: Acceso y Autorización](#1-bc-identidad-acceso-y-autorización) (N2)
-2. [BC-Membresia: Gestión de Socios](#2-bc-membresia-gestión-de-socios) (N3)
-3. [BC-Tesoreria: Gestión Económica](#3-bc-tesoreria-gestión-económica) (N4)
-4. [BC-Eventos: Actividades y Participación](#4-bc-eventos-actividades-y-participación) (N5)
-5. [BC-Comunicacion: Notificaciones y Mensajería](#5-bc-comunicacion-notificaciones-y-mensajería) (N6)
-6. [BC-Documentos: Gestión Documental](#6-bc-documentos-gestión-documental) (N7)
+1. [BC-Identity: Acceso y Autorización](#1-bc-identidad-acceso-y-autorización) (N2)
+2. [BC-Membership: Gestión de Socios](#2-bc-membresia-gestión-de-socios) (N3)
+3. [BC-Treasury: Gestión Económica](#3-bc-tesoreria-gestión-económica) (N4)
+4. [BC-Events: Actividades y Participación](#4-bc-eventos-actividades-y-participación) (N5)
+5. [BC-Communication: Notificaciones y Mensajería](#5-bc-comunicacion-notificaciones-y-mensajería) (N6)
+6. [BC-Documents: Gestión Documental](#6-bc-documentos-gestión-documental) (N7)
 7. [Transversal: Importación y Exportación](#7-transversal-importación-y-exportación) (N8)
 8. [Transversal: Visibilidad y Reporting](#8-transversal-visibilidad-y-reporting) (N9)
 9. [Transversal: Portal del Socio](#9-transversal-portal-del-socio) (N10)
@@ -55,12 +55,12 @@ Esta sección proporciona una vista consolidada de todas las User Stories del pr
 
 | BC | Sección H3 | Must | Should | Could | Won't | Total |
 |----|-----------|------|--------|-------|-------|-------|
-| **BC-Identidad** | **1.1 Gestión Multi-Tenant** | 3 | 0 | 0 | 0 | **3** |
+| **BC-Identity** | **1.1 Gestión Multi-Tenant** | 3 | 0 | 0 | 0 | **3** |
 | | **1.2 Gestión de Roles y Permisos** | 1 | 1 | 0 | 0 | **2** |
 | | **1.3 Auditoría y Trazabilidad** | 1 | 0 | 0 | 0 | **1** |
 | | **1.4 Gestión de Traspasos** | 0 | 2 | 0 | 0 | **2** |
-| | **Subtotal BC-Identidad** | **5** | **3** | **0** | **0** | **8** |
-| **BC-Membresia** | **2.1 Ficha de Socio** | 1 | 4 | 0 | 0 | **5** |
+| | **Subtotal BC-Identity** | **5** | **3** | **0** | **0** | **8** |
+| **BC-Membership** | **2.1 Ficha de Socio** | 1 | 4 | 0 | 0 | **5** |
 | | **2.2 Estados y Tipos de Socio** | 2 | 4 | 0 | 0 | **6** |
 | | **2.3 Historial y Antigüedad** | 2 | 1 | 0 | 0 | **3** |
 | | **2.4 Gestión de Ejercicios** | 2 | 2 | 1 | 0 | **5** |
@@ -68,31 +68,31 @@ Esta sección proporciona una vista consolidada de todas las User Stories del pr
 | | **2.6 Procesos de Baja** | 2 | 2 | 0 | 0 | **4** |
 | | **2.7 Lista de Espera** | 0 | 2 | 0 | 0 | **2** |
 | | **2.8 Carnets y Acreditaciones** | 2 | 3 | 0 | 0 | **5** |
-| | **Subtotal BC-Membresia** | **12** | **21** | **1** | **0** | **34** |
-| **BC-Tesoreria** | **3.1 Configuración de Planes de Cuota** | 6 | 4 | 0 | 0 | **10** |
+| | **Subtotal BC-Membership** | **12** | **21** | **1** | **0** | **34** |
+| **BC-Treasury** | **3.1 Configuración de Planes de Cuota** | 6 | 4 | 0 | 0 | **10** |
 | | **3.2 Registro de Cobros** | 4 | 1 | 0 | 0 | **5** |
 | | **3.3 Gestión de Morosidad** | 1 | 2 | 0 | 0 | **3** |
 | | **3.4 Remesas SEPA** | 6 | 1 | 0 | 0 | **7** |
 | | **3.5 Pasarela de Pago Online** | 0 | 2 | 2 | 0 | **4** |
 | | **3.6 Contabilidad y Fiscalidad** | 1 | 4 | 1 | 0 | **6** |
 | | **3.7 Caja por Turnos (Peñas)** | 0 | 5 | 0 | 0 | **5** |
-| | **Subtotal BC-Tesoreria** | **18** | **19** | **3** | **0** | **40** |
-| **BC-Eventos** | **4.1 Registro y Tipos de Eventos** | 1 | 1 | 0 | 0 | **2** |
+| | **Subtotal BC-Treasury** | **18** | **19** | **3** | **0** | **40** |
+| **BC-Events** | **4.1 Registro y Tipos de Eventos** | 1 | 1 | 0 | 0 | **2** |
 | | **4.2 Calendario y Sincronización** | 1 | 1 | 0 | 0 | **2** |
 | | **4.3 Inscripciones y Control de Aforo** | 3 | 4 | 0 | 0 | **7** |
 | | **4.4 Check-in y Control de Asistencia** | 2 | 3 | 0 | 0 | **5** |
 | | **4.5 Eventos Específicos: Comidas Populares** | 0 | 3 | 0 | 0 | **3** |
 | | **4.6 Eventos Específicos: Procesiones y Cultos** | 0 | 4 | 3 | 0 | **7** |
 | | **4.7 Eventos Específicos: Competiciones** | 0 | 4 | 0 | 0 | **4** |
-| | **Subtotal BC-Eventos** | **7** | **20** | **3** | **0** | **30** |
-| **BC-Comunicacion** | **5.1 Canales de Comunicación** | 1 | 2 | 1 | 0 | **4** |
+| | **Subtotal BC-Events** | **7** | **20** | **3** | **0** | **30** |
+| **BC-Communication** | **5.1 Canales de Comunicación** | 1 | 2 | 1 | 0 | **4** |
 | | **5.2 Segmentación y Plantillas** | 1 | 2 | 0 | 0 | **3** |
 | | **5.3 Histórico y Estadísticas** | 1 | 1 | 0 | 0 | **2** |
 | | **5.4 Notificaciones Automáticas** | 4 | 3 | 0 | 0 | **7** |
-| | **Subtotal BC-Comunicacion** | **7** | **8** | **1** | **0** | **16** |
-| **BC-Documentos** | **6.1 Libro de Actas** | 4 | 3 | 0 | 0 | **7** |
+| | **Subtotal BC-Communication** | **7** | **8** | **1** | **0** | **16** |
+| **BC-Documents** | **6.1 Libro de Actas** | 4 | 3 | 0 | 0 | **7** |
 | | **6.2 Repositorio de Documentos** | 4 | 5 | 3 | 0 | **12** |
-| | **Subtotal BC-Documentos** | **8** | **8** | **3** | **0** | **19** |
+| | **Subtotal BC-Documents** | **8** | **8** | **3** | **0** | **19** |
 | **Transversal** | **7.1 Importación de Datos** | 3 | 2 | 0 | 0 | **5** |
 | **(Importación/Exportación)** | **7.2 Exportación de Datos** | 3 | 4 | 1 | 0 | **8** |
 | | **Subtotal Importación/Exportación** | **6** | **6** | **1** | **0** | **13** |
@@ -118,24 +118,24 @@ Esta sección proporciona una vista consolidada de todas las User Stories del pr
 - **Won't (Excluidas v1):** 0 US (0.0%) - Ninguna US marcada explícitamente como fuera de scope para v1
 
 **Bounded Contexts más críticos (por Must):**
-1. BC-Tesoreria: 18 Must (22.5% del total de Must)
-2. BC-Membresia: 12 Must (15.0% del total de Must)
-3. BC-Documentos: 8 Must (10.0% del total de Must)
+1. BC-Treasury: 18 Must (22.5% del total de Must)
+2. BC-Membership: 12 Must (15.0% del total de Must)
+3. BC-Documents: 8 Must (10.0% del total de Must)
 
 **Bounded Contexts con mayor volumen total:**
-1. BC-Tesoreria: 40 US (19.8% del total)
-2. BC-Membresia: 34 US (16.8% del total)
-3. BC-Eventos: 30 US (14.9% del total)
+1. BC-Treasury: 40 US (19.8% del total)
+2. BC-Membership: 34 US (16.8% del total)
+3. BC-Events: 30 US (14.9% del total)
 
 **Observaciones:**
 - El proyecto tiene un fuerte énfasis en funcionalidades core (Must + Should = 93.6%)
-- BC-Tesoreria y BC-Membresia concentran las funcionalidades más críticas
+- BC-Treasury y BC-Membership concentran las funcionalidades más críticas
 - Las funcionalidades transversales (Importación, Reporting, Portal, Cumplimiento) representan el 27.7% del total
 - No hay User Stories marcadas como Won't, lo que indica que el scope está bien ajustado para la v1
 
 ---
 
-## 1. BC-Identidad: Acceso y Autorización
+## 1. BC-Identity: Acceso y Autorización
 
 ### 1.1 Gestión Multi-Tenant
 
@@ -410,7 +410,7 @@ Scenario: Alerta de cumplimiento de edad próximo
 
 ---
 
-### Resumen: BC-Identidad
+### Resumen: BC-Identity
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----------|
@@ -427,7 +427,7 @@ Scenario: Alerta de cumplimiento de edad próximo
 
 ---
 
-## 2. BC-Membresia: Gestión de Socios
+## 2. BC-Membership: Gestión de Socios
 
 ### 2.1 Ficha de Socio
 
@@ -1581,7 +1581,7 @@ Scenario: Exclusión automática de no elegibles
 
 ---
 
-### Resumen: BC-Membresia
+### Resumen: BC-Membership
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----------|
@@ -1624,7 +1624,7 @@ Scenario: Exclusión automática de no elegibles
 
 ---
 
-## 3. BC-Tesoreria: Gestión Económica
+## 3. BC-Treasury: Gestión Económica
 
 ### 3.1 Configuración de Planes de Cuota
 
@@ -1790,7 +1790,7 @@ Scenario: Cambio de plan mensual a anual
   And se crea nueva suscripción:
     | campo           | valor      |
     | planCuotaId     | Anual      |
-    | fechaAlta       | 01/04/2025 |
+    | registrationDate       | 01/04/2025 |
     | importeEfectivo | 90.00€     | (prorrateo 9 meses)
   And se genera cargo de 90€ para el resto del ejercicio
 
@@ -1989,7 +1989,7 @@ Scenario: Cargo manual individual
   Given necesidad de cobrar derrama por obras
   When el tesorero crea cargo manual:
     | campo        | valor                |
-    | socioId      | Juan García          |
+    | memberId      | Juan García          |
     | concepto     | Derrama obras local  |
     | importe      | 75.00€               |
     | vencimiento  | 28/02/2025           |
@@ -3123,7 +3123,7 @@ Scenario: Validaciones pre-cierre
 
 ---
 
-### Resumen: BC-Tesoreria
+### Resumen: BC-Treasury
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----------|
@@ -3179,7 +3179,7 @@ Scenario: Validaciones pre-cierre
 
 ---
 
-## 4. BC-Eventos: Actividades y Participación
+## 4. BC-Events: Actividades y Participación
 
 ### 4.1 Registro y Tipos de Eventos
 
@@ -3223,7 +3223,7 @@ Scenario: Evento con precio de inscripción
     | campo        | valor              |
     | precio       | 25.00€             |
     | pagoAnticip  | true               |
-  Then al inscribirse se genera cargo en BC-Tesoreria
+  Then al inscribirse se genera cargo en BC-Treasury
   And la inscripción queda pendiente hasta confirmar pago
 
 Scenario: Documentación asociada al evento
@@ -3404,7 +3404,7 @@ Scenario: Inscripción básica a evento gratuito
 Scenario: Inscripción a evento de pago
   Given un evento con precio de 25€
   When el socio se inscribe
-  Then se genera cargo en BC-Tesoreria
+  Then se genera cargo en BC-Treasury
   And la inscripción queda en estado "Pendiente de pago"
   And se envía enlace de pago al socio
   And tras confirmar pago, inscripción pasa a "Confirmada"
@@ -3590,9 +3590,9 @@ Scenario: Reapertura manual
 Scenario: Generación de cargo al inscribirse
   Given un evento con precio de 35€
   When el socio completa la inscripción
-  Then se crea Cargo en BC-Tesoreria:
+  Then se crea Cargo en BC-Treasury:
     | campo        | valor                      |
-    | socioId      | [socio inscrito]           |
+    | memberId      | [socio inscrito]           |
     | concepto     | Inscripción: Comida Fiestas|
     | importe      | 35.00€                     |
     | esManual     | false                      |
@@ -3601,7 +3601,7 @@ Scenario: Generación de cargo al inscribirse
 
 Scenario: Confirmación automática tras pago
   Given una inscripción pendiente de pago
-  When BC-Tesoreria notifica pago confirmado (evento PagoCobrado)
+  When BC-Treasury notifica pago confirmado (evento PagoCobrado)
   Then la inscripción pasa a "Confirmada"
   And el socio recibe confirmación definitiva
 
@@ -3617,7 +3617,7 @@ Scenario: Precio diferenciado por tipo de socio
 Scenario: Cancelación con reembolso
   Given inscripción pagada
   When el socio cancela antes del plazo de reembolso
-  Then se registra solicitud de reembolso en BC-Tesoreria
+  Then se registra solicitud de reembolso en BC-Treasury
   And el organizador aprueba/rechaza según política
 ```
 
@@ -3637,7 +3637,7 @@ Scenario: Campos básicos de inscripción
   Given cualquier inscripción
   Then se registra automáticamente:
     | campo            | origen           |
-    | socioId          | Usuario logueado |
+    | memberId          | Usuario logueado |
     | fechaInscripción | Automática       |
     | estado           | Según flujo      |
 
@@ -3772,7 +3772,7 @@ Scenario: Registro automático de hora
   Given check-in de un socio (por QR o manual)
   Then se registra:
     | campo        | valor           |
-    | socioId      | 00142           |
+    | memberId      | 00142           |
     | eventoId     | EVT-2025-015    |
     | horaCheckIn  | 2025-03-15 18:05|
     | método       | QR / Manual     |
@@ -4478,7 +4478,7 @@ Scenario: Acta de partido
 
 ---
 
-### Resumen: BC-Eventos
+### Resumen: BC-Events
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----------|
@@ -4524,7 +4524,7 @@ Scenario: Acta de partido
 
 ---
 
-## 5. BC-Comunicacion: Notificaciones y Mensajería
+## 5. BC-Communication: Notificaciones y Mensajería
 
 ### 5.1 Canales de Comunicación
 
@@ -4919,8 +4919,8 @@ Scenario: Socios que no abren emails
 ```gherkin
 Scenario: Email de bienvenida automático
   Given un nuevo socio registrado
-  When BC-Membresia emite evento SocioRegistrado
-  Then BC-Comunicacion envía email con:
+  When BC-Membership emite evento SocioRegistrado
+  Then BC-Communication envía email con:
     | elemento           | contenido                      |
     | Asunto             | ¡Bienvenido/a a [Entidad]!     |
     | Saludo             | Hola Juan,                     |
@@ -5016,7 +5016,7 @@ Scenario: Agrupación de avisos
 ```gherkin
 Scenario: Aviso de devolución SEPA
   Given una devolución SEPA recibida
-  When BC-Tesoreria emite evento PagoDevuelto
+  When BC-Treasury emite evento PagoDevuelto
   Then se envía email al socio:
     | elemento           | contenido                      |
     | Asunto             | Incidencia con tu recibo       |
@@ -5087,7 +5087,7 @@ Scenario: Segunda convocatoria recordatoria
 ```gherkin
 Scenario: Confirmación de inscripción
   Given una inscripción a evento realizada
-  When BC-Eventos emite evento InscripcionRealizada
+  When BC-Events emite evento InscripcionRealizada
   Then se envía email de confirmación:
     | elemento           | contenido                      |
     | Asunto             | Inscripción confirmada         |
@@ -5141,7 +5141,7 @@ Scenario: Configuración de recordatorios por evento
 
 ---
 
-### Resumen: BC-Comunicacion
+### Resumen: BC-Communication
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----------|
@@ -5170,7 +5170,7 @@ Scenario: Configuración de recordatorios por evento
 
 ---
 
-## 6. BC-Documentos: Gestión Documental
+## 6. BC-Documents: Gestión Documental
 
 ### 6.1 Libro de Actas
 
@@ -5811,7 +5811,7 @@ Scenario: Justificante vinculado a cobro
 
 ---
 
-### Resumen: BC-Documentos
+### Resumen: BC-Documents
 
 | US | RF | Título | Prioridad |
 |----|-----|--------|-----|-----------|
@@ -7314,7 +7314,7 @@ Scenario: Registro de consentimiento
   Given un socio que acepta uso de imagen
   Then se registra:
     | dato            | valor                              |
-    | socioId         | 00142                              |
+    | memberId         | 00142                              |
     | tipo            | USO_IMAGEN_RRSS                    |
     | texto           | "Autorizo el uso de mi imagen..."  |
     | fechaOtorgamiento| 04/02/2025 10:30:45               |

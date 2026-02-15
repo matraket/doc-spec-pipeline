@@ -235,7 +235,7 @@ src/
 **Configuración multi-tenant (ADR-002):**
 ```
 PostgreSQL Instance
-├── associated_main          (BC-Identidad: usuarios, tenants)
+├── associated_main          (BC-Identity: usuarios, tenants)
 ├── associated_tenant_001    (datos tenant 1)
 ├── associated_tenant_002    (datos tenant 2)
 └── associated_tenant_XXX    (datos tenant N)
