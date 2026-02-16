@@ -2,3 +2,4 @@
 .vscode/
 .agent/
 .cursor/
+**/__pycache__/
