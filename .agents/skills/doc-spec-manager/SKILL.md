@@ -1,25 +1,189 @@
 ---
 name: doc-spec-manager
 description: >
-  Navegación y consulta de la especificación del proyecto Associated.
-  Usar cuando se necesite: (1) consultar requisitos funcionales (RF),
-  (2) verificar requisitos no funcionales (RNF/RNFT),
-  (3) consultar el modelo de dominio (BCs, Aggregates),
-  (4) revisar decisiones arquitectónicas (ADR),
-  (5) consultar el stack tecnológico,
-  (6) buscar user stories (US) o casos de uso (UC),
-  (7) verificar trazabilidad entre entidades documentales.
+  Navegación, consulta y verificación de alineamiento con la especificación
+  del proyecto Associated. Usar cuando se necesite:
+  (1) implementar funcionalidades alineadas con la spec,
+  (2) consultar requisitos, modelo de dominio, ADRs o stack,
+  (3) crear o extender documentación de especificación,
+  (4) verificar trazabilidad entre entidades documentales.
 ---
 
 # Doc Spec Manager
 
-Navegación eficiente de la especificación fragmentada del proyecto Associated.
+Gestión integral de la especificación fragmentada del proyecto Associated.
 La documentación fuente (`spec/`) está fragmentada en ~627 archivos atómicos
-optimizados para consulta por agentes.
+en `references/`, optimizados para consulta por agentes.
 
-## Estructura de la Documentación
+## Modos de Uso
 
-### Tipos de Entidad
+Este skill tiene 3 modos de uso por orden de importancia:
+
+1. **Implementación alineada** — Verificar que el código cumple la spec.
+2. **Extensión de spec** — Crear o completar entidades documentales.
+3. **Consulta** — Buscar y navegar la documentación.
+
+---
+
+## 1. Implementación Alineada
+
+**Este es el modo principal.** Cuando implementes cualquier funcionalidad,
+debes verificar el alineamiento con la especificación.
+
+### Workflow de implementación
+
+Antes de escribir código para un UC o US:
+
+1. **Leer el UC** que vas a implementar:
+   ```
+   Read references/uc/uc-001.md
+   ```
+   Extraer: Application Service, Aggregates, flujos, Domain Events.
+
+2. **Leer las US referenciadas** por el UC:
+   ```
+   Read references/us/us-001.md
+   ```
+   Extraer: criterios de aceptación (escenarios Gherkin), prioridad.
+
+3. **Leer el BC** donde se implementa:
+   ```
+   Read references/bc/bc-identity.md
+   ```
+   Verificar: Aggregates, Entities, Value Objects, invariantes, Domain Events.
+
+4. **Verificar RNFs aplicables**: buscar qué RNFs afectan a esta funcionalidad:
+   ```
+   Grep "N2RF01" references/rnf/
+   ```
+   Cada RNF tiene criterios de aceptación que el código DEBE cumplir.
+
+5. **Verificar RNFTs técnicos**: concreciones con el stack:
+   ```
+   Grep "RNF-004" references/rnft/
+   ```
+   Cada RNFT tiene configuraciones específicas, métricas y código de referencia.
+
+6. **Verificar ADRs aplicables**:
+   ```
+   Grep "multi-tenant\|Multi-Tenant" references/adr/
+   ```
+   Las ADRs definen restricciones arquitectónicas que NO se pueden violar.
+
+### Checklist de alineamiento
+
+Al implementar, verificar siempre:
+
+- [ ] **Modelo de dominio**: Aggregates, Entities y Value Objects coinciden con el BC.
+- [ ] **Invariantes**: todas las invariantes del Aggregate se respetan en el código.
+- [ ] **Domain Events**: se emiten los eventos documentados en el UC.
+- [ ] **Application Service**: el nombre y responsabilidad coinciden con el UC.
+- [ ] **Flujos**: el código implementa flujo normal + flujos alternativos + excepciones del UC.
+- [ ] **Criterios de aceptación**: los escenarios Gherkin de las US son testeables.
+- [ ] **RNFs de seguridad**: autenticación, autorización RBAC, aislamiento tenant.
+- [ ] **RNFs de rendimiento**: tiempos de respuesta, paginación, caché.
+- [ ] **RNFs de RGPD**: datos personales encriptados, derecho al olvido, consentimientos.
+- [ ] **ADRs**: la arquitectura respeta las decisiones documentadas.
+
+### Ejemplo completo
+
+Para implementar "Provisión de nuevo tenant":
+
+```
+1. Read references/uc/uc-001.md
+   → Application Service: TenantProvisioningService
+   → Aggregate: Tenant
+   → Events: TenantProvisioned
+
+2. Read references/us/us-001.md
+   → RF Origen: N2RF01
+   → 3 escenarios Gherkin a satisfacer
+
+3. Read references/bc/bc-identity.md
+   → Aggregate User, Aggregate Tenant (estructura completa)
+
+4. Grep "N2RF01" references/rnf/
+   → rnf-004.md (Aislamiento Multi-Tenant por BD)
+   → Criterios: BD separada, usuario específico, sin filtros WHERE
+
+5. Grep "RNF-004" references/rnft/
+   → rnft-004.md (Multi-tenant con Prisma)
+   → Código referencia: PrismaTenantService, TenantMiddleware
+
+6. Read references/adr/adr-002.md
+   → Decisión: BD separada por tenant con usuario dedicado
+```
+
+---
+
+## 2. Extensión de Especificación
+
+Cuando se necesite crear nuevas entidades documentales (US, UC, BC, RF, etc.)
+o completar las existentes.
+
+### Reglas de consistencia
+
+Toda nueva entidad DEBE:
+
+- **Trazabilidad obligatoria**: cada entidad referencia a sus ancestros en la cadena.
+- **Sin duplicidad**: verificar que no existe una entidad que ya cubra la funcionalidad.
+- **Sin violación de RNFs**: la nueva funcionalidad no puede contradecir RNFs existentes.
+- **Codificación secuencial**: usar el siguiente número disponible en la secuencia.
+
+### Cadena de trazabilidad
+
+```
+RF (qué necesita el negocio)
+ └→ RNF (restricciones agnósticas de tecnología)
+     └→ RNFT (concreción técnica con el stack elegido)
+         └→ ADR (decisiones arquitectónicas)
+ └→ BC (modelo de dominio: Aggregates, Entities, Value Objects)
+     └→ US (historias de usuario agrupadas por BC)
+         └→ UC (casos de uso: flujos, servicios, eventos)
+```
+
+### Campos de trazabilidad por tipo de entidad
+
+| Tipo | Campos obligatorios | Ejemplo |
+|------|--------------------| --------|
+| **RF** | Sección (N{x}) | `> **Sección:** N2: Arquitectura...` |
+| **RNF** | Categoría + `Trazabilidad RF:` códigos RF | `**Trazabilidad RF:** N2RF01, N2RF03` |
+| **RNFT** | Categoría + `RNF Base:` código RNF | `**RNF Base:** RNF-004 (...)` |
+| **ADR** | Estado + Trazabilidad RNF en texto | `Según RNF-004, se requiere...` |
+| **US** | Contexto (BC + subsección) + `RF Origen:` + `Prioridad:` | `**RF Origen:** N2RF01` |
+| **UC** | BC + `User Stories:` + `Application Service:` + `Aggregates:` + `Prioridad:` | Sección Metadatos completa |
+
+### Workflow para crear una nueva US
+
+1. **Identificar el RF origen**: leer el head de RF y encontrar el RF relacionado.
+2. **Verificar que no existe US para ese RF**:
+   ```
+   Grep "N4RF15" references/us/
+   ```
+3. **Identificar el BC destino**: consultar el mapeo RF→BC en `head-modelo-dominio.md`.
+4. **Determinar el siguiente código**: listar US existentes del BC y usar el siguiente.
+5. **Verificar RNFs aplicables**: buscar RNFs trazados al RF origen.
+6. **Redactar la US** siguiendo el formato existente (ver cualquier `us/us-*.md`).
+7. **Añadir al documento spec/** correspondiente (NO a references/).
+8. **Regenerar references** con `doc-spec-generator`.
+
+### Workflow para crear un nuevo UC
+
+1. **Identificar las US que agrupa**: un UC consolida 1+ US del mismo BC.
+2. **Verificar que no existe UC similar**:
+   ```
+   Grep "Application Service.*FeePlanService" references/uc/
+   ```
+3. **Determinar el siguiente código UC**: listar UCs del BC.
+4. **Definir**: Application Service, Aggregates, flujos, Domain Events, excepciones.
+5. **Verificar alineamiento con BC**: los Aggregates del UC existen en el BC.
+6. **Redactar en spec/** y regenerar con `doc-spec-generator`.
+
+---
+
+## 3. Consulta y Navegación
+
+### Tipos de entidad
 
 | Tipo | Código | Carpeta | Head file | Cantidad |
 |------|--------|---------|-----------|----------|
@@ -32,7 +196,7 @@ optimizados para consulta por agentes.
 | User Stories | US-{xxx} | `us/` | `head-user-stories.md` | 202 |
 | Casos de Uso | UC-{xxx} | `uc/` | `head-use-cases.md` | 76 |
 
-### Jerarquía de Archivos
+### Jerarquía de archivos
 
 ```
 references/
@@ -47,70 +211,39 @@ references/
 └── uc/uc-{xxx}.md         ← Fragmento individual de UC
 ```
 
-## Cómo Navegar
+### Consulta por tipo
 
-### 1. Consulta por tipo de entidad
-
-**Siempre empezar por el head file** correspondiente. Los head files contienen
-metadatos, índice de secciones, tablas resumen y trazabilidad.
+**Siempre empezar por el head file** correspondiente:
 
 ```
-# Para entender los requisitos funcionales:
 Read references/head-requisitos-funcionales.md
-
-# Para ver el modelo de dominio completo (incluye Context Map y trazabilidad):
 Read references/head-modelo-dominio.md
+Read references/head-user-stories.md
 ```
 
-### 2. Consulta de un item específico
-
-Si ya conoces el código, accede directamente al fragmento:
+### Consulta por código directo
 
 ```
-# RF específico
 Read references/rf/n2rf01.md
-
-# RNF específico
 Read references/rnf/rnf-001.md
-
-# BC específico
 Read references/bc/bc-identity.md
-
-# ADR específico
 Read references/adr/adr-001.md
-
-# Stack por sección
 Read references/stack/backend.md
-
-# RNFT específico
 Read references/rnft/rnft-001.md
-
-# US específica
 Read references/us/us-001.md
-
-# UC específico
 Read references/uc/uc-001.md
 ```
 
-### 3. Búsqueda por contenido
+### Búsqueda por contenido
 
 ```
-# Buscar en qué RFs se menciona "SEPA"
 Grep "SEPA" references/rf/
-
-# Buscar todas las US de prioridad Must
 Grep "Must" references/us/
-
-# Buscar qué UCs afectan a un BC
 Grep "BC-Treasury" references/uc/
-
-# Buscar RNFs de una categoría
 Grep "Categoría.*Seguridad" references/rnf/
 ```
 
-### 4. Secciones del Stack
-
-Las secciones de `stack/` no tienen código numérico. Mapeo:
+### Secciones del Stack
 
 | Archivo | Contenido |
 |---------|-----------|
@@ -123,38 +256,13 @@ Las secciones de `stack/` no tienen código numérico. Mapeo:
 | `herramientas.md` | ESLint, Prettier, etc. |
 | `servicios.md` | Sentry, SMTP, etc. |
 
-## Cadena de Trazabilidad
-
-La documentación sigue una cadena de refinamiento progresivo:
-
-```
-RF (qué necesita el negocio)
- └→ RNF (restricciones agnósticas de tecnología)
-     └→ RNFT (concreción técnica con el stack elegido)
-         └→ ADR (decisiones arquitectónicas que justifican el stack)
- └→ BC (modelo de dominio: Aggregates, Entities, Value Objects)
-     └→ US (historias de usuario agrupadas por BC)
-         └→ UC (casos de uso: flujos, servicios, eventos)
-```
-
-### Ejemplos de trazabilidad
-
-**De RF a implementación:**
-1. Leer `rf/n2rf01.md` → menciona "Aislamiento Multi-Tenant"
-2. Buscar RNF relacionado: `Grep "N2RF01" references/rnf/` → `rnf-004.md`
-3. Buscar RNFT: `Grep "RNF-004" references/rnft/` → `rnft-004.md`
-4. Ver ADR correspondiente: referenciado en RNFT → `adr/adr-002.md`
-
-**De UC a requisitos:**
-1. Leer `uc/uc-001.md` → referencia US-001
-2. Leer `us/us-001.md` → referencia N2RF01
-3. Leer `rf/n2rf01.md` → requisito de negocio original
+---
 
 ## Convenciones
 
 - **Nombres de archivo**: siempre lowercase kebab-case (`rnf-001.md`, `bc-identity.md`).
 - **Códigos de negocio**: dentro del contenido mantienen formato original (`RNF-001`, `BC-Identity`).
-- **Contexto en fragmentos**: los RF, RNF, RNFT, US y UC incluyen una línea de contexto
+- **Contexto en fragmentos**: RF, RNF, RNFT, US y UC incluyen una línea de contexto
   al inicio (blockquote `>`) indicando su sección/categoría/BC padre.
 
 ## Regeneración
