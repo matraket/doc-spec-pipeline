@@ -1,4 +1,8 @@
-# 🧩 Associated Doc Skills
+<p align="center">
+  <img src="assets/doc-spec-pipeline.svg" alt="DocSpec Pipeline banner" width="100%" />
+</p>
+
+# 🧩 DocSpec Pipeline
 
 ### Convertir documentación fuente extensa en conocimiento navegable y operativo para agentes de IA.
 
@@ -178,7 +182,7 @@ graph TD
 ## 📁 Estructura del repositorio
 
 ```
-associated-doc-skills/
+doc-spec-pipeline/
 ├── skills/
 │   ├── doc-spec-generator/    # Skill de generación y scripts
 │   └── doc-spec-manager/      # Skill de navegación y consulta
