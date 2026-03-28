@@ -5,7 +5,7 @@
 **Fecha:** Febrero 2026  
 **Inputs:** KB-002 (Análisis de Necesidades), KB-003 (Requisitos Funcionales)  
 **Estado:** Validado  
-**Total RNFs:** 66
+**Total RNFs:** 67
 
 ---
 
@@ -16,7 +16,7 @@
 3. [RGPD y Cumplimiento Normativo](#3-rgpd-y-cumplimiento-normativo) (12 RNFs)
 4. [Disponibilidad y Continuidad](#4-disponibilidad-y-continuidad) (8 RNFs)
 5. [Usabilidad y Experiencia de Usuario](#5-usabilidad-y-experiencia-de-usuario) (12 RNFs)
-6. [Mantenibilidad y Operaciones](#6-mantenibilidad-y-operaciones) (10 RNFs)
+6. [Mantenibilidad y Operaciones](#6-mantenibilidad-y-operaciones) (11 RNFs)
 
 ---
 

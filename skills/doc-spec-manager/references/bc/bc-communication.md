@@ -107,15 +107,15 @@ Gestiona el envío de comunicaciones a socios: emails, notificaciones push, SMS 
 ### 6.3 Domain Events
 
 BC-Communication emite eventos relacionados con el ciclo de vida de las comunicaciones:
-| Evento | Trigger | Payload | Consumidores |
-|--------|---------|---------|--------------|
-| `CommunicationSent` | Envío completado | communicationId, totalDestinatarios, canal, fechaEnvio | - |
-| `EmailBounced` | Email rebota (bounce) | envioId, memberId, email, tipoBounce (hard/soft), motivo | BC-Membership (marcar email inválido si hard bounce) |
-| `WelcomeNotificationSent` | Email bienvenida enviado a nuevo socio | memberId, email, fechaEnvio, templateId | - |
-| `PaymentReminderSent` | Recordatorio de pago enviado | memberId, email, cargoId, importe, fechaLimite | - |
-| `DelinquencyNoticeSent` | Aviso de morosidad enviado | memberId, email, deudaTotal, fechaEnvio | - |
-| `DirectDebitNoticeSent` | Aviso pre-remesa enviado | memberId, email, remesaId, importe, fechaCargo | - |
-| `RegistrationConfirmationSent` | Confirmación de inscripción a evento | memberId, email, eventId, registrationId | - |
+| Evento | Trigger | Payload | Consumidores | Tipo |
+|--------|---------|---------|--------------|------|
+| `CommunicationSent` | Envío completado | communicationId, totalDestinatarios, canal, fechaEnvio | - | Domain |
+| `EmailBounced` | Email rebota (bounce) | envioId, memberId, email, tipoBounce (hard/soft), motivo | BC-Membership (marcar email inválido si hard bounce) | Integration |
+| `WelcomeNotificationSent` | Email bienvenida enviado a nuevo socio | memberId, email, fechaEnvio, templateId | - | Domain |
+| `PaymentReminderSent` | Recordatorio de pago enviado | memberId, email, cargoId, importe, fechaLimite | - | Domain |
+| `DelinquencyNoticeSent` | Aviso de morosidad enviado | memberId, email, deudaTotal, fechaEnvio | - | Domain |
+| `DirectDebitNoticeSent` | Aviso pre-remesa enviado | memberId, email, remesaId, importe, fechaCargo | - | Domain |
+| `RegistrationConfirmationSent` | Confirmación de inscripción a evento | memberId, email, eventId, registrationId | - | Domain |
 
 **Notas:**
 

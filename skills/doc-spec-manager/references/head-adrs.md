@@ -55,7 +55,7 @@
     - [Decisión](#decisión-6)
     - [Consecuencias](#consecuencias-6)
     - [Trazabilidad](#trazabilidad-6)
-  - [ADR-008: Gestión de Domain Events](#adr-008-gestión-de-domain-events)
+  - [ADR-008: Estrategia de Eventos: Domain Events y Integration Events](#adr-008-estrategia-de-eventos-domain-events-y-integration-events)
     - [Estado](#estado-7)
     - [Contexto](#contexto-7)
     - [Decisión](#decisión-7)
@@ -101,11 +101,11 @@
 | ADR-001 | RNF-020, RNF-057          |
 | ADR-002 | RNF-004, RNF-029, RNF-038 |
 | ADR-003 | RNF-057                   |
-| ADR-004 | RNF-042                   |
+| ADR-004 | RNF-067                   |
 | ADR-005 | RNF-004, RNF-038, RNF-066 |
 | ADR-006 | RNF-001, RNF-002, RNF-005 |
 | ADR-007 | RNF-003, RNF-013          |
-| ADR-008 | RNF-007, RNF-042          |
+| ADR-008 | RNF-007, RNF-067          |
 | ADR-009 | RNF-058-060               |
 | ADR-010 | RNF-015-016, RNF-057      |
 | ADR-011 | RNF-009, RNF-022          |

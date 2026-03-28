@@ -476,30 +476,30 @@ SubscriptionCancelReason (enum):
 
 ### 4.4 Domain Events
 
-| Evento                          | Trigger                         | Payload                                                                 | Consumidores                                                           |
-| ------------------------------- | ------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `ChargeGenerated`               | Creación de cargo               | chargeId, memberId, amount, description                                 | BC-Communication (aviso)                                               |
-| `PaymentRecorded`               | Cobro confirmado                | paymentId, chargeId, memberId, amount, metodo                           | BC-Membership (actualizar estado si procede)                           |
-| `PaymentReturned`               | Devolución bancaria             | paymentId, chargeId, motivo                                             | BC-Communication (notificar), BC-Membership (marcar morosidad)         |
-| `DelinquencyDetected`           | Cargo vencido sin pago          | memberId, chargeId, diasVencido                                         | BC-Communication (workflow avisos)                                     |
-| `FeePlanCreated`                | Creación de plan                | feePlanId, code, name, type, amount                                     | BC-Membership (invalidar caché)                                        |
-| `FeePlanModified`               | Modificación plan               | feePlanId, camposModificados                                            | BC-Membership (invalidar caché)                                        |
-| `FeePlanLinkedToMemberType`     | Vinculación N:M                 | feePlanId, memberTypeId, isDefault                                      | BC-Membership (invalidar caché)                                        |
-| `ChargePaid`                    | Pago de cargo                   | chargeId, memberId, amount, paymentDate, paymentMethod                  | BC-Communication (enviar recibo), BC-Membership (actualizar morosidad) |
-| `ChargeCollected`               | Cobro efectivo de cargo         | chargeId, memberId, amount, fechaCobro, remittanceId?                   | BC-Communication (confirmar pago)                                      |
-| `ChargeMarkedForRetry`          | Marcado para reintento de cobro | chargeId, memberId, intentoNumero, proximaFecha                         | BC-Communication (avisar socio)                                        |
-| `ReceiptGenerated`              | Generación de recibo PDF        | reciboId, paymentId, numeroRecibo, issueDate                            | BC-Communication (enviar por email), BC-Documents (archivar)           |
-| `SepaMandateRegistered`         | Registro mandato SEPA           | mandateId, memberId, iban, signatureDate, status                        | BC-Treasury (habilitar domiciliación)                                  |
-| `SepaMandateRevoked`            | Revocación mandato SEPA         | mandateId, memberId, motivoRevocacion, fechaRevocacion                  | BC-Treasury (deshabilitar domiciliación), BC-Communication (notificar) |
-| `SepaRemittanceGenerated`       | Generación fichero SEPA XML     | remittanceId, chargeDate, totalAdeudos, totalAmount, creditorIdentifier | BC-Communication (avisar socios 2 días antes)                          |
-| `PaymentLinkGenerated`          | Generación enlace pago online   | chargeId, memberId, url, expirationDate                                 | BC-Communication (enviar email con enlace)                             |
-| `DelinquencyRegularized`        | Regularización de morosidad     | memberId, paidAmount, fechaRegularizacion                               | BC-Membership (restaurar estado), BC-Communication (confirmar)         |
-| `OverdraftCertificateGenerated` | Certificado de descubierto      | certificadoId, memberId, deudaTotal, issueDate                          | BC-Documents (archivar), BC-Communication (notificar socio)            |
-| `SubscriptionCreated`           | Creación suscripción cuota      | subscriptionId, memberId, feePlanId, fechaInicio, status                | BC-Treasury (programar generación mensual)                             |
-| `SubscriptionModified`          | Modificación suscripción        | subscriptionId, camposModificados[], fechaModificacion                  | BC-Treasury (recalcular próximos cargos)                               |
-| `SubscriptionClosed`            | Cierre de suscripción           | subscriptionId, motivoCierre, fechaCierre                               | BC-Treasury (detener generación)                                       |
-| `MonthlyGenerationCompleted`    | Generación mensual de cuotas    | fiscalYearId, mes, totalCargosGenerados, totalAmount                    | BC-Communication (notificar tesorero), Sistema de auditoría            |
-| `DiscrepancyDetected`           | Detección de descuadre          | diferencia, cuentaId, fechaDeteccion                                    | BC-Communication (alertar tesorero)                                    |
+| Evento                          | Trigger                         | Payload                                                                 | Consumidores                                                           | Tipo        |
+| ------------------------------- | ------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
+| `ChargeGenerated`               | Creación de cargo               | chargeId, memberId, amount, description                                 | BC-Communication (aviso)                                               | Integration |
+| `PaymentRecorded`               | Cobro confirmado                | paymentId, chargeId, memberId, amount, metodo                           | BC-Membership (actualizar estado si procede)                           | Integration |
+| `PaymentReturned`               | Devolución bancaria             | paymentId, chargeId, motivo                                             | BC-Communication (notificar), BC-Membership (marcar morosidad)         | Integration |
+| `DelinquencyDetected`           | Cargo vencido sin pago          | memberId, chargeId, diasVencido                                         | BC-Communication (workflow avisos)                                     | Integration |
+| `FeePlanCreated`                | Creación de plan                | feePlanId, code, name, type, amount                                     | BC-Membership (invalidar caché)                                        | Integration |
+| `FeePlanModified`               | Modificación plan               | feePlanId, camposModificados                                            | BC-Membership (invalidar caché)                                        | Integration |
+| `FeePlanLinkedToMemberType`     | Vinculación N:M                 | feePlanId, memberTypeId, isDefault                                      | BC-Membership (invalidar caché)                                        | Integration |
+| `ChargePaid`                    | Pago de cargo                   | chargeId, memberId, amount, paymentDate, paymentMethod                  | BC-Communication (enviar recibo), BC-Membership (actualizar morosidad) | Integration |
+| `ChargeCollected`               | Cobro efectivo de cargo         | chargeId, memberId, amount, fechaCobro, remittanceId?                   | BC-Communication (confirmar pago)                                      | Integration |
+| `ChargeMarkedForRetry`          | Marcado para reintento de cobro | chargeId, memberId, intentoNumero, proximaFecha                         | BC-Communication (avisar socio)                                        | Integration |
+| `ReceiptGenerated`              | Generación de recibo PDF        | reciboId, paymentId, numeroRecibo, issueDate                            | BC-Communication (enviar por email), BC-Documents (archivar)           | Integration |
+| `SepaMandateRegistered`         | Registro mandato SEPA           | mandateId, memberId, iban, signatureDate, status                        | BC-Treasury (habilitar domiciliación)                                  | Domain      |
+| `SepaMandateRevoked`            | Revocación mandato SEPA         | mandateId, memberId, motivoRevocacion, fechaRevocacion                  | BC-Treasury (deshabilitar domiciliación), BC-Communication (notificar) | Integration |
+| `SepaRemittanceGenerated`       | Generación fichero SEPA XML     | remittanceId, chargeDate, totalAdeudos, totalAmount, creditorIdentifier | BC-Communication (avisar socios 2 días antes)                          | Integration |
+| `PaymentLinkGenerated`          | Generación enlace pago online   | chargeId, memberId, url, expirationDate                                 | BC-Communication (enviar email con enlace)                             | Integration |
+| `DelinquencyRegularized`        | Regularización de morosidad     | memberId, paidAmount, fechaRegularizacion                               | BC-Membership (restaurar estado), BC-Communication (confirmar)         | Integration |
+| `OverdraftCertificateGenerated` | Certificado de descubierto      | certificadoId, memberId, deudaTotal, issueDate                          | BC-Documents (archivar), BC-Communication (notificar socio)            | Integration |
+| `SubscriptionCreated`           | Creación suscripción cuota      | subscriptionId, memberId, feePlanId, fechaInicio, status                | BC-Treasury (programar generación mensual)                             | Domain      |
+| `SubscriptionModified`          | Modificación suscripción        | subscriptionId, camposModificados[], fechaModificacion                  | BC-Treasury (recalcular próximos cargos)                               | Domain      |
+| `SubscriptionClosed`            | Cierre de suscripción           | subscriptionId, motivoCierre, fechaCierre                               | BC-Treasury (detener generación)                                       | Domain      |
+| `MonthlyGenerationCompleted`    | Generación mensual de cuotas    | fiscalYearId, mes, totalCargosGenerados, totalAmount                    | BC-Communication (notificar tesorero), Sistema de auditoría            | Integration |
+| `DiscrepancyDetected`           | Detección de descuadre          | diferencia, cuentaId, fechaDeteccion                                    | BC-Communication (alertar tesorero)                                    | Integration |
 
 ### 4.5 Domain Services
 

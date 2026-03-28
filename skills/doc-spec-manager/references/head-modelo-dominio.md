@@ -79,7 +79,7 @@ Según KB-001, el MVP se centra en **2-3 bounded contexts core**:
 
 1. **Autonomía**: Cada BC puede evolucionar independientemente
 2. **Cohesión**: Conceptos relacionados permanecen juntos
-3. **Acoplamiento bajo**: Comunicación entre BCs vía Domain Events
+3. **Acoplamiento bajo**: Comunicación entre BCs vía Integration Events
 4. **Lenguaje ubicuo**: Cada BC tiene su propio vocabulario preciso
 
 ---
@@ -120,8 +120,8 @@ Según KB-001, el MVP se centra en **2-3 bounded contexts core**:
 │                                                                            │
 │  Leyenda:                                                                  │
 │    ───ACL───► : Anticorruption Layer (traduce conceptos)                   │
-│    ───PUB───► : Publisher (emite Domain Events)                            │
-│    ◄──SUB─── : Subscriber (consume Domain Events)                          │
+│    ───PUB───► : Publisher (emite Integration Events)                       │
+│    ◄──SUB─── : Subscriber (consume Integration Events)                     │
 │                                                                            │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -266,79 +266,79 @@ Nunca se almacenan datos de un tenant en la BD de otro.
 
 ---
 
-## 9.5 Event Nomenclature: Business vs Internal Events
+## 9.5 Event Nomenclature: Integration Events vs Domain Events
 
 ### Propósito
 
-Esta sección clarifica la distinción entre **Eventos de Negocio** (Business Events) para integración cross-BC y **Eventos Internos** (Internal Events) del ciclo de vida de Aggregates, para evitar confusión durante la documentación de UCs y la implementación del sistema.
+Esta sección clarifica la distinción entre **Integration Events** para integración cross-BC y **Domain Events** (audit-only, intra-BC) para el registro de operaciones de dominio, conforme a la estrategia de eventos definida en ADR-004 y ADR-008.
 
-### Eventos de Negocio (Business Events) - Integración Cross-BC
+### Integration Events (cross-BC)
 
 **Características:**
 
-- Publicados para consumo por otros Bounded Contexts
+- Publicados para consumo por otros Bounded Contexts vía Outbox Pattern
 - Representan **operaciones de negocio completadas** con contexto completo
 - Documentados en las tablas de eventos de los UCs (sección "Eventos Publicados")
 - Nomenclatura: `<Entidad><AcciónCompletaConContexto>` (ej. `SepaRemittanceGenerated`, `TenantProvisioned`)
+- Tipo: `Integration` en las tablas de eventos de cada BC
+
+**Infraestructura:**
+
+- Persistidos en tabla `outbox_event` de la **main DB** (con `tenant_id`) en la misma transacción
+- Un único `IntegrationEventPublisher` compartido en `shared/` — todos los BCs inyectan el mismo
+- Schema: `id`, `tenant_id`, `bounded_context`, `event_type`, `aggregate_id`, `aggregate_type`, `payload` (JSONB), `actor_id`, `status` (ENUM: pending/processing/processed/failed), `retry_count`, `max_retries`, `created_at`, `processed_at`
+- `OutboxProcessor` único lee de main DB: polling 5s, batch 50, mutex de concurrencia, stale recovery tras 5min
+- Consumers: `@EventsHandler` en BCs destino. Idempotencia natural (upserts) como default
 
 **Propósito:**
 
 - Integración y orquestación cross-BC
 - Trigger de workflows en otros contextos
 - Notificaciones visibles al usuario (vía BC-Communication)
+- Dual-write MVP: best-effort write a main DB post-commit en tenant DB
 
 **Ejemplo:** `TenantProvisioned`
 
 - Trigger: Tras completar el provisionamiento completo del tenant (UC-001 paso 6)
 - Payload: Información completa (tenantId, nombreColectividad, tipoColectividad, adminUserId, cif)
-- Consumidores: BC-Communication (email bienvenida), Sistema de Monitorización
+- Consumidores: BC-Communication (email bienvenida)
 
-### Eventos Internos (Internal Events) - Ciclo de Vida de Aggregates
+### Domain Events (intra-BC, audit-only)
 
 **Características:**
 
-- Emitidos durante cambios de estado internos del Aggregate
-- Representan **operaciones técnicas de grano fino**
-- NO documentados en tablas de eventos de UCs (solo en KB-005)
-- Nomenclatura: `<Entidad><AcciónSimple>` (ej. `SepaRemittanceGenerated`, `TenantCreado`)
+- Registros de auditoría write-only. Se persisten en tabla `outbox_event` de la **tenant DB** en la misma transacción que la operación de dominio
+- Sin despacho (no `EventBus.publish()`). Sin consumers. Toda lógica intra-BC va directamente en command handlers
+- Tipo: `Domain` en las tablas de eventos de cada BC
+
+**Infraestructura:**
+
+- Persistidos en tabla `outbox_event` de la **tenant DB** sin status ni retry
+- Schema: `id`, `bounded_context`, `event_type`, `aggregate_id`, `aggregate_type`, `payload` (JSONB), `actor_id`, `occurred_at`
+- Índices: `(aggregate_id, occurred_at)`, `(bounded_context)`, `(occurred_at)`
+- Sin OutboxProcessor — puro log inmutable, no hay entrega garantizada
 
 **Propósito:**
 
-- Auditoría y trazabilidad interna
-- Implementación futura de event sourcing
-- Tracking del ciclo de vida del Aggregate
+- Auditoría y trazabilidad interna del tenant
+- Registro inmutable de operaciones de dominio
+- Base para análisis posterior y cumplimiento normativo
 
-**Ejemplo:** `TenantCreado`
-
-- Trigger: Cuando se crea por primera vez el Aggregate Tenant (UC-001 paso 2)
-- Payload: Información técnica (tenantId, datos básicos)
-- Consumidores: Ninguno (solo uso interno)
-- Evento de Negocio: `TenantProvisioned` se emite posteriormente cuando el provisionamiento se completa
-
-### Mapeo: Eventos Internos → Eventos de Negocio
-
-| Evento Interno (KB-005)        | Evento de Negocio (UCs)    | Contexto                                           |
-| ------------------------------ | -------------------------- | -------------------------------------------------- |
-| `TenantCreado`                 | `TenantProvisioned`        | UC-001: Provisionamiento de tenant                 |
-| `SepaRemittanceGenerated`      | `SepaRemittanceGenerated`  | UC-023: Generación de remesa SEPA                  |
-| `SepaRemittanceSent`           | `SepaRemittanceSent`       | UC-023: Procesamiento de remesa SEPA               |
-| `SepaMandateRegistered`        | `SepaMandateRegistered`    | UC-023: Registro de mandato SEPA                   |
-| `SepaMandateExpired`           | (Implícito en UC-023 FA-3) | UC-023: Caducidad de mandato tras 36 meses         |
-| `MemberSuspendedForNonpayment` | `MemberStatusChanged`      | UC-007/UC-022: Evento genérico de cambio de estado |
+**Nota sobre self-consuming events:** Eventos que anteriormente se auto-consumían dentro del mismo BC (ej. `SepaMandateRegistered` → BC-Treasury, `SubscriptionCreated` → BC-Treasury) se reclasifican como Domain Events. La lógica correspondiente se mueve directamente al command handler.
 
 ### Guías de Implementación
 
 **Al documentar UCs:**
 
-1. Incluir SOLO Eventos de Negocio en las tablas "Eventos Publicados"
-2. Los Eventos Internos pueden mencionarse en las descripciones de flujo pero no en tablas de eventos
-3. Si existen ambos tipos de eventos, emitir primero el Interno, luego el de Negocio
+1. Incluir SOLO Integration Events en las tablas "Eventos Publicados"
+2. Los Domain Events pueden mencionarse en las descripciones de flujo pero no en tablas de eventos de UCs
+3. Si existen ambos tipos para la misma operación, el Domain Event se persiste en tenant DB y el Integration Event en main DB, en la misma transacción
 
-**Al implementar Event-Driven Architecture:**
+**Al implementar la arquitectura de eventos:**
 
-1. Publicar Eventos de Negocio en message broker (ej. RabbitMQ, Kafka)
-2. Almacenar Eventos Internos en event store para auditoría (opcional)
-3. Los consumidores externos NO deben depender NUNCA de Eventos Internos
+1. Integration Events: inyectar `IntegrationEventPublisher` (shared/) y llamar `.publish()` tras el commit
+2. Domain Events: persistir directamente en `outbox_event` de tenant DB via repositorio, sin publicar
+3. Los consumers externos NO deben depender NUNCA de Domain Events — solo de Integration Events
 
 ---
 

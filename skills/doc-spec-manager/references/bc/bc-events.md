@@ -243,17 +243,17 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 
 ### 5.4 Domain Events
 
-| Evento                   | Trigger                            | Payload                                      | Consumidores                                                           |
-| ------------------------ | ---------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
-| `EventCreated`           | Creación evento                    | eventId, tipo, fecha                         | BC-Communication (publicar)                                            |
-| `EventPublished`         | Apertura inscripciones             | eventId                                      | BC-Communication (notificar socios)                                    |
-| `EventCancelled`         | Cancelación                        | eventId, motivo                              | BC-Communication (notificar inscritos), BC-Treasury (reembolsos)       |
-| `RegistrationCompleted`  | Nueva inscripción                  | registrationId, eventId, memberId            | BC-Treasury (generar cargo si precio), BC-Communication (confirmación) |
-| `RegistrationCancelled`  | Cancelación inscripción            | registrationId, eventId                      | BC-Treasury (anular cargo)                                             |
-| `CapacityReached`        | Aforo lleno                        | eventId                                      | BC-Communication (activar lista espera)                                |
-| `SlotReleased`           | Baja de inscrito                   | eventId, posicionListaEspera                 | BC-Communication (notificar siguiente)                                 |
-| `EventFeedbackRequested` | Solicitud valoraciones post-evento | eventId, registeredMembers[], fechaSolicitud | BC-Communication (enviar formulario)                                   |
-| `RecurringIssueDetected` | Detección patrón de problemas      | eventId, tipoProblema, frecuencia            | BC-Communication (alertar organizadores)                               |
+| Evento                   | Trigger                            | Payload                                      | Consumidores                                                           | Tipo        |
+| ------------------------ | ---------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
+| `EventCreated`           | Creación evento                    | eventId, tipo, fecha                         | BC-Communication (publicar)                                            | Integration |
+| `EventPublished`         | Apertura inscripciones             | eventId                                      | BC-Communication (notificar socios)                                    | Integration |
+| `EventCancelled`         | Cancelación                        | eventId, motivo                              | BC-Communication (notificar inscritos), BC-Treasury (reembolsos)       | Integration |
+| `RegistrationCompleted`  | Nueva inscripción                  | registrationId, eventId, memberId            | BC-Treasury (generar cargo si precio), BC-Communication (confirmación) | Integration |
+| `RegistrationCancelled`  | Cancelación inscripción            | registrationId, eventId                      | BC-Treasury (anular cargo)                                             | Integration |
+| `CapacityReached`        | Aforo lleno                        | eventId                                      | BC-Communication (activar lista espera)                                | Integration |
+| `SlotReleased`           | Baja de inscrito                   | eventId, posicionListaEspera                 | BC-Communication (notificar siguiente)                                 | Integration |
+| `EventFeedbackRequested` | Solicitud valoraciones post-evento | eventId, registeredMembers[], fechaSolicitud | BC-Communication (enviar formulario)                                   | Integration |
+| `RecurringIssueDetected` | Detección patrón de problemas      | eventId, tipoProblema, frecuencia            | BC-Communication (alertar organizadores)                               | Integration |
 
 ### 5.5 Trazabilidad RF
 

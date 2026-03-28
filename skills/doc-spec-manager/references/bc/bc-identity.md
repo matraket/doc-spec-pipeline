@@ -122,12 +122,12 @@ Gestiona la autenticación de usuarios, autorización basada en roles y la estru
 
 ### 8.4 Domain Events
 
-| Evento                 | Trigger                      | Payload                                                                      |
-| ---------------------- | ---------------------------- | ---------------------------------------------------------------------------- |
-| `UserCreated`          | Registro                     | userId, email                                                                |
-| `UserAuthenticated`    | Login exitoso                | userId, tenantId, email, rol, ipAddress, userAgent, timestamp                |
-| `AuthenticationFailed` | Login fallido                | email, intentos, ip                                                          |
-| `TenantProvisioned`    | Provisión completa de tenant | tenantId, nombreColectividad, tipoColectividad, adminUserId, adminEmail, cif |
+| Evento                 | Trigger                      | Payload                                                                      | Consumidores                    | Tipo        |
+| ---------------------- | ---------------------------- | ---------------------------------------------------------------------------- | ------------------------------- | ----------- |
+| `UserCreated`          | Registro                     | userId, email                                                                | -                               | Domain      |
+| `UserAuthenticated`    | Login exitoso                | userId, tenantId, email, rol, ipAddress, userAgent, timestamp                | -                               | Domain      |
+| `AuthenticationFailed` | Login fallido                | email, intentos, ip                                                          | -                               | Domain      |
+| `TenantProvisioned`    | Provisión completa de tenant | tenantId, nombreColectividad, tipoColectividad, adminUserId, adminEmail, cif | BC-Communication (bienvenida)   | Integration |
 
 ### 8.5 Trazabilidad RF
 

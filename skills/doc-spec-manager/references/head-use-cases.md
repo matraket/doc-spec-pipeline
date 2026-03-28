@@ -1,4 +1,4 @@
-# Matriz de Trazabilidad: User Stories → Casos de Uso
+# Casos de Uso
 
 **Proyecto:** Associated - ERP para Colectividades Españolas  
 **Versión:** 2.6  

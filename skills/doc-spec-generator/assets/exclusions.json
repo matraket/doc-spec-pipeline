@@ -1,5 +1,17 @@
 [
   {
+    "file": "011_mvp-strategy-executive.md",
+    "exclude-atom": true,
+    "exclude-copy": true,
+    "_comment": "Archivo completamente ignorado por el pipeline, como si no existiera en spec/"
+  },
+  {
+    "file": "011_mvp-strategy.md",
+    "exclude-atom": true,
+    "exclude-copy": true,
+    "_comment": "Archivo completamente ignorado por el pipeline, como si no existiera en spec/"
+  },
+  {
     "file": "analisis-documentacion.md",
     "exclude-atom": true,
     "exclude-copy": true,

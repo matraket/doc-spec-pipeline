@@ -265,20 +265,20 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 
 ### 3.4 Domain Events
 
-| Evento                        | Trigger                       | Payload                                       | Consumidores                                                   |
-| ----------------------------- | ----------------------------- | --------------------------------------------- | -------------------------------------------------------------- |
-| `MemberRegistered`            | Alta completada               | memberId, memberType, fecha                   | BC-Treasury (generar cuota), BC-Communication (bienvenida)     |
-| `MemberDeactivated`           | Baja cualquier tipo           | memberId, tipoBaja, motivo, fecha             | BC-Treasury (anular pendientes), BC-Communication (notificar)  |
-| `MemberStatusChanged`         | Cambio de estado              | memberId, estadoAnterior, estadoNuevo, motivo | BC-Treasury (suspender/reactivar cobros)                       |
-| `MemberTypeChanged`           | Cambio de categoría           | memberId, tipoAnterior, tipoNuevo             | BC-Treasury (ajustar cuota)                                    |
-| `MemberDataUpdated`           | Modificación datos            | memberId, camposModificados                   | BC-Treasury (si IBAN), BC-Communication (si email)             |
-| `MemberCardValidated`         | Escaneo QR exitoso            | memberCardId, memberId, timestamp, ubicacion? | BC-Events (check-in automático)                                |
-| `FiscalYearOpened`            | Apertura ejercicio            | fiscalYearId, periodo                         | BC-Treasury (generar cuotas), BC-Membership (arrastrar socios) |
-| `FiscalYearClosed`            | Cierre ejercicio              | fiscalYearId, estadisticas                    | BC-Documents (generar memoria)                                 |
-| `RegistrationRequestStarted`  | Nueva solicitud               | requestId, datos                              | BC-Communication (notificar junta)                             |
-| `RegistrationRequestApproved` | Aprobación                    | requestId, memberId                           | BC-Communication (notificar aspirante)                         |
-| `MemberTypeCreated`           | Creación de tipo de socio     | memberTypeId, name, description, tenantId     | BC-Treasury (vincular planes de cuota)                         |
-| `NonpaymentLeave`             | Baja automática por morosidad | memberId, deudaTotal, leaveDate               | BC-Communication (notificar), BC-Treasury (cerrar cuenta)      |
+| Evento                        | Trigger                       | Payload                                       | Consumidores                                                   | Tipo        |
+| ----------------------------- | ----------------------------- | --------------------------------------------- | -------------------------------------------------------------- | ----------- |
+| `MemberRegistered`            | Alta completada               | memberId, memberType, fecha                   | BC-Treasury (generar cuota), BC-Communication (bienvenida)     | Integration |
+| `MemberDeactivated`           | Baja cualquier tipo           | memberId, tipoBaja, motivo, fecha             | BC-Treasury (anular pendientes), BC-Communication (notificar)  | Integration |
+| `MemberStatusChanged`         | Cambio de estado              | memberId, estadoAnterior, estadoNuevo, motivo | BC-Treasury (suspender/reactivar cobros)                       | Integration |
+| `MemberTypeChanged`           | Cambio de categoría           | memberId, tipoAnterior, tipoNuevo             | BC-Treasury (ajustar cuota)                                    | Integration |
+| `MemberDataUpdated`           | Modificación datos            | memberId, camposModificados                   | BC-Treasury (si IBAN), BC-Communication (si email)             | Integration |
+| `MemberCardValidated`         | Escaneo QR exitoso            | memberCardId, memberId, timestamp, ubicacion? | BC-Events (check-in automático)                                | Integration |
+| `FiscalYearOpened`            | Apertura ejercicio            | fiscalYearId, periodo                         | BC-Treasury (generar cuotas), BC-Membership (arrastrar socios) | Integration |
+| `FiscalYearClosed`            | Cierre ejercicio              | fiscalYearId, estadisticas                    | BC-Documents (generar memoria)                                 | Integration |
+| `RegistrationRequestStarted`  | Nueva solicitud               | requestId, datos                              | BC-Communication (notificar junta)                             | Integration |
+| `RegistrationRequestApproved` | Aprobación                    | requestId, memberId                           | BC-Communication (notificar aspirante)                         | Integration |
+| `MemberTypeCreated`           | Creación de tipo de socio     | memberTypeId, name, description, tenantId     | BC-Treasury (vincular planes de cuota)                         | Integration |
+| `NonpaymentLeave`             | Baja automática por morosidad | memberId, deudaTotal, leaveDate               | BC-Communication (notificar), BC-Treasury (cerrar cuenta)      | Integration |
 
 ### 3.5 Trazabilidad RF
 

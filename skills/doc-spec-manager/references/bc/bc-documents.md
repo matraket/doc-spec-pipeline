@@ -97,9 +97,9 @@ Repositorio centralizado de documentos de la entidad: estatutos, actas, facturas
 ### 7.3 Domain Events
 
 BC-Documents emite eventos relacionados con la generación y gestión de documentos:
-| Evento | Trigger | Payload | Consumidores |
-|--------|---------|---------|--------------|
-| `AssemblyReportGenerated` | Informe de Asamblea General generado | informeId, fiscalYearId, tipoInforme, fechaGeneracion, generadoPor | BC-Documents (almacenar en repositorio) |
+| Evento | Trigger | Payload | Consumidores | Tipo |
+|--------|---------|---------|--------------|------|
+| `AssemblyReportGenerated` | Informe de Asamblea General generado | informeId, fiscalYearId, tipoInforme, fechaGeneracion, generadoPor | BC-Documents (almacenar en repositorio) | Domain |
 
 **Notas:**
 
