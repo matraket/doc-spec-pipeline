@@ -82,7 +82,27 @@ Esquema de Numeración: UC-xxx (ej: UC-001, UC-076)
 
 ────────────────────────────────────────
 
-Total: 32,626 líneas de documentación
+```
+Archivo: 012_modelo-de-datos.md
+Líneas: 1,132
+Versión: 1.0
+Propósito: Define 40 Entidades del modelo relacional organizadas por BC y base de datos (DB-Main/DB-Tenant)
+Esquema de Numeración: ENT-xxx (ej: ENT-001, ENT-040)
+```
+
+────────────────────────────────────────
+
+```
+Archivo: 013_inventario-de-endpoints.md
+Líneas: 4,031
+Versión: 1.0
+Propósito: Define 123 Endpoints del API REST organizados por BC con contratos, permisos y trazabilidad
+Esquema de Numeración: EP-xxx (ej: EP-001, EP-123)
+```
+
+────────────────────────────────────────
+
+Total: 37,257 líneas de documentación
 
 ---
 
@@ -173,6 +193,20 @@ Bounded Contexts (BC) - 005_modelo-dominio.md
   - BC-Identity (también generic)
 - Total: 6 BCs + 1 transversal de cumplimiento normativo
 
+Entidades del Modelo de Datos (ENT) - 012_modelo-de-datos.md
+
+- Formato: ENT-xxx (ENT-001 a ENT-040)
+- Organización: Por BD (DB-Main, DB-Tenant) y por BC
+- Estados: Implementada Fase 1 (17), Pendiente Fase 2 (3), Placeholder (20)
+- Total: 40 entidades
+
+Endpoints del API (EP) - 013_inventario-de-endpoints.md
+
+- Formato: EP-xxx (EP-001 a EP-123)
+- Organización: Por BC (Identity, Membership, Treasury, Events, Communication, Documents, Transversal)
+- Estados: Implementado Fase 1 (63), Pendiente Fase 2 (28), Pendiente Fase 3 (4), Placeholder (28)
+- Total: 123 endpoints
+
 ---
 
 ## 3. PATRONES DE REFERENCIAS CRUZADAS (TRAZABILIDAD)
@@ -196,6 +230,10 @@ KB-002 (Análisis de Necesidades)
     │               └→ 009_user-stories.md (202 USs con "RF Origen: NxRFyy")
     │                       ↓
     │                       └→ 010_casos-uso.md (76 UCs con "User Stories: US-xxx")
+    │                               ↓
+    │                               └→ 012_modelo-de-datos.md (40 ENTs con "BC: BC-xxx")
+    │                                       ↓
+    │                                       └→ 013_inventario-de-endpoints.md (123 EPs con "UC: UC-xxx, ENT: ENT-xxx")
     │
     └→ glosario-traducciones.md (Nomenclatura ES→EN)
 ```
@@ -227,10 +265,26 @@ Tipos de Referencias Encontradas
 ├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
 │ RNFT a   │ "RNFT-003 implementa RBAC para        │ 008_rnf-tecnicos.md → 005_modelo-dominio.md      │ Implícito       │
 │ BC       │ BC-Identity"                          │                                                  │                 │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ ENT a BC │ ENT-009 → BC-Membership               │ 012 → 005                                        │ ~40 refs        │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ ENT a    │ ENT-009 → RNF-006                     │ 012 → 004                                        │ ~50 refs        │
+│ RNF      │                                       │                                                  │                 │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ ENT a    │ ENT-009 → ADR-002                     │ 012 → 006                                        │ ~40 refs        │
+│ ADR      │                                       │                                                  │                 │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ EP a UC  │ EP-001 → UC-001                       │ 013 → 010                                        │ ~123 refs       │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ EP a ENT │ EP-015 → ENT-009                      │ 013 → 012                                        │ ~300 refs       │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ UC a ENT │ UC-006 → ENT-009                      │ 010 → 012                                        │ ~76 refs        │
+├──────────┼───────────────────────────────────────┼──────────────────────────────────────────────────┼─────────────────┤
+│ UC a EP  │ UC-006 → EP-015..024                  │ 010 → 013                                        │ ~76 refs        │
 └──────────┴───────────────────────────────────────┴──────────────────────────────────────────────────┴─────────────────┘
 ```
 
-Total de referencias cruzadas encontradas: ~1,783 menciones de patrones de código
+Total de referencias cruzadas encontradas: ~2,459 menciones de patrones de código
 
 ---
 
@@ -265,6 +319,14 @@ US (User Story)
 UC (Caso de Uso)
     ↓
     UC-020: "Generación de Remesa SEPA" agrupa US-047, US-048, US-049
+    ↓
+ENT (Modelo de Datos)
+    ↓
+    UC-020 materializa: ENT-018 (sepa_mandates), ENT-019 (sepa_remittances), ENT-020 (sepa_debits)
+    ↓
+EP (Endpoint API)
+    ↓
+    EP-079..087: SEPA endpoints (GET, POST, PUT sobre mandatos y remesas)
 
 Matriz de Impacto (Cambios en Upstream afectan Downstream)
 
@@ -281,6 +343,10 @@ Matriz de Impacto (Cambios en Upstream afectan Downstream)
 │ 1 US         │ 1 UC + 1+ RFs         │ 202 USs mapeadas 1:N a UCs              │
 ├──────────────┼───────────────────────┼─────────────────────────────────────────┤
 │ 1 ADR        │ 12 BCs + ~10 RNFs     │ 12 ADRs × 12 = 144 impactos potenciales │
+├──────────────┼───────────────────────┼─────────────────────────────────────────┤
+│ 1 ENT        │ ~2-3 EPs (promedio)   │ 40 ENTs × 3 ≈ 120 impactos             │
+├──────────────┼───────────────────────┼─────────────────────────────────────────┤
+│ 1 EP         │ ~1-2 ENTs + 1 UC      │ 123 EPs × 2 ≈ 246 impactos             │
 └──────────────┴───────────────────────┴─────────────────────────────────────────┘
 ```
 
@@ -340,6 +406,33 @@ Matriz RNF Base → RNF Técnico (008_rnf-tecnicos.md línea 1515)
 | RNF-003  | RNFT-003    | NestJS Guards + RBAC |
 | ... (~35 filas) |
 
+Matriz ENT → BC + RNF + ADR (012_modelo-de-datos.md sección Trazabilidad)
+
+Cada entidad en 012 incluye una sección de trazabilidad con tres dimensiones:
+- BC de pertenencia (BC-Identity, BC-Membership, BC-Treasury, etc.)
+- RNFs que aplican (seguridad, cifrado, retención de datos)
+- ADRs que la condicionan (multi-tenant, persistencia, RBAC)
+
+| Entidad    | BC               | RNFs relacionados         | ADRs aplicables |
+|------------|------------------|---------------------------|-----------------|
+| ENT-009    | BC-Membership    | RNF-006 (cifrado DNI)     | ADR-002, ADR-005 |
+| ENT-018    | BC-Treasury      | RNF-018 (batch SEPA)      | ADR-002, ADR-008 |
+| ... (~40 filas totales) |
+
+Matriz EP → UC + ENT (013_inventario-de-endpoints.md sección Trazabilidad)
+
+Cada endpoint en 013 incluye trazabilidad bidireccional:
+- UC que lo origina (obligatorio)
+- ENTs que lee o modifica (1 o más)
+- Permisos RBAC requeridos
+
+| Endpoint   | UC origen | ENTs afectadas            | Permisos        |
+|------------|-----------|---------------------------|-----------------|
+| EP-001     | UC-001    | ENT-001 (tenants)         | SUPERADMIN      |
+| EP-015     | UC-006    | ENT-009 (members)         | ADMIN, SECRETARY |
+| EP-079     | UC-020    | ENT-018, ENT-019          | TREASURER       |
+| ... (~123 filas totales) |
+
 ---
 
 ## 6. CADENA DE DEPENDENCIAS (DEPENDENCY CHAIN)
@@ -367,7 +460,13 @@ Nivel 5 (Especificación funcional):
 Nivel 6 (Casos de uso):
   010_casos-uso.md (Inputs: KB-009)
 
-Nivel 7 (Referencia):
+Nivel 7 (Modelo de datos):
+  012_modelo-de-datos.md (Inputs: KB-005, KB-006, KB-010)
+
+Nivel 8 (Endpoints):
+  013_inventario-de-endpoints.md (Inputs: KB-010, KB-012, KB-006)
+
+Nivel 9 (Referencia):
   glosario-traducciones.md (Referencia global)
 
 Dependencias Lógicas (Qué debe estar definido antes)
@@ -384,8 +483,12 @@ Dependencias Lógicas (Qué debe estar definido antes)
   - 003, 005, 008 deben estar listos antes de 009
 6. Antes de definir UC → Necesitar US
   - 009 debe estar validado antes de 010
+7. Antes de definir ENT → Necesitar BC + ADR + UC completos
+  - 005 + 006 + 010 deben estar completos antes de 012
+8. Antes de definir EP → Necesitar UC + ENT + ADR completos
+  - 010 + 012 + 006 deben estar completos antes de 013
 
-Ruta crítica: KB-002 → 003 → 005 → 006 → 007 → 008 → 009 → 010
+Ruta crítica: KB-002 → 003 → 005 → 006 → 007 → 008 → 009 → 010 → 012 → 013
 
 ---
 
@@ -437,6 +540,18 @@ UC (Caso): "UC-006: Registro de Socio con validación y cifrado"
 Implementación: Controllers, Services, Repositories
 ```
 
+Patrón 4: Materialización Física
+
+```
+BC (dominio abstracto) → ENT (tabla relacional) → EP (contrato HTTP)
+Ejemplo:
+  BC-Treasury, Aggregate: FeePlan
+    ↓
+  ENT-011 (fee_plans) - tabla PostgreSQL con columnas, índices, FK
+    ↓
+  EP-038..046 - CRUD endpoints sobre fee_plans con permisos RBAC
+```
+
 ---
 
 ## 8. RESUMEN EJECUTIVO
@@ -445,9 +560,9 @@ Implementación: Controllers, Services, Repositories
 ┌──────────────────────────────────┬────────────────────────────────────────┐
 │             Métrica              │                 Valor                  │
 ├──────────────────────────────────┼────────────────────────────────────────┤
-│ Total Documentos                 │ 8 ficheros .md                         │
+│ Total Documentos                 │ 10 ficheros .md                        │
 ├──────────────────────────────────┼────────────────────────────────────────┤
-│ Total Líneas                     │ 31,931                                 │
+│ Total Líneas                     │ 37,257                                 │
 ├──────────────────────────────────┼────────────────────────────────────────┤
 │ Total RFs                        │ 221                                    │
 ├──────────────────────────────────┼────────────────────────────────────────┤
@@ -463,15 +578,19 @@ Implementación: Controllers, Services, Repositories
 ├──────────────────────────────────┼────────────────────────────────────────┤
 │ Total Casos de Uso               │ 76                                     │
 ├──────────────────────────────────┼────────────────────────────────────────┤
-│ Referencias Cruzadas             │ ~1,783 menciones                       │
+│ Total Entidades (ENT)            │ 40                                     │
 ├──────────────────────────────────┼────────────────────────────────────────┤
-│ Matrices Trazabilidad Explícitas │ 5 matrices principales                 │
+│ Total Endpoints (EP)             │ 123                                    │
+├──────────────────────────────────┼────────────────────────────────────────┤
+│ Referencias Cruzadas             │ ~2,459 menciones                       │
+├──────────────────────────────────┼────────────────────────────────────────┤
+│ Matrices Trazabilidad Explícitas │ 7 matrices principales                 │
 ├──────────────────────────────────┼────────────────────────────────────────┤
 │ Secciones Trazabilidad           │ 1 sección por cada documento principal │
 └──────────────────────────────────┴────────────────────────────────────────┘
 ```
 
-Estado de Completitud: Validado ✅ (excepto 007 y 008 en Borrador)
+Estado de Completitud: Validado ✅ (incluye 012 y 013 como nuevos artefactos de Fase 1)
 
 ---
 
