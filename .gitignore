@@ -4,3 +4,5 @@
 .agent/
 .cursor/
 **/__pycache__/
+
+**/CLAUDE.md

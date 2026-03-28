@@ -16,5 +16,11 @@
     "exclude-atom": true,
     "exclude-copy": true,
     "_comment": "Archivo completamente ignorado por el pipeline, como si no existiera en spec/"
+  },
+  {
+    "file": "README.md",
+    "exclude-atom": true,
+    "exclude-copy": true,
+    "_comment": "Archivo completamente ignorado por el pipeline, como si no existiera en spec/"
   }
 ]
