@@ -13,7 +13,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+          vendor: ['react', 'react-dom', 'react-router'],
           mantine: ['@mantine/core', '@mantine/hooks'],
           query: ['@tanstack/react-query'],
         },
@@ -21,22 +21,19 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 500, // KB
   },
-  plugins: [
-    react(),
-    compression({ algorithm: 'brotli' }),
-  ],
+  plugins: [react(), compression({ algorithm: 'brotli' })],
 });
 ```
 
 **Métricas objetivo (Lighthouse):**
 
-| Métrica | Objetivo | Herramienta |
-|---------|----------|-------------|
-| FCP (First Contentful Paint) | < 1.8s | Lighthouse |
-| LCP (Largest Contentful Paint) | < 2.5s | Lighthouse |
-| TTI (Time to Interactive) | < 3.8s | Lighthouse |
-| CLS (Cumulative Layout Shift) | < 0.1 | Lighthouse |
-| Bundle size (gzip) | < 200KB inicial | `vite-bundle-analyzer` |
+| Métrica                        | Objetivo        | Herramienta            |
+| ------------------------------ | --------------- | ---------------------- |
+| FCP (First Contentful Paint)   | < 1.8s          | Lighthouse             |
+| LCP (Largest Contentful Paint) | < 2.5s          | Lighthouse             |
+| TTI (Time to Interactive)      | < 3.8s          | Lighthouse             |
+| CLS (Cumulative Layout Shift)  | < 0.1           | Lighthouse             |
+| Bundle size (gzip)             | < 200KB inicial | `vite-bundle-analyzer` |
 
 **Lazy loading de rutas:**
 
