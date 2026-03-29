@@ -33,6 +33,7 @@
 | **Frontend**       | React + TypeScript      | React 19.x          |
 | **Base de Datos**  | PostgreSQL              | 18.x                |
 | **ORM**            | Prisma                  | 7.x                 |
+| **Caché / Colas**  | Redis                   | 7.x                 |
 | **Object Storage** | MinIO (dev) / S3 (prod) | -                   |
 | **Contenedores**   | Docker + Docker Compose | 29.x                |
 | **CI/CD**          | GitHub Actions          | -                   |
@@ -61,6 +62,7 @@
 | JWT + Passport      | ADR-006          | RNF-001, RNF-002          |
 | Guards NestJS       | ADR-007          | RNF-003, RNF-013          |
 | PostgreSQL          | ADR-005          | RNF-004, RNF-038          |
+| Redis               | -                | RNFT-002, RNFT-018, RNF-019 |
 | Prisma              | ADR-002, ADR-005 | RNF-066                   |
 | React + Mantine     | ADR-010          | RNF-045, RNF-046, RNF-050 |
 | React Query         | -                | RNF-015, RNF-016          |
@@ -80,6 +82,7 @@ nestjs: 11.x
 react: 19.x
 postgresql: 18.x
 prisma: 7.x
+redis: 7.x
 
 # Testing
 vitest: 4.x

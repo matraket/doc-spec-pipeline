@@ -298,7 +298,7 @@ SubscriptionCancelReason (enum):
 │                                                             │
 │ Value Objects:                                              │
 │   - SignedURL (token único criptográfico)                   │
-│   - LinkStatus (enum: pendiente, pagado, expirado)          │
+│   - LinkStatus (enum: PENDING, PAID, EXPIRED)               │
 │                                                             │
 │ Properties:                                                 │
 │   - chargeId: ChargeId (cargo a liquidar)                   │
@@ -348,7 +348,7 @@ SubscriptionCancelReason (enum):
 │   - fechaCierre: DateTime?                                  │
 │   - importeApertura: Money (efectivo inicial)               │
 │   - importeCierre: Money? (efectivo final)                  │
-│   - status: ShiftStatus (abierto, cerrado, cuadrado)        │
+│   - status: ShiftStatus (OPEN, CLOSED, RECONCILED)          │
 │   - diferenciaContable: Money? (descuadre si existe)        │
 │   - observaciones: string?                                  │
 │                                                             │
@@ -422,7 +422,7 @@ SubscriptionCancelReason (enum):
 │   - name: string (ej: "Ejercicio 2026")                     │
 │   - fechaInicio: Date                                       │
 │   - fechaFin: Date                                          │
-│   - status: AccountingYearStatus (abierto, cerrado)         │
+│   - status: AccountingYearStatus (OPEN, CLOSED)             │
 │   - saldoInicial: Money                                     │
 │   - saldoFinal: Money? (calculado al cierre)                │
 │   - totalIngresos: Money (acumulado)                        │
@@ -458,7 +458,7 @@ SubscriptionCancelReason (enum):
 | `PaymentMethod`            | type: enum, referencia: string    | Tipos: CASH, TRANSFER, DIRECT_DEBIT, BIZUM, CARD                                                          |
 | `ChargeStatus`             | enum                              | PENDING, PAID, PARTIALLY_PAID, CANCELLED                                                                  |
 | `PaymentStatus`            | enum                              | CONFIRMED, RETURNED, CANCELLED                                                                            |
-| `DelinquencyStatus`        | enum                              | UP_TO_DATE, MINOR_DELINQUENCY, MAJOR_DELINQUENCY, Suspendido                                              |
+| `DelinquencyStatus`        | enum                              | UP_TO_DATE, MINOR_DELINQUENCY, MAJOR_DELINQUENCY, SUSPENDED                                              |
 | `SepaSequence`             | enum                              | FRST, RCUR, OOFF, FNAL                                                                                    |
 | `RemittanceStatus`         | enum                              | DRAFT, GENERATED, SENT, PROCESSED, WITH_RETURNS                                                           |
 | `CreditorIdentifier`       | valor: string                     | Formato ES + 2 dígitos + sufijo (14 chars)                                                                |
@@ -467,11 +467,11 @@ SubscriptionCancelReason (enum):
 | `SubscriptionCancelReason` | enum                              | PLAN_CHANGE, MEMBER_LEAVE, EXEMPTION, ONE_TIME_COMPLETED                                                  |
 | `BillingMonths`            | int[]                             | Array de meses (1-12) en que se generan cargos. Vacío para planes ONE_TIME.                               |
 | `SignedURL`                | token: string                     | Hash criptográfico único para enlaces de pago                                                             |
-| `LinkStatus`               | enum                              | PENDING, PAID, Expirado                                                                                   |
-| `ShiftStatus`              | enum                              | OPEN, Cerrado, Cuadrado                                                                                   |
+| `LinkStatus`               | enum                              | PENDING, PAID, EXPIRED                                                                                    |
+| `ShiftStatus`              | enum                              | OPEN, CLOSED, RECONCILED                                                                                  |
 | `AccountCode`              | code: string                      | Según plan ENL o personalizado (ej: "7.1")                                                                |
 | `CategoryType`             | enum                              | INCOME, EXPENSE, ASSET, LIABILITY                                                                         |
-| `AccountingYearStatus`     | enum                              | OPEN, Cerrado                                                                                             |
+| `AccountingYearStatus`     | enum                              | OPEN, CLOSED                                                                                              |
 | `AccountingPeriod`         | fechaInicio: Date, fechaFin: Date | Periodo fiscal del ejercicio                                                                              |
 
 ### 4.4 Domain Events

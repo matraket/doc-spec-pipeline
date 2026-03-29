@@ -32,6 +32,15 @@ export class AuthModule {}
 | Access Token  | 15 minutos | Memory (frontend) | Automática con refresh |
 | Refresh Token | 7 días     | HttpOnly Cookie   | En login               |
 
+**Excepción — Recordar sesión (Remember Me):**
+
+Cuando el usuario activa la opción "Recordar sesión" en el login (UC-068 FA-3), el Refresh Token se genera con expiración de **30 días** en lugar de los 7 días por defecto. La cookie httpOnly mantiene el mismo mecanismo; solo varía el valor de `maxAge`. El Access Token no cambia (sigue siendo 15 minutos).
+
+| Escenario               | Duración Refresh Token | Referencia |
+| ----------------------- | ---------------------- | ---------- |
+| Login estándar          | 7 días                 | RNFT-001   |
+| Login con "Recordar Me" | 30 días                | UC-068 FA-3 |
+
 **Política de contraseñas (class-validator):**
 
 ```typescript

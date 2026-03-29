@@ -24,6 +24,7 @@ services:
     depends_on:
       - postgres
       - minio
+      - redis
 
   web:
     build: ./web
@@ -46,9 +47,22 @@ services:
     volumes:
       - minio_data:/data
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   minio_data:
+  redis_data: {}
 ```
 
 ### 5.2 Object Storage: MinIO / S3

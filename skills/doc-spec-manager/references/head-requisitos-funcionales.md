@@ -26,6 +26,10 @@
 
 ---
 
+> **Nota:** La sección §1 del análisis de necesidades (002) corresponde al contexto general del problema y no genera requisitos funcionales directos. La numeración comienza en N2 alineada con §2 del análisis.
+
+---
+
 ## Resumen de Requisitos Funcionales
 
 | Sección | Nº RFs | Rango |

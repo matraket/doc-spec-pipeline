@@ -5,7 +5,7 @@
 **Fecha:** Marzo 2026
 **Inputs:** KB-005 (Modelo de Dominio), KB-006 (ADRs), KB-007 (Stack Tecnológico)
 **Estado:** Borrador
-**Total Entidades:** 40
+**Total Entidades:** 41
 
 ---
 
@@ -59,7 +59,9 @@
    - [ENT-038: documents](#ent-038-documents)
    - [ENT-039: document_categories](#ent-039-document_categories)
    - [ENT-040: meeting_minutes](#ent-040-meeting_minutes)
-9. [Trazabilidad](#9-trazabilidad)
+9. [Transversal (Tenant) - Auditoría](#9-transversal-tenant---auditoría)
+   - [ENT-041: audit_log](#ent-041-audit_log)
+10. [Trazabilidad](#10-trazabilidad)
 
 ---
 

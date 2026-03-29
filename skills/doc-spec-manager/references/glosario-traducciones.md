@@ -275,7 +275,7 @@
 | Confirmada            | CONFIRMED           |
 | ListaEspera           | WAITLISTED          |
 | Cancelada             | CANCELLED           |
-| Asistencia Registrada | ATTENDANCE_RECORDED |
+| Asistencia Registrada | ATTENDANCE_REGISTERED |
 
 ### EstadoEjercicio → FiscalYearStatus
 
@@ -972,5 +972,5 @@ Formato de tres niveles: `modulo:recurso:accion`
 | `010_casos-uso.md`               | **Muy alto** (application services, events, tablas BD, código)                                              |
 | `004_rnf-base.md`                | Ninguno                                                                                                     |
 | `007_stack.md`                   | Ninguno                                                                                                     |
-| `012_modelo-de-datos.md`         | **Muy alto** (define esquema relacional completo - 40 entidades, convenciones Prisma)                       |
+| `012_modelo-de-datos.md`         | **Muy alto** (define esquema relacional completo - 41 entidades, convenciones Prisma)                       |
 | `013_inventario-de-endpoints.md` | **Muy alto** (define contratos API completos - 123 endpoints, permisos RBAC, convenciones de autenticación) |

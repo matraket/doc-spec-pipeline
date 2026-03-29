@@ -58,12 +58,18 @@ const tenantPrisma = new PrismaClient({
 });
 ```
 
-### 4.3 Caché: Sin caché dedicada (MVP)
+### 4.3 Caché: Redis 7.x
 
-Para el MVP, no se incluye Redis u otra caché dedicada. Se usará:
+**Seleccionado:** Redis 7.x (latest stable)
 
-- Caché en memoria de Prisma (query results)
-- HTTP caching headers
-- React Query cache en frontend
+**Justificación:**
 
-**Evolución futura:** Redis/Valkey si métricas indican necesidad.
+- Caching de sesiones server-side (RNFT-002)
+- Bull Queue para procesamiento asíncrono y operaciones masivas (RNFT-018)
+- BC-Communication: emails, notificaciones
+- Locks distribuidos para operaciones críticas (remesas SEPA, generación de cargos masivos)
+
+**Complemento en cliente:**
+
+- React Query cache en frontend (stale-while-revalidate)
+- HTTP caching headers para recursos estáticos

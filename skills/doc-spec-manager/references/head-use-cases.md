@@ -3,7 +3,7 @@
 **Proyecto:** Associated - ERP para Colectividades Españolas  
 **Versión:** 2.6  
 **Fecha:** Febrero 2026  
-**Total:** 76 Casos de Uso derivados de 202 User Stories
+**Total:** 77 Casos de Uso derivados de 225 User Stories (ver nota en Resumen Ejecutivo)
 
 ---
 
@@ -11,7 +11,7 @@
 
 - [Resumen Ejecutivo](#resumen-ejecutivo)
 - [Notación y Convenciones](#1-notación-y-convenciones)
-- [BC-Identity (UC-001 a UC-005)](#bc-identidad)
+- [BC-Identity (UC-001 a UC-005b)](#bc-identidad)
 - [BC-Membership (UC-006 a UC-016)](#bc-membresia)
 - [BC-Treasury (UC-017 a UC-027)](#bc-tesoreria)
 - [BC-Events (UC-028 a UC-038)](#bc-eventos)
@@ -30,7 +30,7 @@
 
 | Columna                 | Descripción                                         |
 | ----------------------- | --------------------------------------------------- |
-| **UC**                  | Identificador del Caso de Uso (UC-001 a UC-076)     |
+| **UC**                  | Identificador del Caso de Uso (UC-001 a UC-076, más UC-005b)     |
 | **Nombre UC**           | Descripción corta del caso de uso                   |
 | **User Stories**        | IDs de las User Stories que agrupa (formato US-XXX) |
 | **BC**                  | Bounded Context destino                             |
@@ -42,7 +42,7 @@
 
 ## Resumen Ejecutivo
 
-Este documento define los **76 Casos de Uso** del sistema Associated, derivados de las **202 User Stories** documentadas en KB-009. Cada caso de uso describe:
+Este documento define los **77 Casos de Uso** del sistema Associated, derivados de las **202 User Stories** documentadas en KB-009. Cada caso de uso describe:
 
 - **Application Services** responsables de la ejecución
 - **Flujos normales** (happy path)
@@ -55,17 +55,19 @@ Este documento define los **76 Casos de Uso** del sistema Associated, derivados 
 
 | BC                                 | Casos de Uso | User Stories Agrupadas | Tipo          |
 | ---------------------------------- | ------------ | ---------------------- | ------------- |
-| **BC-Identity**                    | 5            | 8                      | Generic       |
+| **BC-Identity**                    | 6            | 8                      | Generic       |
 | **BC-Membership**                  | 10           | 34                     | Core          |
-| **BC-Treasury**                    | 11           | 38                     | Core          |
-| **BC-Events**                      | 11           | 29                     | Core          |
-| **BC-Communication**               | 9            | 23                     | Supporting    |
-| **BC-Documents**                   | 8            | 12                     | Supporting    |
+| **BC-Treasury**                    | 11           | 40                     | Core          |
+| **BC-Events**                      | 11           | 36                     | Core          |
+| **BC-Communication**               | 9            | 25                     | Supporting    |
+| **BC-Documents**                   | 8            | 29                     | Supporting    |
 | **Transversal N8 (Import/Export)** | 8            | 13                     | Cross-cutting |
-| **Transversal N9 (Reporting)**     | 4            | 12                     | Cross-cutting |
+| **Transversal N9 (Reporting)**     | 4            | 11                     | Cross-cutting |
 | **Transversal N10 (Portal Socio)** | 4            | 15                     | Cross-cutting |
 | **Transversal N11 (Cumplimiento)** | 5            | 15                     | Cross-cutting |
-| **Total**                          | **76**       | **202**                |               |
+| **Total**                          | **77**       | **224**                |               |
+
+<!-- Nota: El total de 224 User Stories en este documento difiere del total de 202 declarado en KB-009. Las cifras por BC han sido alineadas con los totales acumulados al final de cada sección del presente documento (fuente de verdad). La discrepancia con KB-009 debe resolverse reconciliando las US de cada BC. -->
 
 ### Criterios de Agrupación Aplicados
 
@@ -192,28 +194,28 @@ Usuario → Controller → AppService → Aggregate → Repository
 
 | Métrica                          | Valor                           |
 | -------------------------------- | ------------------------------- |
-| **Total Casos de Uso**           | **76**                          |
+| **Total Casos de Uso**           | **77**                          |
 | **Total User Stories cubiertas** | **202** (100% del scope N2-N11) |
-| **UCs Must**                     | 37 (48.7%)                      |
-| **UCs Should**                   | 33 (43.4%)                      |
-| **UCs Could**                    | 6 (7.9%)                        |
+| **UCs Must**                     | 38 (49.4%)                      |
+| **UCs Should**                   | 33 (42.9%)                      |
+| **UCs Could**                    | 6 (7.8%)                        |
 | **UCs Won't**                    | 0 (0%)                          |
 
 ### Distribución por Bounded Context
 
 | Bounded Context           | UCs    | User Stories | % del total UCs |
 | ------------------------- | ------ | ------------ | --------------- |
-| BC-Identity               | 5      | 8            | 6.6%            |
-| BC-Membership             | 10     | 34           | 13.2%           |
-| BC-Treasury               | 11     | 40           | 14.5%           |
-| BC-Events                 | 11     | 36           | 14.5%           |
-| BC-Communication          | 9      | 25           | 11.8%           |
-| BC-Documents              | 8      | 29           | 10.5%           |
-| Transversal Import/Export | 8      | 15           | 10.5%           |
-| Transversal Reporting     | 4      | 13           | 5.3%            |
-| Transversal Portal Socio  | 4      | 12           | 5.3%            |
-| Transversal Cumplimiento  | 5      | 15           | 6.6%            |
-| **TOTAL**                 | **76** | **202**      | **100%**        |
+| BC-Identity               | 6      | 8            | 7.8%            |
+| BC-Membership             | 10     | 34           | 13.0%           |
+| BC-Treasury               | 11     | 40           | 14.3%           |
+| BC-Events                 | 11     | 36           | 14.3%           |
+| BC-Communication          | 9      | 25           | 11.7%           |
+| BC-Documents              | 8      | 29           | 10.4%           |
+| Transversal Import/Export | 8      | 13           | 10.4%           |
+| Transversal Reporting     | 4      | 12           | 5.2%            |
+| Transversal Portal Socio  | 4      | 15           | 5.2%            |
+| Transversal Cumplimiento  | 5      | 15           | 6.5%            |
+| **TOTAL**                 | **77** | **202**      | **100%**        |
 
 ### Complejidad Técnica
 
@@ -245,7 +247,7 @@ Usuario → Controller → AppService → Aggregate → Repository
 
 ### User Stories sin UC dedicado
 
-Todas las 202 User Stories del scope N2-N11 están cubiertas por los 76 UCs definidos. No hay User Stories huérfanas.
+Todas las 202 User Stories del scope N2-N11 están cubiertas por los 77 UCs definidos. No hay User Stories huérfanas.
 
 ### Casos de Uso que consolidan múltiples US
 

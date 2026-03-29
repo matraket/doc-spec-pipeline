@@ -150,7 +150,7 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 │                                                             │
 │ Properties:                                                 │
 │   - name: string (ej: "2026", "Temporada 2025-26")          │
-│   - estado: FiscalYearStatus (PREPARATION, activo, cerrado) │
+│   - estado: FiscalYearStatus (PREPARATION, ACTIVE, CLOSED)  │
 │   - previousFiscalYear: FiscalYearId?                       │
 │                                                             │
 │ Invariants:                                                 │
@@ -180,7 +180,7 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 │   - entryDate: DateTime                                     │
 │   - exitDate: DateTime? (al procesar)                       │
 │   - reason: ListExitReason? (aprobado, rechazado, etc.)     │
-│   - estado: WaitingListStatus (activo, procesado)           │
+│   - estado: WaitingListStatus (ACTIVE, PROCESSED)           │
 │                                                             │
 │ Invariants:                                                 │
 │   - Posición única en lista activa                          │
@@ -258,7 +258,7 @@ Responsable del ciclo de vida completo del socio: desde la solicitud de alta has
 | `WaitingPosition`   | numero: int                      | Orden cronológico en lista espera                                                                              |
 | `RegistrationDate`  | fecha: DateTime                  | Timestamp de entrada en lista                                                                                  |
 | `ListExitReason`    | enum                             | APPROVED, REJECTED, EXPIRED, VOLUNTARY                                                                         |
-| `WaitingListStatus` | enum                             | ACTIVE, Procesado                                                                                              |
+| `WaitingListStatus` | enum                             | ACTIVE, PROCESSED                                                                                              |
 | `InfractionType`    | enum                             | MINOR, SERIOUS, VERY_SERIOUS                                                                                   |
 | `SanctionType`      | enum                             | WARNING, SUSPENSION, EXPULSION                                                                                 |
 | `CaseStatus`        | enum                             | OPEN, UNDER_REVIEW, CLOSED                                                                                     |

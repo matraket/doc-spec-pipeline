@@ -79,7 +79,7 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 │ Properties:                                                 │
 │   - confirmada: boolean                                     │
 │   - horaEntrada: DateTime?                                  │
-│   - metodoCheckin: CheckinMethod (QR, Manual)               │
+│   - metodoCheckin: CheckinMethod (QR, MANUAL, NFC)          │
 │   - registradoPor: UserId?                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -208,7 +208,7 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 │   - categoria: string (senior, juvenil, infantil...)        │
 │   - competicion: string (liga, copa, amistoso)              │
 │   - resultado: MatchResult?                                 │
-│   - estado: MatchStatus (convocado, jugado, suspendido)     │
+│   - estado: MatchStatus (CALLED, PLAYED, SUSPENDED)         │
 │   - observaciones: string?                                  │
 │                                                             │
 │ Invariants:                                                 │
@@ -231,15 +231,15 @@ Gestiona el ciclo de vida de eventos y actividades: planificación, inscripcione
 | `EventPeriod`        | fechaInicio: DateTime, fechaFin: DateTime                              | FechaFin >= FechaInicio                                                                   |
 | `Location`           | direccion: string, coordenadas?: LatLng, sala?: string                 | Dirección no vacía                                                                        |
 | `RegistrationConfig` | openDate: Date, closeDate: Date, requierePago: boolean, precio?: Money | FechaCierre <= fechaInicio evento                                                         |
-| `EventStatus`        | enum                                                                   | Borrador, Publicado, Inscripciones Abiertas, Inscripciones Cerradas, Realizado, Cancelado |
-| `RegistrationStatus` | enum                                                                   | Confirmada, ListaEspera, Cancelada, Asistencia Registrada                                 |
-| `CheckinMethod`      | enum                                                                   | QR, Manual, NFC                                                                           |
+| `EventStatus`        | enum                                                                   | DRAFT, PUBLISHED, REGISTRATION_OPEN, REGISTRATION_CLOSED, COMPLETED, CANCELLED           |
+| `RegistrationStatus` | enum                                                                   | CONFIRMED, WAITLISTED, CANCELLED, ATTENDANCE_REGISTERED                                   |
+| `CheckinMethod`      | enum                                                                   | QR, MANUAL, NFC                                                                           |
 | `MenuOption`         | nombre: string, precio: Money                                          | Nombre no vacío                                                                           |
 | `RestaurantData`     | nombre: string, direccion: string, telefono: string                    | Todos obligatorios                                                                        |
 | `IdentifierColor`    | valor: string                                                          | Color hex o nombre CSS válido                                                             |
 | `MatchResult`        | golesLocal: int, golesVisitante: int                                   | >= 0 ambos                                                                                |
 | `OpponentData`       | nombre: string, escudo?: URL                                           | Nombre obligatorio                                                                        |
-| `MatchStatus`        | enum                                                                   | Convocado, Jugado, Suspendido, Aplazado                                                   |
+| `MatchStatus`        | enum                                                                   | CALLED, PLAYED, SUSPENDED, POSTPONED                                                      |
 
 ### 5.4 Domain Events
 
