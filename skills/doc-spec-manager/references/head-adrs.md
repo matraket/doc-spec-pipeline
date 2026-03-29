@@ -5,7 +5,7 @@
 **Fecha:** Febrero 2026  
 **Inputs:** KB-004 (RNF Base), KB-005 (Modelo de Dominio)  
 **Estado:** Verificado  
-**Total ADRs:** 12
+**Total ADRs:** 13
 
 ---
 
@@ -85,6 +85,12 @@
     - [Decisión](#decisión-11)
     - [Consecuencias](#consecuencias-11)
     - [Trazabilidad](#trazabilidad-11)
+  - [ADR-013: Transición SUSPENDED → NONPAYMENT\_LEAVE](#adr-013-transición-suspended--nonpayment_leave)
+    - [Estado](#estado-12)
+    - [Contexto](#contexto-12)
+    - [Decisión](#decisión-12)
+    - [Consecuencias](#consecuencias-12)
+    - [Trazabilidad](#trazabilidad-12)
   - [Trazabilidad General](#trazabilidad-general)
     - [Matriz ADR → RNF](#matriz-adr--rnf)
     - [Matriz ADR → BC](#matriz-adr--bc)
@@ -110,6 +116,7 @@
 | ADR-010 | RNF-015-016, RNF-057      |
 | ADR-011 | RNF-009, RNF-022          |
 | ADR-012 | RNF-058, RNF-059, RNF-060 |
+| ADR-013 | —                         |
 
 ### Matriz ADR → BC
 
@@ -127,6 +134,7 @@
 | ADR-010 | Todos (exposición API)                   |
 | ADR-011 | BC-Documents                             |
 | ADR-012 | Todos                                    |
+| ADR-013 | BC-Membership                            |
 
 ---
 
