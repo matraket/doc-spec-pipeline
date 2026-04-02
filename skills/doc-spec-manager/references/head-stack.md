@@ -62,7 +62,7 @@
 | JWT + Passport      | ADR-006          | RNF-001, RNF-002          |
 | Guards NestJS       | ADR-007          | RNF-003, RNF-013          |
 | PostgreSQL          | ADR-005          | RNF-004, RNF-038          |
-| Redis               | -                | RNFT-002, RNFT-018, RNF-019 |
+| Redis               | ADR-014          | RNF-002, RNF-018, RNF-068 |
 | Prisma              | ADR-002, ADR-005 | RNF-066                   |
 | React + Mantine     | ADR-010          | RNF-045, RNF-046, RNF-050 |
 | React Query         | -                | RNF-015, RNF-016          |

@@ -1,8 +1,8 @@
 # Casos de Uso
 
 **Proyecto:** Associated - ERP para Colectividades Españolas  
-**Versión:** 2.6  
-**Fecha:** Febrero 2026  
+**Versión:** 2.7  
+**Fecha:** Abril 2026  
 **Total:** 77 Casos de Uso derivados de 225 User Stories (ver nota en Resumen Ejecutivo)
 
 ---

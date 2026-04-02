@@ -25,6 +25,8 @@
 export class AuthModule {}
 ```
 
+**Nota:** Todo access token DEBE incluir el claim `jti` (UUID v4) para soportar la blacklist (ADR-014). El `jti` se genera en el servicio de autenticación al firmar el token: `{ jwtid: randomUUID() }` en las opciones de firma de `jwtService.sign()`.
+
 **Configuración de tokens:**
 
 | Token         | Duración   | Almacenamiento    | Renovación             |
@@ -59,8 +61,28 @@ MAX_FAILED_ATTEMPTS = 5;
 LOCKOUT_DURATION_MINUTES = 15;
 ```
 
+**Cadena de guards (orden de ejecución):**
+
+A partir de la integración de la blacklist (ADR-014), la cadena de guards en endpoints protegidos es:
+
+```
+ThrottlerGuard → JwtAuthGuard → BlacklistCheck → PermissionsGuard → Handler
+```
+
+| Guard            | Responsabilidad                                     | Fallo → HTTP |
+| ---------------- | --------------------------------------------------- | ------------ |
+| ThrottlerGuard   | Rate limiting por IP/usuario                        | 429          |
+| JwtAuthGuard     | Validar firma y expiración del JWT                  | 401          |
+| BlacklistCheck   | Verificar que el `jti` no esté revocado en Redis    | 401          |
+| PermissionsGuard | Verificar que el usuario tiene el permiso requerido | 403          |
+
+`BlacklistCheck` puede implementarse como guard independiente o integrado al final de `JwtStrategy.validate()`. La operación es `GET blacklist:{jti}`: si la clave existe, el token ha sido revocado y se lanza `UnauthorizedException`. Ver RNFT-068 para la implementación detallada.
+
+**Excepción:** El endpoint `POST /auth/logout` (EP-005) está exento del BlacklistCheck para permitir el comportamiento best-effort definido en UC-002 FE-4.
+
 **Verificación:**
 
 - Test E2E: Login con credenciales válidas/inválidas
 - Test: Bloqueo tras 5 intentos fallidos
 - Auditoría: Revisar tokens generados tienen claims correctos
+- Test: Token revocado tras logout devuelve 401 (→ RNFT-068)

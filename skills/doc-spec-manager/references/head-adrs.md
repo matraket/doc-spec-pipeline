@@ -1,11 +1,11 @@
 # Architectural Decision Records (ADRs)
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.0  
-**Fecha:** Febrero 2026  
+**Versión:** 1.1  
+**Fecha:** Abril 2026  
 **Inputs:** KB-004 (RNF Base), KB-005 (Modelo de Dominio)  
 **Estado:** Verificado  
-**Total ADRs:** 13
+**Total ADRs:** 14
 
 ---
 
@@ -91,6 +91,12 @@
     - [Decisión](#decisión-12)
     - [Consecuencias](#consecuencias-12)
     - [Trazabilidad](#trazabilidad-12)
+  - [ADR-014: Blacklist de Access Tokens en Redis](#adr-014-blacklist-de-access-tokens-en-redis)
+    - [Estado](#estado-13)
+    - [Contexto](#contexto-13)
+    - [Decisión](#decisión-13)
+    - [Consecuencias](#consecuencias-13)
+    - [Trazabilidad](#trazabilidad-13)
   - [Trazabilidad General](#trazabilidad-general)
     - [Matriz ADR → RNF](#matriz-adr--rnf)
     - [Matriz ADR → BC](#matriz-adr--bc)
@@ -117,6 +123,7 @@
 | ADR-011 | RNF-009, RNF-022          |
 | ADR-012 | RNF-058, RNF-059, RNF-060 |
 | ADR-013 | —                         |
+| ADR-014 | RNF-001, RNF-002, RNF-068 |
 
 ### Matriz ADR → BC
 
@@ -135,6 +142,7 @@
 | ADR-011 | BC-Documents                             |
 | ADR-012 | Todos                                    |
 | ADR-013 | BC-Membership                            |
+| ADR-014 | BC-Identity                              |
 
 ---
 

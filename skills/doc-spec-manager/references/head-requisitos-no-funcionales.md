@@ -1,11 +1,11 @@
 # Requisitos No Funcionales Base (Agnósticos de Tecnología)
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.2  
-**Fecha:** Febrero 2026  
+**Versión:** 1.4  
+**Fecha:** Abril 2026  
 **Inputs:** KB-002 (Análisis de Necesidades), KB-003 (Requisitos Funcionales)  
 **Estado:** Validado  
-**Total RNFs:** 67
+**Total RNFs:** 68
 
 ---
 

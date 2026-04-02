@@ -1,8 +1,8 @@
 # Inventario de Endpoints
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas
-**Versión:** 1.0
-**Fecha:** Marzo 2026
+**Versión:** 1.1
+**Fecha:** Abril 2026
 **Inputs:** KB-010 (Casos de Uso), KB-012 (Modelo de Datos), KB-006 (ADRs)
 **Total Endpoints:** 123
 
@@ -159,7 +159,7 @@
 | EP-002 | POST /api/v1/tenants                                                           | ENT-001, ENT-002                   | BC-Identity   |
 | EP-003 | POST /api/v1/auth/login                                                        | ENT-002, ENT-003                   | BC-Identity   |
 | EP-004 | POST /api/v1/auth/refresh                                                      | ENT-002                            | BC-Identity   |
-| EP-005 | POST /api/v1/auth/logout                                                       | ENT-002                            | BC-Identity   |
+| EP-005 | POST /api/v1/auth/logout                                                       | ENT-002, ENT-005                   | BC-Identity   |
 | EP-006 | POST /api/v1/auth/switch-tenant                                                | ENT-001, ENT-002, ENT-003          | BC-Identity   |
 | EP-007 | GET /api/v1/auth/me                                                            | ENT-002, ENT-003                   | BC-Identity   |
 | EP-008 | POST /api/v1/member-types                                                      | ENT-007                            | BC-Membership |

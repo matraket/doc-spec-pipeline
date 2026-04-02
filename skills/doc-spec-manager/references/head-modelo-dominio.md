@@ -1,8 +1,8 @@
 # Bounded Contexts y Modelo de Dominio
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.5  
-**Fecha:** Febrero 2026  
+**Versión:** 1.6  
+**Fecha:** Abril 2026  
 **Inputs:** KB-001 (Propuesta TFM), KB-002 (Análisis de Necesidades), KB-003 (Requisitos Funcionales), KB-004 (RNF Base)  
 **Estado:** Validado  
 **Total BCs:** 6 (3 Core + 3 Supporting) + 1 Extensión Transversal

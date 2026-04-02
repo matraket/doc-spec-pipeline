@@ -68,6 +68,7 @@ const tenantPrisma = new PrismaClient({
 - Bull Queue para procesamiento asíncrono y operaciones masivas (RNFT-018)
 - BC-Communication: emails, notificaciones
 - Locks distribuidos para operaciones críticas (remesas SEPA, generación de cargos masivos)
+- Token blacklist para invalidación inmediata de access tokens (ADR-014, RNFT-068)
 
 **Complemento en cliente:**
 
