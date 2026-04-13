@@ -549,6 +549,7 @@
 | UsuarioAutenticado             | UserAuthenticated             |
 | AutenticacionFallida           | AuthenticationFailed          |
 | UsuarioBloqueado               | UserBlocked                   |
+| TenantCambiado                 | TenantSwitchedEvent — Domain Event emitido por `AuthenticationService.switchTenant()` tras un switch-tenant exitoso. Payload: `{ userId, fromTenantId, toTenantId, jti, timestamp }`. Audit-only, sin suscriptores en esta iteración (disponible para auditoría/analytics futuros — decisión D7). |
 | TenantProvisionado             | TenantProvisioned             |
 | TraspasoIniciado               | HandoverStarted               |
 | TraspasoCompletado             | HandoverCompleted             |
@@ -940,6 +941,11 @@ Formato de tres niveles: `modulo:recurso:accion`
 | Guard de superadmin   | `SuperadminGuard`                       | Guard para operaciones de bootstrap (provisión de tenant) que requieren API Key estático vía header `X-Api-Key` |
 | Cabecera de API Key   | `X-Api-Key`                             | Header HTTP para operaciones de superadmin (no accesibles con JWT de usuario normal)                            |
 | Guard de JWT global   | `JwtAuthGuard`                          | Guard global aplicado a todos los endpoints; se omite con `@Public()`                                           |
+| DTO de login request  | `LoginRequestDto`                       | DTO de request de `POST /auth/login`. Campos: `email`, `password`, `tenantId?` (opcional UUID del tenant para resolver en un solo paso — ver amendment ADR-006 Abr 2026). |
+| DTO de switch-tenant response | `SwitchTenantResponseDto`       | DTO de response de `POST /auth/switch-tenant`. Esquema propio (desacoplado de `LoginResponseDto`): `accessToken`, `refreshToken`, `expiresIn`, `user`, `tenant`, `role`. NO incluye `tenants[]` ni `requiresTenantSelection` (el cliente ya tiene la lista cacheada desde el login). |
+| Resumen de membresía de tenant | `TenantMembershipSummary`      | Elemento de la lista `tenants[]` del `LoginResponseDto`. Campos: `id`, `name`, `slug`, `role`. Representa una membresía activa del usuario para poblar el switcher client-side. |
+| Flag requiresTenantSelection | `requiresTenantSelection`        | Flag en `LoginResponseDto` que indica que el usuario es multi-tenant y no envió `tenantId`, por lo que el frontend debe mostrar el selector y reintentar el login con `tenantId`. Cuando es `true`, NO se emiten tokens. |
+| Código de error BLACKLIST_UNAVAILABLE | `BLACKLIST_UNAVAILABLE`  | Código de error HTTP 503 devuelto por `POST /auth/switch-tenant` cuando Redis no está disponible para blacklistear el token anterior (fail-closed, amendment ADR-014 Abr 2026). |
 
 ### 17.2 Convenciones de respuesta
 

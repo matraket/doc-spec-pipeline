@@ -1,11 +1,11 @@
 # Architectural Decision Records (ADRs)
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.1  
+**Versión:** 1.2  
 **Fecha:** Abril 2026  
 **Inputs:** KB-004 (RNF Base), KB-005 (Modelo de Dominio)  
 **Estado:** Verificado  
-**Total ADRs:** 14
+**Total ADRs:** 14 (ADR-006 y ADR-014 amendados en v1.2 — login multi-tenant + switch-tenant)
 
 ---
 
@@ -115,7 +115,7 @@
 | ADR-003 | RNF-057                   |
 | ADR-004 | RNF-067                   |
 | ADR-005 | RNF-004, RNF-038, RNF-066 |
-| ADR-006 | RNF-001, RNF-002, RNF-005 |
+| ADR-006 | RNF-001, RNF-002, RNF-005, RNF-069 |
 | ADR-007 | RNF-003, RNF-013          |
 | ADR-008 | RNF-007, RNF-067          |
 | ADR-009 | RNF-058-060               |
@@ -123,7 +123,7 @@
 | ADR-011 | RNF-009, RNF-022          |
 | ADR-012 | RNF-058, RNF-059, RNF-060 |
 | ADR-013 | —                         |
-| ADR-014 | RNF-001, RNF-002, RNF-068 |
+| ADR-014 | RNF-001, RNF-002, RNF-068, RNF-069 |
 
 ### Matriz ADR → BC
 

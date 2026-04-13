@@ -33,22 +33,42 @@ export class PrismaTenantService {
 
 **Middleware de tenant:**
 
+El `tenantId` se extrae EXCLUSIVAMENTE del claim JWT ya validado por `JwtAuthGuard` (amendment ADR-006 Abr 2026). El header `X-Tenant-Id` NO se lee para resolver el tenant activo; si está presente, puede registrarse como dato de observabilidad (detección de drift cache-cliente vs. JWT) pero NUNCA debe influir en la lógica de scope ni en la conexión Prisma per-tenant.
+
 ```typescript
 // tenant.middleware.ts
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    const tenantId = req.headers['x-tenant-id'] as string;
+  private readonly logger = new Logger(TenantMiddleware.name);
 
-    if (!tenantId) {
-      throw new BadRequestException('X-Tenant-Id header required');
+  use(req: Request, res: Response, next: NextFunction) {
+    // JwtAuthGuard ya validó el token y pobló req.user con los claims
+    const user = req['user'] as { userId: string; tenantId: string } | undefined;
+
+    if (!user?.tenantId) {
+      // No hay JWT válido: los endpoints públicos no deberían pasar por aquí;
+      // los protegidos fallarán antes en JwtAuthGuard.
+      return next();
     }
 
-    req['tenantId'] = tenantId;
+    req['tenantId'] = user.tenantId;
+
+    // Observabilidad: si el cliente envió X-Tenant-Id y no coincide con el JWT,
+    // lo logueamos pero NO influye en la decisión. Útil para detectar caches
+    // client-side desactualizadas tras un switch-tenant.
+    const headerTenant = req.headers['x-tenant-id'];
+    if (headerTenant && headerTenant !== user.tenantId) {
+      this.logger.warn(
+        `X-Tenant-Id drift: header=${headerTenant} jwt=${user.tenantId} userId=${user.userId}`,
+      );
+    }
+
     next();
   }
 }
 ```
+
+**Nota (amendment Abr 2026):** La versión previa de este middleware leía `X-Tenant-Id` del header y lanzaba `BadRequestException` si faltaba. Esa implementación queda DEPRECADA por la amendment de ADR-006 Abr 2026: el tenant activo es exclusivamente el claim `tenantId` del JWT.
 
 **Configuración PostgreSQL por tenant:**
 

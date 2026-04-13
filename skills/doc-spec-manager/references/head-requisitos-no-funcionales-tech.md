@@ -1,10 +1,10 @@
 # Requisitos No Funcionales Técnicos
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.1  
+**Versión:** 1.2  
 **Fecha:** Abril 2026  
 **Inputs:** KB-004 (RNF Base), KB-007 (Stack Tecnológico)  
-**Estado:** Borrador
+**Estado:** Validado
 
 ---
 
@@ -76,6 +76,7 @@ Este documento concreta los RNFs agnósticos definidos en KB-004 con las tecnolo
 | RNF-061  | RNFT-061    | NestJS Logger + Sentry       |
 | RNF-066  | RNFT-066    | Prisma Migrate               |
 | RNF-068  | RNFT-068    | Redis + NestJS Guard         |
+| RNF-069  | RNFT-069    | BroadcastChannel + React auth provider |
 
 ### 7.2 Tecnología → RNFs Implementados
 
@@ -83,7 +84,7 @@ Este documento concreta los RNFs agnósticos definidos en KB-004 con las tecnolo
 | --------------- | ------------------------------------------------------ |
 | NestJS          | RNFT-001, 002, 003, 005, 008, 016, 037, 057, 061, 068 |
 | Prisma          | RNFT-004, 006, 007, 017, 018, 019, 066                 |
-| React + Mantine | RNFT-015, 021, 045, 046, 050                           |
+| React + Mantine | RNFT-015, 021, 045, 046, 050, 069                      |
 | PostgreSQL      | RNFT-004, 019, 038                                     |
 | Redis           | RNFT-002, RNFT-018, RNFT-068                           |
 | Vitest          | RNFT-058, 059                                          |

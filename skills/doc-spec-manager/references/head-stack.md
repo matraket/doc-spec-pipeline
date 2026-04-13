@@ -1,8 +1,8 @@
 # Stack Tecnológico
 
 **Proyecto:** Associated - ERP Ligero para Colectividades Españolas  
-**Versión:** 1.1  
-**Fecha:** Febrero 2026  
+**Versión:** 1.2  
+**Fecha:** Abril 2026  
 **Inputs:** KB-004 (RNF Base), KB-006 (ADRs)  
 **Estado:** Borrador
 
@@ -64,7 +64,7 @@
 | PostgreSQL          | ADR-005          | RNF-004, RNF-038          |
 | Redis               | ADR-014          | RNF-002, RNF-018, RNF-068 |
 | Prisma              | ADR-002, ADR-005 | RNF-066                   |
-| React + Mantine     | ADR-010          | RNF-045, RNF-046, RNF-050 |
+| React + Mantine     | ADR-010          | RNF-045, RNF-046, RNF-050, RNF-069 |
 | React Query         | -                | RNF-015, RNF-016          |
 | MinIO/S3            | ADR-011          | RNF-009, RNF-022          |
 | Vitest + Playwright | ADR-012          | RNF-058, RNF-059, RNF-060 |

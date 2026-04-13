@@ -148,6 +148,7 @@ TTL:    token.exp - now()   ← Auto-expiración alineada con el token (máx. 90
 | `AuthenticationFailed` | Login fallido                | email, intentos, ip                                                          | -                               | Domain      |
 | `TenantProvisioned`    | Provisión completa de tenant | tenantId, nombreColectividad, tipoColectividad, adminUserId, adminEmail, cif | BC-Communication (bienvenida)   | Integration |
 | `TokenBlacklisted`     | Logout con blacklist Redis   | userId, tenantId, jti, ttlSeconds, timestamp                                 | -                               | Domain      |
+| `TenantSwitchedEvent`  | Switch-tenant exitoso (FA-2 de UC-002) — amendment Abr 2026 | userId, fromTenantId, toTenantId, jti, timestamp | — (audit-only; disponible para auditoría/analytics futuros) | Domain      |
 
 ### 8.5 Trazabilidad RF
 

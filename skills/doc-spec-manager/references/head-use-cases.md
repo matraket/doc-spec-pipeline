@@ -1,9 +1,11 @@
 # Casos de Uso
 
 **Proyecto:** Associated - ERP para Colectividades Españolas  
-**Versión:** 2.7  
+**Versión:** 2.8  
 **Fecha:** Abril 2026  
-**Total:** 77 Casos de Uso derivados de 225 User Stories (ver nota en Resumen Ejecutivo)
+**Inputs:** KB-005 (Modelo de Dominio), KB-009 (User Stories)  
+**Estado:** Validado  
+**Total:** 77 Casos de Uso derivados de 202 User Stories (KB-009; ver Resumen Ejecutivo para matriz de trazabilidad)
 
 ---
 
@@ -67,7 +69,7 @@ Este documento define los **77 Casos de Uso** del sistema Associated, derivados 
 | **Transversal N11 (Cumplimiento)** | 5            | 15                     | Cross-cutting |
 | **Total**                          | **77**       | **224**                |               |
 
-<!-- Nota: El total de 224 User Stories en este documento difiere del total de 202 declarado en KB-009. Las cifras por BC han sido alineadas con los totales acumulados al final de cada sección del presente documento (fuente de verdad). La discrepancia con KB-009 debe resolverse reconciliando las US de cada BC. -->
+<!-- Nota de reconciliación: el conteo "224" de esta tabla es el resultado acumulado de contar cada US en cada BC/sección donde aparece referenciada; por el mapeo N:M US↔UC y por el fan-out de US transversales (N10/N11 se contabilizan tanto en BC específico como en Transversal), una US puede aparecer en más de una fila. El total canónico de User Stories únicas es **202** (ver KB-009 y header de este documento). El valor 224 es un artefacto estadístico de esta matriz de distribución; no representa User Stories distintas. KB-009 es la fuente de verdad. -->
 
 ### Criterios de Agrupación Aplicados
 
