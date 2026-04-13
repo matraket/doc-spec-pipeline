@@ -15,6 +15,27 @@ Gestión integral de la especificación fragmentada del proyecto Associated.
 La documentación fuente (`spec/`) está fragmentada en ~627 archivos atómicos
 en `references/`, optimizados para consulta por agentes.
 
+## CRITICAL: Path Resolution
+
+The `references/` directory used by this skill is located at:
+
+```
+.claude/skills/doc-spec-manager/references/
+```
+
+This is a path RELATIVE TO THE PROJECT ROOT. It is NOT at the project root.
+
+When this skill says `Read references/adr/adr-006.md`, you MUST read:
+
+- WRONG: `references/adr/adr-006.md`
+- WRONG: `{project_root}/references/adr/adr-006.md`
+- CORRECT: `.claude/skills/doc-spec-manager/references/adr/adr-006.md`
+
+Apply this to ALL `references/` paths in this document: `Read`, `Grep`, `Glob`.
+
+Example: `Grep "RNF-004" references/rnft/` means:
+`Grep "RNF-004" .claude/skills/doc-spec-manager/references/rnft/`
+
 ## Modos de Uso
 
 Este skill tiene 3 modos de uso por orden de importancia:
